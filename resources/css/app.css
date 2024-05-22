@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.primary-bg {
+    background-color: #006769;
+}
+
+.secondary-bg {
+    background-color: #40A578;
+}
+
+.tertiary-bg {
+    background-color: #ede8e8;
+}
+
+.white-xl {
+    @apply text-xl text-white;
+}
+
+.white-lg {
+    @apply text-lg text-white;
+}
+
+.black-xl {
+    @apply text-xl text-black;
+}
+
+.black-lg {
+    @apply text-lg text-black;
+}
+
+.border-primary {
+    border: 1px solid #006769 !important;
+}
+
+.border-left-primary {
+    border-left: 4px solid #006769;
+}
