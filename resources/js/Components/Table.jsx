@@ -21,7 +21,11 @@ export default function Table({columns, data}) {
                             Object.values(row).map((cell, index) => (
                                 <td
                                     key={index}
-                                    className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                    className={
+                                        Object.keys(row)[index] === 'Description'
+                                            ? "whitespace-pre-wrap px-4 py-2 font-medium text-gray-900"
+                                            : "whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                                    }>
                                     {cell}
                                 </td>
                             ))

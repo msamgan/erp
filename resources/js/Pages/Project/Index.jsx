@@ -40,10 +40,11 @@ export default function Index({auth, projects}) {
             <>
                 <div
                     className="flex space-x-1">
-                    Start Date: {startDate ? new Date(startDate).toDateString() : ''}</div>
+                    from: {startDate ? new Date(startDate).toDateString() : ''}</div>
+                <hr />
                 <div
                     className="flex space-x-1">
-                    End Date: {endDate ? new Date(endDate).toDateString() : ''}</div>
+                    to: {endDate ? new Date(endDate).toDateString() : ''}</div>
             </>
         )
     }
