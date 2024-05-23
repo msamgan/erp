@@ -54,9 +54,11 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show(Project $project): Response
     {
-        //
+        return Inertia::render('Project/Show', [
+            'project' => $project->load('client', 'transactions'),
+        ]);
     }
 
     /**

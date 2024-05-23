@@ -6,14 +6,16 @@ import Table from "@/Components/Table.jsx";
 import PrimaryLink from "@/Components/PrimaryLink.jsx";
 import {useEffect, useState} from "react";
 import EditLink from "@/Components/EditLink.jsx";
+import DetailsLink from "@/Components/DetailsLink.jsx";
 
 export default function Index({auth, projects}) {
     const [columns, setColumns] = useState(['Name', 'Client', 'Description', 'Status', 'Dates', 'Costing', 'Actions']);
     const [data, setData] = useState([]);
 
-    const createActions = ({editRoute}) => {
+    const createActions = ({editRoute, detailsRoute}) => {
         return (<div className="flex space-x-2">
             <EditLink editRoute={editRoute}/>
+            <DetailsLink detailsRoute={detailsRoute}/>
         </div>)
     }
 
@@ -41,7 +43,7 @@ export default function Index({auth, projects}) {
                 <div
                     className="flex space-x-1">
                     from: {startDate ? new Date(startDate).toDateString() : ''}</div>
-                <hr />
+                <hr/>
                 <div
                     className="flex space-x-1">
                     to: {endDate ? new Date(endDate).toDateString() : ''}</div>
@@ -62,7 +64,10 @@ export default function Index({auth, projects}) {
                 Status: createStatusAttribute(project.status),
                 Dates: createDateAttribute(project.start_date, project.end_date),
                 Costing: createCostingAttribute(project.costing),
-                Actions: createActions({editRoute: route('project.edit', project.id)})
+                Actions: createActions({
+                    editRoute: route('project.edit', project.id),
+                    detailsRoute: route('project.show', project.id)
+                })
             }
         }));
     }, []);
