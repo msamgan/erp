@@ -85,12 +85,12 @@ export default function Index({ auth, transactions }) {
 
             <Main>
                 <Table columns={columns} data={data} />
-                <div className="flex justify-between mt-4">
+                <div className="flex justify-between">
                     <div className="flex space-x-2">
-                        <span className="text-gray-600">
+                        <span className="px-2 py-1 bg-green-200 rounded-full text-lg">
                             Total Income: {createAmountAttribute(totalIncome)}
                         </span>
-                        <span className="text-gray-600">
+                        <span className="px-2 py-1 bg-yellow-200 rounded-full text-lg ml-3">
                             Total Expense: {createAmountAttribute(totalExpense)}
                         </span>
                     </div>
