@@ -25,7 +25,7 @@ const ProjectSection = ({ projects }) => {
                         </svg>
                     }
                     title="Leads"
-                    value={projects.lead.length}
+                    value={projects.lead ? projects.lead.length : 0}
                 />
                 <StatCard
                     icon={
@@ -42,7 +42,7 @@ const ProjectSection = ({ projects }) => {
                         </svg>
                     }
                     title="Active"
-                    value={projects.active.length}
+                    value={projects.active ? projects.active.length : 0}
                 />
                 <StatCard
                     icon={
@@ -61,7 +61,7 @@ const ProjectSection = ({ projects }) => {
                         </svg>
                     }
                     title="Complete"
-                    value={projects.completed.length}
+                    value={projects.completed ? projects.completed.length : 0}
                 />
             </div>
         </section>
