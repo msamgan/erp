@@ -1,8 +1,17 @@
+import { useEffect, useState } from "react"
+
 export default function Table({ columns, data }) {
+    const [totalRows, setTotalRows] = useState(0)
+
+    useEffect(() => {
+        setTotalRows(data.length)
+    }, [data])
+
     return (
-        <div className="overflow-x-auto rounded-lg border border-gray-200 border-left-primary shadow">
-            <table className="min-w-full divide-y-2 divide-gray-200 text-lg">
-                <thead className="text-left primary-bg white-lg">
+        <>
+            <div className="overflow-x-auto rounded-lg border border-gray-200 border-left-primary shadow">
+                <table className="min-w-full divide-y-2 divide-gray-200 text-lg">
+                    <thead className="text-left primary-bg white-lg">
                     <tr>
                         {columns.map((column, index) => (
                             <th key={index} className="whitespace-nowrap px-4 py-2 font-medium">
@@ -10,9 +19,9 @@ export default function Table({ columns, data }) {
                             </th>
                         ))}
                     </tr>
-                </thead>
+                    </thead>
 
-                <tbody className="divide-y divide-gray-200">
+                    <tbody className="divide-y divide-gray-200">
                     {data.map((row, index) => (
                         <tr key={index}>
                             {Object.values(row).map((cell, index) => (
@@ -29,8 +38,14 @@ export default function Table({ columns, data }) {
                             ))}
                         </tr>
                     ))}
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+            <div className="flex justify-between items-center py-2 bg-gray-50 border-t border-gray-200">
+                <p className="text-sm text-gray-700">
+                    Showing {totalRows} entries
+                </p>
+            </div>
+        </>
     )
 }
