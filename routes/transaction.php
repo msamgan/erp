@@ -10,4 +10,6 @@ Route::middleware('auth')->group(function () {
     // Route::get('transaction/{transaction}/edit', [TransactionController::class, 'edit'])->name('transaction.edit');
     // Route::post('transaction/{transaction}', [TransactionController::class, 'update'])->name('transaction.update');
     Route::delete('transaction/{transaction}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
+
+    Route::get('api/transaction/descriptions', [TransactionController::class, 'descriptions'])->name('transaction.descriptions');
 });

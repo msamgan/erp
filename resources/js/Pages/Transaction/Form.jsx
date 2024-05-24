@@ -13,7 +13,8 @@ export default function Form({
     recentlySuccessful,
     onSubmit,
     projects,
-    refreshProjectList
+    refreshProjectList,
+    descriptions
 }) {
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
@@ -100,6 +101,37 @@ export default function Form({
             </div>
 
             <div>
+                <InputLabel
+                    htmlFor="Description"
+                    isRequired={true}
+                    className="block text-sm font-medium text-gray-900"
+                >
+                    Description
+                </InputLabel>
+
+                <div className="relative mt-1.5">
+                    <TextInput
+                        type="text"
+                        list="DescriptionList"
+                        id="Description"
+                        className="mt-1 block w-1/2"
+                        placeholder="Please select"
+                        value={data.description}
+                        onChange={(e) => setData("description", e.target.value)}
+                    />
+                    <InputError className="mt-2" message={errors.description} />
+                </div>
+
+                <datalist name="Description" id="DescriptionList">
+                    {descriptions.map((description, index) => (
+                        <option key={index} value={description}>
+                            {description}
+                        </option>
+                    ))}
+                </datalist>
+            </div>
+
+            {/*<div>
                 <InputLabel htmlFor="description" value="Description" isRequired={true} />
                 <TextInput
                     id="description"
@@ -108,7 +140,7 @@ export default function Form({
                     onChange={(e) => setData("description", e.target.value)}
                 />
                 <InputError className="mt-2" message={errors.description} />
-            </div>
+            </div>*/}
 
             <div>
                 <InputLabel htmlFor="date" value="Date" isRequired={true} />

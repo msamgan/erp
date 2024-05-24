@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTransactionRequest;
 use App\Models\Project;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -95,6 +96,15 @@ class TransactionController extends Controller
             $request->only('project_id', 'type', 'amount', 'description')
         );
     }*/
+
+    public function descriptions(): Collection
+    {
+        return Transaction::query()
+            ->select('description')
+            ->distinct()
+            ->get()
+            ->pluck('description');
+    }
 
     /**
      * Remove the specified resource from storage.

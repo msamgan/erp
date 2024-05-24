@@ -8,11 +8,23 @@ import Form from "@/Pages/Transaction/Form.jsx"
 
 export default function Create({ auth }) {
     const [projects, setProjects] = useState([])
+    const [descriptions, setDescriptions] = useState([])
 
     const projectList = useCallback(() => {
         axios(route("project.list"))
             .then((response) => {
                 setProjects(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [])
+
+    const descriptionList = useCallback(() => {
+        axios(route("transaction.descriptions"))
+            .then((response) => {
+                console.log(response)
+                setDescriptions(response.data)
             })
             .catch((error) => {
                 console.error(error)
@@ -25,6 +37,7 @@ export default function Create({ auth }) {
 
     useEffect(() => {
         projectList()
+        descriptionList()
     }, [])
 
     const dataObject = {
@@ -68,6 +81,7 @@ export default function Create({ auth }) {
                         onSubmit={onSubmit}
                         projects={projects}
                         refreshProjectList={refreshProjectList}
+                        descriptions={descriptions}
                     />
                 </FormSection>
             </Main>
