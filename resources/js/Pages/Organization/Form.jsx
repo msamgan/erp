@@ -1,38 +1,36 @@
-import InputLabel from "@/Components/InputLabel.jsx";
-import TextInput from "@/Components/TextInput.jsx";
-import InputError from "@/Components/InputError.jsx";
-import {Transition} from "@headlessui/react";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import {Link} from "@inertiajs/react";
+import InputLabel from "@/Components/InputLabel.jsx"
+import TextInput from "@/Components/TextInput.jsx"
+import InputError from "@/Components/InputError.jsx"
+import { Transition } from "@headlessui/react"
+import PrimaryButton from "@/Components/PrimaryButton.jsx"
+import { Link } from "@inertiajs/react"
 
-export default function Form({data, setData, errors, processing, recentlySuccessful, onSubmit}) {
+export default function Form({ data, setData, errors, processing, recentlySuccessful, onSubmit }) {
     return (
-        <form
-            onSubmit={onSubmit}
-            className="mt-6 space-y-6">
+        <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div>
-                <InputLabel htmlFor="name" value="Name" isRequired={true}/>
+                <InputLabel htmlFor="name" value="Name" isRequired={true} />
                 <TextInput
                     id="name"
                     className="mt-1 block w-1/2"
                     value={data.name}
-                    onChange={(e) => setData('name', e.target.value)}
+                    onChange={(e) => setData("name", e.target.value)}
                     isFocused
                     autoComplete="name"
                 />
-                <InputError className="mt-2" message={errors.name}/>
+                <InputError className="mt-2" message={errors.name} />
             </div>
 
             <div>
-                <InputLabel htmlFor="location" value="Location" isRequired={false}/>
+                <InputLabel htmlFor="location" value="Location" isRequired={false} />
                 <TextInput
                     id="location"
                     className="mt-1 block w-1/2"
                     value={data.location}
-                    onChange={(e) => setData('location', e.target.value)}
+                    onChange={(e) => setData("location", e.target.value)}
                     autoComplete="location"
                 />
-                <InputError className="mt-2" message={errors.location}/>
+                <InputError className="mt-2" message={errors.location} />
             </div>
 
             <div className="flex items-center gap-4">

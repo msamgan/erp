@@ -1,36 +1,32 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import HeaderTitle from "@/Components/HeaderTitle.jsx";
-import {Head, useForm} from "@inertiajs/react";
-import Main from "@/Components/Main.jsx";
-import Form from "@/Pages/Organization/Form.jsx";
-import FormSection from "@/Components/FormSection.jsx";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
+import HeaderTitle from "@/Components/HeaderTitle.jsx"
+import { Head, useForm } from "@inertiajs/react"
+import Main from "@/Components/Main.jsx"
+import Form from "@/Pages/Organization/Form.jsx"
+import FormSection from "@/Components/FormSection.jsx"
 
-export default function Create({auth, organization}) {
-
+export default function Create({ auth, organization }) {
     const dataObject = {
         name: organization.name || "",
-        location: organization.location || "",
+        location: organization.location || ""
     }
 
-    const {data, setData, errors, post, processing, recentlySuccessful} = useForm(dataObject);
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
 
     const onSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
-        post(route('organization.update', organization.id), {
+        post(route("organization.update", organization.id), {
             preserveScroll: true,
             onSuccess: () => {
                 //
             }
-        });
+        })
     }
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<HeaderTitle title="Add Organization"/>}
-        >
-            <Head title="Add Organization"/>
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Add Organization" />}>
+            <Head title="Add Organization" />
 
             <Main>
                 <FormSection
@@ -47,7 +43,6 @@ export default function Create({auth, organization}) {
                     />
                 </FormSection>
             </Main>
-
         </AuthenticatedLayout>
     )
 }

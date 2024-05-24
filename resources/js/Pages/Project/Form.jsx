@@ -1,41 +1,44 @@
-import InputLabel from "@/Components/InputLabel.jsx";
-import TextInput from "@/Components/TextInput.jsx";
-import InputError from "@/Components/InputError.jsx";
-import {Transition} from "@headlessui/react";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import {Link} from "@inertiajs/react";
+import InputLabel from "@/Components/InputLabel.jsx"
+import TextInput from "@/Components/TextInput.jsx"
+import InputError from "@/Components/InputError.jsx"
+import { Transition } from "@headlessui/react"
+import PrimaryButton from "@/Components/PrimaryButton.jsx"
+import { Link } from "@inertiajs/react"
 
 export default function Form({
-                                 data,
-                                 setData,
-                                 errors,
-                                 processing,
-                                 recentlySuccessful,
-                                 onSubmit,
-                                 clients,
-                                 refreshClientList
-                             }) {
+    data,
+    setData,
+    errors,
+    processing,
+    recentlySuccessful,
+    onSubmit,
+    clients,
+    refreshClientList
+}) {
     return (
-        <form
-            onSubmit={onSubmit}
-            className="mt-6 space-y-6">
+        <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div>
-                <InputLabel htmlFor="name" value="Name" isRequired={true}/>
+                <InputLabel htmlFor="name" value="Name" isRequired={true} />
                 <TextInput
                     id="name"
                     className="mt-1 block w-1/2"
                     value={data.name}
-                    onChange={(e) => setData('name', e.target.value)}
+                    onChange={(e) => setData("name", e.target.value)}
                     isFocused
                     autoComplete="name"
                 />
-                <InputError className="mt-2" message={errors.name}/>
+                <InputError className="mt-2" message={errors.name} />
             </div>
 
             <div>
-                <InputLabel htmlFor="Client"
-                            isRequired={true}
-                            className="block text-sm font-medium text-gray-900"> Client </InputLabel>
+                <InputLabel
+                    htmlFor="Client"
+                    isRequired={true}
+                    className="block text-sm font-medium text-gray-900"
+                >
+                    {" "}
+                    Client{" "}
+                </InputLabel>
 
                 <div className="relative mt-1.5">
                     <TextInput
@@ -45,26 +48,28 @@ export default function Form({
                         className="mt-1 block w-1/2"
                         placeholder="Please select"
                         value={data.client}
-                        onChange={(e) => setData('client', e.target.value)}
+                        onChange={(e) => setData("client", e.target.value)}
                     />
-                    <InputError className="mt-2" message={errors.client}/>
+                    <InputError className="mt-2" message={errors.client} />
                     <p className="mt-2 text-xs text-gray-400">
                         <Link
                             className="text-blue-500 hover:text-blue-700"
                             onClick={(e) => {
-                                e.preventDefault();
-                                window.open(route('client.create'), '_blank');
+                                e.preventDefault()
+                                window.open(route("client.create"), "_blank")
                             }}
-
-                        >Add new</Link> client if not in the list
+                        >
+                            Add new
+                        </Link>{" "}
+                        client if not in the list
                         <span
                             className="w-1/2 mr-16 text-blue-500 hover:text-blue-700 cursor-pointer float-end"
                             onClick={(e) => {
-                                e.target.innerHTML = "Refreshing...";
+                                e.target.innerHTML = "Refreshing..."
                                 refreshClientList()
                                 setTimeout(() => {
-                                    e.target.innerHTML = "Refresh List";
-                                }, 1000);
+                                    e.target.innerHTML = "Refresh List"
+                                }, 1000)
                             }}
                         >
                             Refresh List
@@ -74,83 +79,83 @@ export default function Form({
 
                 <datalist name="Client" id="ClientList">
                     {clients.map((client, index) => (
-                        <option
-                            key={index}>{client.name}</option>
+                        <option key={index}>{client.name}</option>
                     ))}
                 </datalist>
             </div>
 
             <div>
-                <InputLabel htmlFor="costing" value="Costing" isRequired={true}/>
+                <InputLabel htmlFor="costing" value="Costing" isRequired={true} />
                 <TextInput
                     id="costing"
                     className="mt-1 block w-1/2"
                     value={data.costing}
-                    onChange={(e) => setData('costing', e.target.value)}
-                    type={'number'}
+                    onChange={(e) => setData("costing", e.target.value)}
+                    type={"number"}
                 />
-                <InputError className="mt-2" message={errors.costing}/>
+                <InputError className="mt-2" message={errors.costing} />
             </div>
 
             <div>
-                <InputLabel htmlFor="status" value="Status" isRequired={true}/>
-                <select id="status"
-                        className="mt-1 block w-1/2 border-primary focus:border-teal-950 rounded-md shadow-sm"
-                        value={data.status}
-                        onChange={(e) => setData('status', e.target.value)}
+                <InputLabel htmlFor="status" value="Status" isRequired={true} />
+                <select
+                    id="status"
+                    className="mt-1 block w-1/2 border-primary focus:border-teal-950 rounded-md shadow-sm"
+                    value={data.status}
+                    onChange={(e) => setData("status", e.target.value)}
                 >
                     <option value="lead">Lead</option>
                     <option value="active">Active</option>
                     <option value="completed">Completed</option>
                 </select>
-                <InputError className="mt-2" message={errors.status}/>
+                <InputError className="mt-2" message={errors.status} />
             </div>
 
             <div>
-                <InputLabel htmlFor="document_url" value="Document URL"/>
+                <InputLabel htmlFor="document_url" value="Document URL" />
                 <TextInput
                     id="document_url"
-                    type={'url'}
+                    type={"url"}
                     className="mt-1 block w-1/2"
                     value={data.document_url}
-                    onChange={(e) => setData('document_url', e.target.value)}
+                    onChange={(e) => setData("document_url", e.target.value)}
                 />
-                <InputError className="mt-2" message={errors.document_url}/>
+                <InputError className="mt-2" message={errors.document_url} />
             </div>
 
             <div>
-                <InputLabel htmlFor="description" value="Description"/>
+                <InputLabel htmlFor="description" value="Description" />
                 <TextInput
                     id="description"
                     className="mt-1 block w-1/2"
                     value={data.description}
-                    onChange={(e) => setData('description', e.target.value)}
+                    onChange={(e) => setData("description", e.target.value)}
                 />
-                <InputError className="mt-2" message={errors.description}/>
+                <InputError className="mt-2" message={errors.description} />
             </div>
 
             <div>
-                <InputLabel htmlFor="start_date" value="Start Date"/>
+                <InputLabel htmlFor="start_date" value="Start Date" />
                 <TextInput
                     id="start_date"
-                    type={'date'}
+                    type={"date"}
                     className="mt-1 block w-1/2"
                     value={data.start_date}
-                    onChange={(e) => setData('start_date', e.target.value)}
+                    onChange={(e) => setData("start_date", e.target.value)}
                 />
-                <InputError className="mt-2" message={errors.start_date}/>
+                <InputError className="mt-2" message={errors.start_date} />
             </div>
 
             <div>
-                <InputLabel htmlFor="end_date" value="End Date"/>
+                <InputLabel htmlFor="end_date" value="End Date" />
                 <TextInput
                     id="end_date"
-                    type={'date'}
+                    type={"date"}
                     className="mt-1 block w-1/2"
                     value={data.end_date}
-                    onChange={(e) => setData('end_date', e.target.value)}
+                    onChange={(e) => setData("end_date", e.target.value)}
                 />
-                <InputError className="mt-2" message={errors.end_date}/>
+                <InputError className="mt-2" message={errors.end_date} />
             </div>
 
             <div className="flex items-center gap-4">

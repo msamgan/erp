@@ -1,29 +1,31 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import HeaderTitle from "@/Components/HeaderTitle.jsx";
-import {Head, useForm} from "@inertiajs/react";
-import Main from "@/Components/Main.jsx";
-import Form from "@/Pages/Project/Form.jsx";
-import {useCallback, useEffect, useState} from "react";
-import FormSection from "@/Components/FormSection.jsx";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
+import HeaderTitle from "@/Components/HeaderTitle.jsx"
+import { Head, useForm } from "@inertiajs/react"
+import Main from "@/Components/Main.jsx"
+import Form from "@/Pages/Project/Form.jsx"
+import { useCallback, useEffect, useState } from "react"
+import FormSection from "@/Components/FormSection.jsx"
 
-export default function Create({auth, project}) {
-    const [clients, setClients] = useState([]);
+export default function Create({ auth, project }) {
+    const [clients, setClients] = useState([])
 
     const clientList = useCallback(() => {
-        axios(route('client.list')).then(response => {
-            setClients(response.data);
-        }).catch(error => {
-            console.error(error);
-        });
-    }, []);
+        axios(route("client.list"))
+            .then((response) => {
+                setClients(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [])
 
     const refreshClientList = () => {
-        clientList();
+        clientList()
     }
 
     useEffect(() => {
-        clientList();
-    }, []);
+        clientList()
+    }, [])
 
     const dataObject = {
         name: project.name,
@@ -33,28 +35,25 @@ export default function Create({auth, project}) {
         status: project.status,
         start_date: project.start_date,
         end_date: project.end_date,
-        costing: project.costing,
+        costing: project.costing
     }
 
-    const {data, setData, errors, post, processing, recentlySuccessful} = useForm(dataObject);
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
 
     const onSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
-        post(route('project.update', project.id), {
+        post(route("project.update", project.id), {
             preserveScroll: true,
             onSuccess: () => {
                 //
             }
-        });
+        })
     }
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<HeaderTitle title="Edit Project"/>}
-        >
-            <Head title="Edit Project"/>
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Edit Project" />}>
+            <Head title="Edit Project" />
 
             <Main>
                 <FormSection
@@ -73,7 +72,6 @@ export default function Create({auth, project}) {
                     />
                 </FormSection>
             </Main>
-
         </AuthenticatedLayout>
     )
 }

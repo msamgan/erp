@@ -11,4 +11,3 @@ Route::middleware('auth')->group(function () {
     // Route::post('transaction/{transaction}', [TransactionController::class, 'update'])->name('transaction.update');
     Route::delete('transaction/{transaction}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
 });
-

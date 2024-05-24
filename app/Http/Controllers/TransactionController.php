@@ -20,7 +20,7 @@ class TransactionController extends Controller
             'transactions' => Transaction::query()
                 ->with('project')
                 ->orderBy('created_at', 'desc')
-                ->get()
+                ->get(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class TransactionController extends Controller
     public function store(StoreTransactionRequest $request): void
     {
         $request = $this->mergeProjectId($request);
-        $request->merge(['description' => ucfirst($request->get('description')),]);
+        $request->merge(['description' => ucfirst($request->get('description'))]);
 
         Transaction::create(
             $request->only('project_id', 'type', 'amount', 'description', 'date')
@@ -51,7 +51,7 @@ class TransactionController extends Controller
         return $request;
     }
 
-    private function getProjectByName($project): Model|null
+    private function getProjectByName($project): ?Model
     {
         return Project::query()
             ->where('name', $project)

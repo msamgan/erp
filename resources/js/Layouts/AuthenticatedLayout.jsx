@@ -1,12 +1,12 @@
-import {useState} from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import {Link} from '@inertiajs/react';
-import HeaderNavigation from "@/Components/HeaderNavigation.jsx";
+import { useState } from "react"
+import ApplicationLogo from "@/Components/ApplicationLogo"
+import Dropdown from "@/Components/Dropdown"
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink"
+import { Link } from "@inertiajs/react"
+import HeaderNavigation from "@/Components/HeaderNavigation.jsx"
 
-export default function AuthenticatedLayout({user, header, children, subMenu}) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+export default function AuthenticatedLayout({ user, header, children, subMenu }) {
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false)
 
     return (
         <div className="min-h-screen">
@@ -16,13 +16,12 @@ export default function AuthenticatedLayout({user, header, children, subMenu}) {
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">
-                                    <ApplicationLogo
-                                        className="block h-14 mt-4 invert w-auto fill-current text-gray-800"/>
+                                    <ApplicationLogo className="block h-14 mt-4 invert w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <HeaderNavigation/>
+                                <HeaderNavigation />
                             </div>
                         </div>
 
@@ -54,11 +53,16 @@ export default function AuthenticatedLayout({user, header, children, subMenu}) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link className={"text-xl"}
-                                                       href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <hr/>
-                                        <Dropdown.Link className={"text-xl"} href={route('logout')} method="post"
-                                                       as="button">
+                                        <Dropdown.Link className={"text-xl"} href={route("profile.edit")}>
+                                            Profile
+                                        </Dropdown.Link>
+                                        <hr />
+                                        <Dropdown.Link
+                                            className={"text-xl"}
+                                            href={route("logout")}
+                                            method="post"
+                                            as="button"
+                                        >
                                             Log Out
                                         </Dropdown.Link>
                                     </Dropdown.Content>
@@ -73,14 +77,14 @@ export default function AuthenticatedLayout({user, header, children, subMenu}) {
                             >
                                 <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
+                                        className={!showingNavigationDropdown ? "inline-flex" : "hidden"}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
                                         d="M4 6h16M4 12h16M4 18h16"
                                     />
                                     <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
+                                        className={showingNavigationDropdown ? "inline-flex" : "hidden"}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
@@ -92,9 +96,9 @@ export default function AuthenticatedLayout({user, header, children, subMenu}) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                <div className={(showingNavigationDropdown ? "block" : "hidden") + " sm:hidden"}>
                     <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                        <ResponsiveNavLink href={route("dashboard")} active={route().current("dashboard")}>
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
@@ -106,8 +110,8 @@ export default function AuthenticatedLayout({user, header, children, subMenu}) {
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
+                            <ResponsiveNavLink href={route("profile.edit")}>Profile</ResponsiveNavLink>
+                            <ResponsiveNavLink method="post" href={route("logout")} as="button">
                                 Log Out
                             </ResponsiveNavLink>
                         </div>
@@ -121,11 +125,10 @@ export default function AuthenticatedLayout({user, header, children, subMenu}) {
                         {header}
                         {subMenu && <ul className="items-stretch hidden space-x-3 md:flex">{subMenu}</ul>}
                     </div>
-
                 </header>
             )}
 
             <main>{children}</main>
         </div>
-    );
+    )
 }

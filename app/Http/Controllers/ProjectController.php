@@ -38,15 +38,14 @@ class ProjectController extends Controller
     private function getOrCreateClient($client)
     {
         return Client::firstOrCreate([
-            'name' => ucfirst($client)
+            'name' => ucfirst($client),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public
-    function create(): Response
+    public function create(): Response
     {
         return Inertia::render('Project/Create');
     }

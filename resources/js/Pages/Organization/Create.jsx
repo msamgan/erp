@@ -1,43 +1,38 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import HeaderTitle from "@/Components/HeaderTitle.jsx";
-import {Head, useForm} from "@inertiajs/react";
-import Main from "@/Components/Main.jsx";
-import Form from "@/Pages/Organization/Form.jsx";
-import FormSection from "@/Components/FormSection.jsx";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
+import HeaderTitle from "@/Components/HeaderTitle.jsx"
+import { Head, useForm } from "@inertiajs/react"
+import Main from "@/Components/Main.jsx"
+import Form from "@/Pages/Organization/Form.jsx"
+import FormSection from "@/Components/FormSection.jsx"
 
-export default function Create({auth}) {
-
+export default function Create({ auth }) {
     const dataObject = {
         name: "",
-        location: "",
+        location: ""
     }
 
-    const {data, setData, errors, post, processing, recentlySuccessful} = useForm(dataObject);
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
 
     const onSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
-        post(route('organization.store'), {
+        post(route("organization.store"), {
             preserveScroll: true,
             onSuccess: () => {
-                setData(dataObject);
+                setData(dataObject)
             }
-        });
+        })
     }
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<HeaderTitle title="Add Organization"/>}
-        >
-            <Head title="Add Organization"/>
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Add Organization" />}>
+            <Head title="Add Organization" />
 
             <Main>
                 <FormSection
                     headerTitle="Organization Information"
                     headerDescription="Create a new organization with it's information."
                 >
-
                     <Form
                         data={data}
                         setData={setData}
@@ -48,7 +43,6 @@ export default function Create({auth}) {
                     />
                 </FormSection>
             </Main>
-
         </AuthenticatedLayout>
     )
 }
