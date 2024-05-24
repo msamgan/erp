@@ -11,6 +11,9 @@ export default function Dashboard({ auth }) {
 
             <Main>
                 <section className="my-6 text-gray-800">
+                    <header className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-semibold">Projects</h2>
+                    </header>
                     <div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 xl:grid-cols-4">
                         <StatCard
                             icon={
@@ -25,7 +28,7 @@ export default function Dashboard({ auth }) {
                                     <path d="M400.984,368.344a64.073,64.073,0,0,0-64,64h0a64,64,0,0,0,128,0h0A64.072,64.072,0,0,0,400.984,368.344Zm0,96a32,32,0,1,1,32-32A32.038,32.038,0,0,1,400.984,464.344Z"></path>
                                 </svg>
                             }
-                            title="Orders"
+                            title="Leads"
                             value="200"
                         />
                         <StatCard
@@ -42,7 +45,7 @@ export default function Dashboard({ auth }) {
                                     <polygon points="285.757 203.708 306.243 228.292 344 196.827 381.757 228.292 402.243 203.708 344 155.173 285.757 203.708"></polygon>
                                 </svg>
                             }
-                            title="Clients"
+                            title="Active"
                             value="7500"
                         />
                         <StatCard
@@ -61,22 +64,8 @@ export default function Dashboard({ auth }) {
                                     <path d="M297.222,335.1l69.2-144.173-28.85-13.848L268.389,321.214A64.141,64.141,0,1,0,297.222,335.1ZM256,416a32,32,0,1,1,32-32A32.036,32.036,0,0,1,256,416Z"></path>
                                 </svg>
                             }
-                            title="Products"
+                            title="Complete"
                             value="500"
-                        />
-                        <StatCard
-                            icon={
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 512 512"
-                                    fill="currentColor"
-                                    className="h-9 w-9 text-gray-100"
-                                >
-                                    <path d="M454.423,278.957,328,243.839v-8.185a116,116,0,1,0-104,0V312H199.582l-18.494-22.6a90.414,90.414,0,0,0-126.43-13.367,20.862,20.862,0,0,0-8.026,33.47L215.084,496H472V302.08A24.067,24.067,0,0,0,454.423,278.957ZM192,132a84,84,0,1,1,136,65.9V132a52,52,0,0,0-104,0v65.9A83.866,83.866,0,0,1,192,132ZM440,464H229.3L79.141,297.75a58.438,58.438,0,0,1,77.181,11.91l28.1,34.34H256V132a20,20,0,0,1,40,0V268.161l144,40Z"></path>
-                                </svg>
-                            }
-                            title="Revenue"
-                            value="$100,000"
                         />
                     </div>
                 </section>

@@ -49,7 +49,6 @@ export default function Index({ auth, transactions }) {
 
         setData(
             transactions.map((transaction) => {
-
                 if (transaction.type === "incoming") {
                     income += transaction.amount
                 }
@@ -70,7 +69,6 @@ export default function Index({ auth, transactions }) {
 
         setTotalIncome(income)
         setTotalExpense(expense)
-
     }, [])
 
     return (
@@ -89,8 +87,12 @@ export default function Index({ auth, transactions }) {
                 <Table columns={columns} data={data} />
                 <div className="flex justify-between mt-4">
                     <div className="flex space-x-2">
-                        <span className="text-gray-600">Total Income: {createAmountAttribute(totalIncome)}</span>
-                        <span className="text-gray-600">Total Expense: {createAmountAttribute(totalExpense)}</span>
+                        <span className="text-gray-600">
+                            Total Income: {createAmountAttribute(totalIncome)}
+                        </span>
+                        <span className="text-gray-600">
+                            Total Expense: {createAmountAttribute(totalExpense)}
+                        </span>
                     </div>
                 </div>
             </Main>
