@@ -17,7 +17,7 @@ class OrganizationController extends Controller
     public function index(): Response|ResponseFactory
     {
         return inertia('Organization/Index', [
-            'organizations' => Organization::all(),
+            'organizations' => Organization::query()->orderBy('created_at', 'desc')->get(),
         ]);
     }
 

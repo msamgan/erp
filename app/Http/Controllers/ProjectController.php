@@ -18,7 +18,9 @@ class ProjectController extends Controller
     public function index(): Response
     {
         return Inertia::render('Project/Index', [
-            'projects' => Project::query()->with('client')->get(),
+            'projects' => Project::query()->with('client')
+                ->orderBy('created_at', 'desc')
+                ->get(),
         ]);
     }
 

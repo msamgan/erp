@@ -24,7 +24,7 @@ class ClientController extends Controller
                 ->with('organization')
                 ->with('emails')
                 ->with('phones')
-                ->orderBy('id', 'desc')
+                ->orderBy('created_at', 'desc')
                 ->get(),
         ]);
     }
