@@ -9,6 +9,8 @@ import { useEffect, useState } from "react"
 export default function Index({ auth, transactions }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Project", "Date"])
     const [data, setData] = useState([])
+    const [totalIncome, setTotalIncome] = useState(0)
+    const [totalExpense, setTotalExpense] = useState(0)
 
     const createTypeAttribute = (type) => {
         return (
@@ -42,8 +44,20 @@ export default function Index({ auth, transactions }) {
     }
 
     useEffect(() => {
+        let income = 0
+        let expense = 0
+
         setData(
             transactions.map((transaction) => {
+
+                if (transaction.type === "incoming") {
+                    income += transaction.amount
+                }
+
+                if (transaction.type === "outgoing") {
+                    expense += transaction.amount
+                }
+
                 return {
                     Description: transaction.description,
                     Type: createTypeAttribute(transaction.type),
@@ -53,6 +67,10 @@ export default function Index({ auth, transactions }) {
                 }
             })
         )
+
+        setTotalIncome(income)
+        setTotalExpense(expense)
+
     }, [])
 
     return (
@@ -69,6 +87,12 @@ export default function Index({ auth, transactions }) {
 
             <Main>
                 <Table columns={columns} data={data} />
+                <div className="flex justify-between mt-4">
+                    <div className="flex space-x-2">
+                        <span className="text-gray-600">Total Income: {createAmountAttribute(totalIncome)}</span>
+                        <span className="text-gray-600">Total Expense: {createAmountAttribute(totalExpense)}</span>
+                    </div>
+                </div>
             </Main>
         </AuthenticatedLayout>
     )
