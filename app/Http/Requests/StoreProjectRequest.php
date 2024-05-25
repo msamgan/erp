@@ -25,7 +25,7 @@ class StoreProjectRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'client' => ['required', 'string'],
-            'status' => ['required', 'string', 'in:lead,active,completed'],
+            'status' => ['required', 'string', 'in:lead,active,completed,cancelled'],
             'costing' => ['required', 'numeric'],
         ];
     }

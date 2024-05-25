@@ -37,3 +37,19 @@
 .border-left-primary {
     border-left: 4px solid #006769;
 }
+
+.lead-badges-background {
+    @apply bg-blue-200
+}
+
+.active-badge-background {
+    @apply bg-yellow-200
+}
+
+.complete-badge-background {
+    @apply bg-green-200
+}
+
+.cancelled-badge-background {
+    @apply bg-red-200
+}

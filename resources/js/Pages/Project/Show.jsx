@@ -26,19 +26,21 @@ export default function Show({ auth, project }) {
     }
 
     const createStatusBadge = (status) => {
-        let color = "bg-gray-200 text-gray-800"
+        let color = "bg-gray-200"
 
         if (status === "lead") {
-            color = "bg-yellow-200 text-yellow-800"
+            color = "lead-badges-background"
         } else if (status === "active") {
-            color = "bg-blue-200 text-blue-800"
+            color = "active-badge-background"
         } else if (status === "completed") {
-            color = "bg-green-200 text-green-800"
+            color = "complete-badge-background"
+        } else if (status === "cancelled") {
+            color = "cancelled-badge-background"
         }
 
         return (
             <span
-                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-lg font-medium ${color}`}
+                className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-lg font-medium ${color}`}
             >
                 {status}
             </span>

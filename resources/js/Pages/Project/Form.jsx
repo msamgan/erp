@@ -107,6 +107,7 @@ export default function Form({
                     <option value="lead">Lead</option>
                     <option value="active">Active</option>
                     <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
                 </select>
                 <InputError className="mt-2" message={errors.status} />
             </div>

@@ -25,7 +25,7 @@ class UpdateProjectRequest extends FormRequest
         return [
             'client' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
-            'status' => ['required', 'string', 'in:lead,active,completed'],
+            'status' => ['required', 'string', 'in:lead,active,completed,cancelled'],
             'costing' => ['required', 'numeric'],
         ];
     }

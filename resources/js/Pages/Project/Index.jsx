@@ -48,19 +48,26 @@ export default function Index({ auth, projects }) {
         return (
             <div className="flex space-x-1">
                 {status === "completed" ? (
-                    <span className="px-2 py-1 bg-green-200 text-green-800 rounded-full text-sm">
+                    <span className="px-2 py-1 rounded-md text-sm complete-badge-background">
                         Completed
                     </span>
                 ) : (
                     ""
                 )}
                 {status === "active" ? (
-                    <span className="px-2 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm">Active</span>
+                    <span className="px-2 py-1 rounded-md text-sm active-badge-background">Active</span>
                 ) : (
                     ""
                 )}
                 {status === "lead" ? (
-                    <span className="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">Lead</span>
+                    <span className="px-2 py-1 rounded-md text-sm lead-badges-background">Lead</span>
+                ) : (
+                    ""
+                )}
+                {status === "cancelled" ? (
+                    <span className="px-2 py-1 rounded-md text-sm cancelled-badge-background">
+                        Cancelled
+                    </span>
                 ) : (
                     ""
                 )}
