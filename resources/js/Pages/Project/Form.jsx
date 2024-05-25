@@ -6,15 +6,15 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import { Link } from "@inertiajs/react"
 
 export default function Form({
-    data,
-    setData,
-    errors,
-    processing,
-    recentlySuccessful,
-    onSubmit,
-    clients,
-    refreshClientList
-}) {
+                                 data,
+                                 setData,
+                                 errors,
+                                 processing,
+                                 recentlySuccessful,
+                                 onSubmit,
+                                 clients,
+                                 refreshClientList
+                             }) {
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div>
@@ -84,32 +84,34 @@ export default function Form({
                 </datalist>
             </div>
 
-            <div>
-                <InputLabel htmlFor="costing" value="Costing" isRequired={true} />
-                <TextInput
-                    id="costing"
-                    className="mt-1 block w-1/2"
-                    value={data.costing}
-                    onChange={(e) => setData("costing", e.target.value)}
-                    type={"number"}
-                />
-                <InputError className="mt-2" message={errors.costing} />
-            </div>
+            <div className={"flex gap-4 w-1/2"}>
+                <div className={"w-1/2"}>
+                    <InputLabel htmlFor="costing" value="Costing" isRequired={true} />
+                    <TextInput
+                        id="costing"
+                        className="mt-1 block w-full"
+                        value={data.costing}
+                        onChange={(e) => setData("costing", e.target.value)}
+                        type={"number"}
+                    />
+                    <InputError className="mt-2" message={errors.costing} />
+                </div>
 
-            <div>
-                <InputLabel htmlFor="status" value="Status" isRequired={true} />
-                <select
-                    id="status"
-                    className="mt-1 block w-1/2 border-primary focus:border-teal-950 rounded-md shadow-sm"
-                    value={data.status}
-                    onChange={(e) => setData("status", e.target.value)}
-                >
-                    <option value="lead">Lead</option>
-                    <option value="active">Active</option>
-                    <option value="completed">Completed</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-                <InputError className="mt-2" message={errors.status} />
+                <div className={"w-1/2"}>
+                    <InputLabel htmlFor="status" value="Status" isRequired={true} />
+                    <select
+                        id="status"
+                        className="mt-1 block border-primary w-full focus:border-teal-950 rounded-md shadow-sm text-lg"
+                        value={data.status}
+                        onChange={(e) => setData("status", e.target.value)}
+                    >
+                        <option value="lead">Lead</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                    <InputError className="mt-2" message={errors.status} />
+                </div>
             </div>
 
             <div>
@@ -126,37 +128,39 @@ export default function Form({
 
             <div>
                 <InputLabel htmlFor="description" value="Description" />
-                <TextInput
+                <textarea
                     id="description"
-                    className="mt-1 block w-1/2"
+                    className="border-primary focus:border-teal-950 rounded-md shadow-sm text-lg mt-1 block w-1/2"
                     value={data.description}
                     onChange={(e) => setData("description", e.target.value)}
                 />
                 <InputError className="mt-2" message={errors.description} />
             </div>
 
-            <div>
-                <InputLabel htmlFor="start_date" value="Start Date" />
-                <TextInput
-                    id="start_date"
-                    type={"date"}
-                    className="mt-1 block w-1/2"
-                    value={data.start_date}
-                    onChange={(e) => setData("start_date", e.target.value)}
-                />
-                <InputError className="mt-2" message={errors.start_date} />
-            </div>
+            <div className="flex gap-4 w-1/2">
+                <div className="w-1/2">
+                    <InputLabel htmlFor="start_date" value="Start Date" />
+                    <TextInput
+                        id="start_date"
+                        type={"date"}
+                        className="mt-1 block w-full"
+                        value={data.start_date}
+                        onChange={(e) => setData("start_date", e.target.value)}
+                    />
+                    <InputError className="mt-2" message={errors.start_date} />
+                </div>
 
-            <div>
-                <InputLabel htmlFor="end_date" value="End Date" />
-                <TextInput
-                    id="end_date"
-                    type={"date"}
-                    className="mt-1 block w-1/2"
-                    value={data.end_date}
-                    onChange={(e) => setData("end_date", e.target.value)}
-                />
-                <InputError className="mt-2" message={errors.end_date} />
+                <div className="w-1/2">
+                    <InputLabel htmlFor="end_date" value="End Date" />
+                    <TextInput
+                        id="end_date"
+                        type={"date"}
+                        className="mt-1 block w-full"
+                        value={data.end_date}
+                        onChange={(e) => setData("end_date", e.target.value)}
+                    />
+                    <InputError className="mt-2" message={errors.end_date} />
+                </div>
             </div>
 
             <div className="flex items-center gap-4">

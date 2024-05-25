@@ -6,30 +6,44 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import { Link } from "@inertiajs/react"
 
 export default function Form({
-    data,
-    setData,
-    errors,
-    processing,
-    recentlySuccessful,
-    onSubmit,
-    projects,
-    refreshProjectList,
-    descriptions
-}) {
+                                 data,
+                                 setData,
+                                 errors,
+                                 processing,
+                                 recentlySuccessful,
+                                 onSubmit,
+                                 projects,
+                                 refreshProjectList,
+                                 descriptions
+                             }) {
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
-            <div>
-                <InputLabel htmlFor="type" value="Type" isRequired={true} />
-                <select
-                    id="type"
-                    className="mt-1 block w-1/2 border-primary focus:border-teal-950 rounded-md shadow-sm"
-                    value={data.type}
-                    onChange={(e) => setData("type", e.target.value)}
-                >
-                    <option value="incoming">Incoming</option>
-                    <option value="outgoing">Outgoing</option>
-                </select>
-                <InputError className="mt-2" message={errors.type} />
+            <div className="flex gap-4 w-1/2">
+                <div className="w-1/2">
+                    <InputLabel htmlFor="type" value="Type" isRequired={true} />
+                    <select
+                        id="type"
+                        className="mt-1 block w-full border-primary focus:border-teal-950 rounded-md shadow-sm"
+                        value={data.type}
+                        onChange={(e) => setData("type", e.target.value)}
+                    >
+                        <option value="incoming">Incoming</option>
+                        <option value="outgoing">Outgoing</option>
+                    </select>
+                    <InputError className="mt-2" message={errors.type} />
+                </div>
+
+                <div className="w-1/2">
+                    <InputLabel htmlFor="amount" value="Amount" isRequired={true} />
+                    <TextInput
+                        id="amount"
+                        className="mt-1 block w-full"
+                        value={data.amount}
+                        onChange={(e) => setData("amount", e.target.value)}
+                        type={"number"}
+                    />
+                    <InputError className="mt-2" message={errors.amount} />
+                </div>
             </div>
 
             <div>
@@ -86,18 +100,6 @@ export default function Form({
                         </option>
                     ))}
                 </datalist>
-            </div>
-
-            <div>
-                <InputLabel htmlFor="amount" value="Amount" isRequired={true} />
-                <TextInput
-                    id="amount"
-                    className="mt-1 block w-1/2"
-                    value={data.amount}
-                    onChange={(e) => setData("amount", e.target.value)}
-                    type={"number"}
-                />
-                <InputError className="mt-2" message={errors.amount} />
             </div>
 
             <div>

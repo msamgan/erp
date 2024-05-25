@@ -45,7 +45,7 @@ export default function Create({ auth }) {
         description: "",
         type: "incoming",
         amount: "",
-        date: ""
+        date: new Date().toISOString().split("T")[0],
     }
 
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
