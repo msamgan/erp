@@ -31,7 +31,7 @@ class ProjectController extends Controller
     {
         $client = $this->getOrCreateClient($request->get('client'));
 
-        $clientData = $request->only('name', 'description', 'document_url', 'status', 'start_date', 'end_date', 'costing');
+        $clientData = $request->only('name', 'description', 'document_url', 'status', 'start_date', 'end_date', 'costing', 'type');
         $clientData['client_id'] = $client->id;
 
         Project::create($clientData);
@@ -79,7 +79,7 @@ class ProjectController extends Controller
     {
         $client = $this->getOrCreateClient($request->get('client'));
 
-        $clientData = $request->only('name', 'description', 'document_url', 'status', 'start_date', 'end_date', 'costing');
+        $clientData = $request->only('name', 'description', 'document_url', 'status', 'start_date', 'end_date', 'costing', 'type');
         $clientData['client_id'] = $client->id;
 
         $project->update($clientData);

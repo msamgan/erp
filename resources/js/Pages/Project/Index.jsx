@@ -16,6 +16,7 @@ export default function Index({ auth, projects }) {
         "Status",
         "Dates",
         "Costing",
+        "Type",
         "Actions"
     ])
     const [data, setData] = useState([])
@@ -101,6 +102,7 @@ export default function Index({ auth, projects }) {
                     Status: createStatusAttribute(project.status),
                     Dates: createDateAttribute(project.start_date, project.end_date),
                     Costing: createCostingAttribute(project.costing),
+                    Type: project.type,
                     Actions: createActions({
                         editRoute: route("project.edit", project.id),
                         detailsRoute: route("project.show", project.id)

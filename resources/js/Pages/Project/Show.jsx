@@ -140,6 +140,7 @@ export default function Show({ auth, project }) {
                                 <InfoCard label="Start Date" value={createDateAttribute(project.start_date)} />
                                 <InfoCard label="End Date" value={createDateAttribute(project.end_date)} />
                                 <InfoCard label="Costing" value={createCostingAttribute(project.costing)} />
+                                <InfoCard label="Type" value={project.type} />
                             </div>
                         </div>
                     </section>

@@ -31,6 +31,7 @@ export default function Create({ auth, project }) {
         name: project.name,
         client: project.client.name,
         description: project.description,
+        type: project.type,
         document_url: project.document_url,
         status: project.status,
         start_date: project.start_date,

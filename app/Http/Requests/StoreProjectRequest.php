@@ -27,6 +27,7 @@ class StoreProjectRequest extends FormRequest
             'client' => ['required', 'string'],
             'status' => ['required', 'string', 'in:lead,active,completed,cancelled'],
             'costing' => ['required', 'numeric'],
+            'type' => ['required', 'string', 'in:singular,recurring'],
         ];
     }
 }

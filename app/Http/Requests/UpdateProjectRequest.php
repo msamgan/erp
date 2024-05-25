@@ -27,6 +27,7 @@ class UpdateProjectRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'status' => ['required', 'string', 'in:lead,active,completed,cancelled'],
             'costing' => ['required', 'numeric'],
+            'type' => ['required', 'string', 'in:singular,recurring'],
         ];
     }
 }

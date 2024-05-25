@@ -31,6 +31,7 @@ export default function Create({ auth }) {
         name: "",
         client: "",
         description: "",
+        type: "",
         document_url: "",
         status: "lead",
         start_date: "",

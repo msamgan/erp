@@ -114,6 +114,20 @@ export default function Form({
                 </div>
             </div>
 
+            <div className={""}>
+                <InputLabel htmlFor="type" value="Type" isRequired={true} />
+                <select
+                    id="status"
+                    className="mt-1 block border-primary w-1/2 focus:border-teal-950 rounded-md shadow-sm text-lg"
+                    value={data.type}
+                    onChange={(e) => setData("type", e.target.value)}
+                >
+                    <option value="singular">Singular</option>
+                    <option value="recurring">Recurring</option>
+                </select>
+                <InputError className="mt-2" message={errors.status} />
+            </div>
+
             <div>
                 <InputLabel htmlFor="document_url" value="Document URL" />
                 <TextInput
