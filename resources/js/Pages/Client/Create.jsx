@@ -5,34 +5,22 @@ import Main from "@/Components/Main.jsx"
 import Form from "@/Pages/Client/Form.jsx"
 import { useCallback, useEffect, useState } from "react"
 import FormSection from "@/Components/FormSection.jsx"
+import { clientDataObject, getOrganizationList } from "@/Pages/Client/common.js"
 
 export default function Create({ auth }) {
     const [organizations, setOrganizations] = useState([])
 
     const organizationList = useCallback(() => {
-        axios(route("organization.list"))
-            .then((response) => {
-                setOrganizations(response.data)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+        getOrganizationList().then((response) => {
+            setOrganizations(response)
+        })
     }, [])
-
-    const refreshOrganizationList = () => {
-        organizationList()
-    }
 
     useEffect(() => {
         organizationList()
     }, [])
 
-    const dataObject = {
-        name: "",
-        emails: "",
-        phones: "",
-        organization: ""
-    }
+    const dataObject = clientDataObject()
 
     const { data, setData, patch, errors, post, processing, recentlySuccessful } = useForm(dataObject)
 
@@ -64,7 +52,7 @@ export default function Create({ auth }) {
                         recentlySuccessful={recentlySuccessful}
                         onSubmit={onSubmit}
                         organizations={organizations}
-                        refreshOrganizationList={refreshOrganizationList}
+                        refreshOrganizationList={organizationList}
                     />
                 </FormSection>
             </Main>

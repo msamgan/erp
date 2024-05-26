@@ -133,17 +133,6 @@ export default function Form({
                 </datalist>
             </div>
 
-            {/*<div>
-                <InputLabel htmlFor="description" value="Description" isRequired={true} />
-                <TextInput
-                    id="description"
-                    className="mt-1 block w-1/2"
-                    value={data.description}
-                    onChange={(e) => setData("description", e.target.value)}
-                />
-                <InputError className="mt-2" message={errors.description} />
-            </div>*/}
-
             <div>
                 <InputLabel htmlFor="date" value="Date" isRequired={true} />
                 <TextInput

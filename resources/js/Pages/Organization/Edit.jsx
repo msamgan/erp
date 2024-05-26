@@ -4,12 +4,10 @@ import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Form from "@/Pages/Organization/Form.jsx"
 import FormSection from "@/Components/FormSection.jsx"
+import { organizationDataObject } from "@/Pages/Organization/common.js"
 
 export default function Create({ auth, organization }) {
-    const dataObject = {
-        name: organization.name || "",
-        location: organization.location || ""
-    }
+    const dataObject = organizationDataObject(organization)
 
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
 
