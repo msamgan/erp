@@ -9,8 +9,6 @@ use App\Models\Project;
 use Illuminate\Database\Eloquent\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class ProjectController extends Controller
 {
@@ -32,7 +30,6 @@ class ProjectController extends Controller
         }
 
         $project = $project->get();
-
 
         return Inertia::render('Project/Index', [
             'projects' => $project,

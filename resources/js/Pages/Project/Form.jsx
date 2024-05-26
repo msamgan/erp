@@ -106,11 +106,11 @@ export default function Form({
                         value={data.status}
                         onChange={(e) => setData("status", e.target.value)}
                     >
-                        {
-                            projectStatuses.map((status, index) => (
-                                <option key={index} value={status.key}>{status.value}</option>
-                            ))
-                        }
+                        {projectStatuses.map((status, index) => (
+                            <option key={index} value={status.key}>
+                                {status.value}
+                            </option>
+                        ))}
                     </select>
                     <InputError className="mt-2" message={errors.status} />
                 </div>

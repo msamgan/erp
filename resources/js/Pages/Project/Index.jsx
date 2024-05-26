@@ -13,8 +13,7 @@ import {
     createStatusAttribute,
     createTypeAttribute
 } from "@/Pages/Project/partials.jsx"
-import PrimaryButton from "@/Components/PrimaryButton.jsx"
-import { projectStatuses } from "@/helpers/constants.js"
+import SearchForm from "@/Pages/Project/SearchForm.jsx"
 
 export default function Index({ auth, projects }) {
     const [columns, setColumns] = useState([
@@ -28,7 +27,9 @@ export default function Index({ auth, projects }) {
         "Actions"
     ])
     const [data, setData] = useState([])
-    const [queryParams, setQueryParams] = useState(Object.fromEntries(new URLSearchParams(window.location.search).entries()))
+    const [queryParams, setQueryParams] = useState(
+        Object.fromEntries(new URLSearchParams(window.location.search).entries())
+    )
 
     const createActions = ({ editRoute, detailsRoute }) => {
         return (
@@ -98,38 +99,7 @@ export default function Index({ auth, projects }) {
 
             <Main>
                 <div className={"mb-4"}>
-                    <form action={route("project")} method="get">
-                        <div className="flex flex-row space-x-2 justify-end">
-                            <div className="flex flex-col">
-                                <select
-                                    id="status"
-                                    name={"status"}
-                                    className="border border-gray-300 rounded-md h-10"
-                                    defaultValue={queryParams.status}
-                                >
-                                    <option key={"all"} value={"all"}>{"All"}</option>
-                                    {projectStatuses.map((status, index) => (
-                                        <option key={index} value={status.key}>{status.value}</option>
-                                    ))}
-                                </select>
-                                <small className="text-gray-500 ml-2 mt-0.5">status</small>
-                            </div>
-                            <div className="flex flex-col">
-                                <input
-                                    type="text"
-                                    name="search"
-                                    placeholder="Search"
-                                    value={queryParams.search}
-                                    onChange={(e) => setQueryParams({ ...queryParams, search: e.target.value })}
-                                    className="border border-gray-300 rounded-md h-10 px-2"
-                                />
-                                <small className="text-gray-500 ml-2 mt-0.5">search string</small>
-                            </div>
-                            <PrimaryButton type="submit" className="h-10 bg-blue-500 text-white px-4 rounded-md">
-                                Search
-                            </PrimaryButton>
-                        </div>
-                    </form>
+                    <SearchForm queryParams={queryParams} setQueryParams={setQueryParams} />
                 </div>
                 <Table columns={columns} data={data} />
             </Main>
