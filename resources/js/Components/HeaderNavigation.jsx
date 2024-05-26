@@ -34,7 +34,8 @@ export default function HeaderNavigation() {
                 active={
                     route().current("project") ||
                     route().current("project.create") ||
-                    route().current("project.edit")
+                    route().current("project.edit") ||
+                    route().current("project.show")
                 }
             >
                 Projects

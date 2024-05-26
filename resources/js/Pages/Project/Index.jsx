@@ -7,6 +7,12 @@ import PrimaryLink from "@/Components/PrimaryLink.jsx"
 import { useEffect, useState } from "react"
 import EditLink from "@/Components/EditLink.jsx"
 import DetailsLink from "@/Components/DetailsLink.jsx"
+import {
+    createCostingAttribute,
+    createDateAttribute,
+    createStatusAttribute,
+    createTypeAttribute
+} from "@/Pages/Project/partials.jsx"
 
 export default function Index({ auth, projects }) {
     const [columns, setColumns] = useState([
@@ -45,58 +51,15 @@ export default function Index({ auth, projects }) {
         )
     }
 
-    const createStatusAttribute = (status) => {
-        return (
-            <div className="flex space-x-1">
-                {status === "completed" ? (
-                    <span className="px-2 py-1 rounded-md text-sm complete-badge-background">
-                        Completed
-                    </span>
-                ) : (
-                    ""
-                )}
-                {status === "active" ? (
-                    <span className="px-2 py-1 rounded-md text-sm active-badge-background">Active</span>
-                ) : (
-                    ""
-                )}
-                {status === "lead" ? (
-                    <span className="px-2 py-1 rounded-md text-sm lead-badges-background">Lead</span>
-                ) : (
-                    ""
-                )}
-                {status === "cancelled" ? (
-                    <span className="px-2 py-1 rounded-md text-sm cancelled-badge-background">
-                        Cancelled
-                    </span>
-                ) : (
-                    ""
-                )}
-            </div>
-        )
-    }
-
-    const createDateAttribute = (startDate, endDate) => {
+    const createFormattedDateAttribute = (startDate, endDate) => {
         return (
             <>
                 <div className="flex space-x-1">
-                    from: {startDate ? new Date(startDate).toDateString() : ""}
+                    from: {createDateAttribute(startDate)}
                 </div>
                 <hr />
-                <div className="flex space-x-1">to: {endDate ? new Date(endDate).toDateString() : ""}</div>
+                <div className="flex space-x-1">to: {createDateAttribute(endDate)}</div>
             </>
-        )
-    }
-
-    const createCostingAttribute = (costing) => {
-        return costing.toLocaleString("en-US", { style: "currency", currency: "USD" })
-    }
-
-    const createTypeAttribute = (type) => {
-        return type === "singular" ? (
-            <span className="px-2 py-1 rounded-md text-sm singular-badge-background">One Time</span>
-        ) : (
-            <span className="px-2 py-1 rounded-md text-sm recurring-badge-background">Monthly</span>
         )
     }
 
@@ -108,7 +71,7 @@ export default function Index({ auth, projects }) {
                     Client: project.client.name,
                     Description: project.description,
                     Status: createStatusAttribute(project.status),
-                    Dates: createDateAttribute(project.start_date, project.end_date),
+                    Dates: createFormattedDateAttribute(project.start_date, project.end_date),
                     Costing: createCostingAttribute(project.costing),
                     Type: createTypeAttribute(project.type),
                     Actions: createActions({

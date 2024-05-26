@@ -4,6 +4,12 @@ import { Head } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import { useEffect, useState } from "react"
 import Table from "@/Components/Table.jsx"
+import {
+    createCostingAttribute,
+    createDateAttribute,
+    createStatusAttribute,
+    createTypeAttribute as createProjectTypeAttribute
+} from "@/Pages/Project/partials.jsx"
 
 export default function Show({ auth, project }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Date"])
@@ -25,40 +31,6 @@ export default function Show({ auth, project }) {
         )
     }
 
-    const createStatusBadge = (status) => {
-        let color = "bg-gray-200"
-
-        if (status === "lead") {
-            color = "lead-badges-background"
-        } else if (status === "active") {
-            color = "active-badge-background"
-        } else if (status === "completed") {
-            color = "complete-badge-background"
-        } else if (status === "cancelled") {
-            color = "cancelled-badge-background"
-        }
-
-        return (
-            <span
-                className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-lg font-medium ${color}`}
-            >
-                {status}
-            </span>
-        )
-    }
-
-    const createDateAttribute = (date) => {
-        if (date) {
-            return new Date(date).toDateString()
-        }
-
-        return "-"
-    }
-
-    const createCostingAttribute = (costing) => {
-        return costing.toLocaleString("en-US", { style: "currency", currency: "USD" })
-    }
-
     const createTypeAttribute = (type) => {
         return (
             <div className="flex space-x-1">
@@ -75,14 +47,6 @@ export default function Show({ auth, project }) {
                     ""
                 )}
             </div>
-        )
-    }
-
-    const createProjectTypeAttribute = (type) => {
-        return type === "singular" ? (
-            <span className="px-2 py-1 rounded-md text-sm singular-badge-background">One Time</span>
-        ) : (
-            <span className="px-2 py-1 rounded-md text-sm recurring-badge-background">Monthly</span>
         )
     }
 
@@ -144,7 +108,7 @@ export default function Show({ auth, project }) {
                                         </a>
                                     }
                                 />
-                                <InfoCard label="Status" value={createStatusBadge(project.status)} />
+                                <InfoCard label="Status" value={createStatusAttribute(project.status)} />
                                 <InfoCard label="Start Date" value={createDateAttribute(project.start_date)} />
                                 <InfoCard label="End Date" value={createDateAttribute(project.end_date)} />
                                 <InfoCard label="Costing" value={createCostingAttribute(project.costing)} />
