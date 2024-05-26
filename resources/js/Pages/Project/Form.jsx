@@ -4,6 +4,7 @@ import InputError from "@/Components/InputError.jsx"
 import { Transition } from "@headlessui/react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import { Link } from "@inertiajs/react"
+import { projectStatuses } from "@/helpers/constants.js"
 
 export default function Form({
     data,
@@ -105,10 +106,11 @@ export default function Form({
                         value={data.status}
                         onChange={(e) => setData("status", e.target.value)}
                     >
-                        <option value="lead">Lead</option>
-                        <option value="active">Active</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
+                        {
+                            projectStatuses.map((status, index) => (
+                                <option key={index} value={status.key}>{status.value}</option>
+                            ))
+                        }
                     </select>
                     <InputError className="mt-2" message={errors.status} />
                 </div>

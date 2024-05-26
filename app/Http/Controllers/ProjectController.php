@@ -9,6 +9,8 @@ use App\Models\Project;
 use Illuminate\Database\Eloquent\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class ProjectController extends Controller
 {
@@ -17,10 +19,22 @@ class ProjectController extends Controller
      */
     public function index(): Response
     {
+        $project = Project::query()->with('client')
+            ->orderBy('created_at', 'desc');
+
+        if (request()->get('status') && request()->get('status') !== 'all') {
+            $project->where('status', request()->get('status'));
+        }
+
+        if (request()->get('search')) {
+            $project->where('name', 'like', '%' . request()->get('search') . '%');
+        }
+
+        $project = $project->get();
+
+
         return Inertia::render('Project/Index', [
-            'projects' => Project::query()->with('client')
-                ->orderBy('created_at', 'desc')
-                ->get(),
+            'projects' => $project,
         ]);
     }
 
