@@ -19,7 +19,6 @@ host('146.190.32.125')
 
 task('build', function () {
     cd('{{release_path}}');
-    run('php artisan optimize');
     run('npm install');
     run('npm run build');
 });

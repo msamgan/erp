@@ -4,7 +4,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "lint": "prettier --write . && ./vendor/bin/pint"
+        "lint": "prettier --write . && ./vendor/bin/pint",
+        "deploy": "./vendor/bin/dep deploy"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
