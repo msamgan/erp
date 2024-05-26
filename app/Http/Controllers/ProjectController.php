@@ -28,6 +28,7 @@ class ProjectController extends Controller
 
         if (request()->get('search')) {
             $project->where('name', 'like', '%' . request()->get('search') . '%');
+            $project->orWhere('description', 'like', '%' . request()->get('search') . '%');
         }
 
         $project = $project->get();
