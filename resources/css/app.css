@@ -39,25 +39,25 @@
 }
 
 .lead-badges-background {
-    @apply bg-blue-200
+    @apply bg-blue-200;
 }
 
 .active-badge-background {
-    @apply bg-yellow-200
+    @apply bg-yellow-200;
 }
 
 .complete-badge-background {
-    @apply bg-green-200
+    @apply bg-green-200;
 }
 
 .cancelled-badge-background {
-    @apply bg-red-200
+    @apply bg-red-200;
 }
 
 .singular-badge-background {
-    @apply bg-purple-200
+    @apply bg-purple-200;
 }
 
 .recurring-badge-background {
-    @apply bg-indigo-200
+    @apply bg-indigo-200;
 }

@@ -21,7 +21,7 @@ export default function Footer() {
         return () => clearInterval(interval)
     }, [])*/
 
-    const TimeCard = ({title, time, className = ""}) => {
+    const TimeCard = ({ title, time, className = "" }) => {
         return (
             <span className={"shadow p-3 rounded bg-white text-black font-bold " + className}>
                 {title}: {time}

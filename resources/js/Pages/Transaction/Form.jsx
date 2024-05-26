@@ -6,16 +6,16 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import { Link } from "@inertiajs/react"
 
 export default function Form({
-                                 data,
-                                 setData,
-                                 errors,
-                                 processing,
-                                 recentlySuccessful,
-                                 onSubmit,
-                                 projects,
-                                 refreshProjectList,
-                                 descriptions
-                             }) {
+    data,
+    setData,
+    errors,
+    processing,
+    recentlySuccessful,
+    onSubmit,
+    projects,
+    refreshProjectList,
+    descriptions
+}) {
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div className="flex gap-4 w-1/2">

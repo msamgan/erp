@@ -5,41 +5,24 @@ import Main from "@/Components/Main.jsx"
 import { useCallback, useEffect, useState } from "react"
 import FormSection from "@/Components/FormSection.jsx"
 import Form from "@/Pages/Project/Form.jsx"
+import { getClientList, projectDataObject } from "@/Pages/Project/common.js"
 
 export default function Create({ auth }) {
     const [clients, setClients] = useState([])
 
     const clientList = useCallback(() => {
-        axios(route("client.list"))
-            .then((response) => {
-                setClients(response.data)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+        getClientList().then((response) => {
+            setClients(response)
+        })
     }, [])
-
-    const refreshClientList = () => {
-        clientList()
-    }
 
     useEffect(() => {
         clientList()
     }, [])
 
-    const dataObject = {
-        name: "",
-        client: "",
-        description: "",
-        type: "singular",
-        document_url: "",
-        status: "lead",
-        start_date: "",
-        end_date: "",
-        costing: ""
-    }
+    const dataObject = projectDataObject()
 
-    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(projectDataObject())
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -69,7 +52,7 @@ export default function Create({ auth }) {
                         recentlySuccessful={recentlySuccessful}
                         onSubmit={onSubmit}
                         clients={clients}
-                        refreshClientList={refreshClientList}
+                        refreshClientList={clientList}
                     />
                 </FormSection>
             </Main>

@@ -9,7 +9,8 @@ import Footer from "@/Components/Footer.jsx"
 export default function AuthenticatedLayout({ user, header, children, subMenu }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false)
 
-    return (<>
+    return (
+        <>
             <div className="min-h-screen">
                 <nav className="primary-bg border-gray-100">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,8 +18,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                             <div className="flex">
                                 <div className="shrink-0 flex items-center">
                                     <Link href="/">
-                                        <ApplicationLogo
-                                            className="block h-14 mt-4 invert w-auto fill-current text-gray-800" />
+                                        <ApplicationLogo className="block h-14 mt-4 invert w-auto fill-current text-gray-800" />
                                     </Link>
                                 </div>
 
@@ -36,11 +36,19 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                                     type="button"
                                                     className="inline-flex items-center px-3 py-2"
                                                 >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
-                                                         className="w-6 h-6 text-white">
-                                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                                              d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth={1.5}
+                                                        stroke="currentColor"
+                                                        className="w-6 h-6 text-white"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                                        />
                                                     </svg>
                                                 </button>
                                             </span>
@@ -51,7 +59,10 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                                 Add Client
                                             </Dropdown.Link>
                                             <hr />
-                                            <Dropdown.Link className={"text-xl"} href={route("organization.create")}>
+                                            <Dropdown.Link
+                                                className={"text-xl"}
+                                                href={route("organization.create")}
+                                            >
                                                 Add Organization
                                             </Dropdown.Link>
                                             <hr />
@@ -59,7 +70,10 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                                 Add Project
                                             </Dropdown.Link>
                                             <hr />
-                                            <Dropdown.Link className={"text-xl"} href={route("transaction.create")}>
+                                            <Dropdown.Link
+                                                className={"text-xl"}
+                                                href={route("transaction.create")}
+                                            >
                                                 Add Transaction
                                             </Dropdown.Link>
                                         </Dropdown.Content>
@@ -111,10 +125,17 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
 
                             <div className="-me-2 flex items-center sm:hidden">
                                 <button
-                                    onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
+                                    onClick={() =>
+                                        setShowingNavigationDropdown((previousState) => !previousState)
+                                    }
                                     className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
                                 >
-                                    <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                    <svg
+                                        className="h-6 w-6"
+                                        stroke="currentColor"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
                                         <path
                                             className={!showingNavigationDropdown ? "inline-flex" : "hidden"}
                                             strokeLinecap="round"

@@ -6,15 +6,15 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import { Link } from "@inertiajs/react"
 
 export default function Form({
-                                 data,
-                                 setData,
-                                 errors,
-                                 processing,
-                                 recentlySuccessful,
-                                 onSubmit,
-                                 clients,
-                                 refreshClientList
-                             }) {
+    data,
+    setData,
+    errors,
+    processing,
+    recentlySuccessful,
+    onSubmit,
+    clients,
+    refreshClientList
+}) {
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div>

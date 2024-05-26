@@ -2,9 +2,7 @@ export const createStatusAttribute = (status) => {
     return (
         <div className="flex space-x-1">
             {status === "completed" ? (
-                <span className="px-2 py-1 rounded-md text-sm complete-badge-background">
-                    Completed
-                </span>
+                <span className="px-2 py-1 rounded-md text-sm complete-badge-background">Completed</span>
             ) : (
                 ""
             )}
@@ -19,9 +17,7 @@ export const createStatusAttribute = (status) => {
                 ""
             )}
             {status === "cancelled" ? (
-                <span className="px-2 py-1 rounded-md text-sm cancelled-badge-background">
-                    Cancelled
-                </span>
+                <span className="px-2 py-1 rounded-md text-sm cancelled-badge-background">Cancelled</span>
             ) : (
                 ""
             )}
