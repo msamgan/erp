@@ -92,6 +92,14 @@ export default function Index({ auth, projects }) {
         return costing.toLocaleString("en-US", { style: "currency", currency: "USD" })
     }
 
+    const createTypeAttribute = (type) => {
+        return type === "singular" ? (
+            <span className="px-2 py-1 rounded-md text-sm singular-badge-background">One Time</span>
+        ) : (
+            <span className="px-2 py-1 rounded-md text-sm recurring-badge-background">Monthly</span>
+        )
+    }
+
     useEffect(() => {
         setData(
             projects.map((project) => {
@@ -102,7 +110,7 @@ export default function Index({ auth, projects }) {
                     Status: createStatusAttribute(project.status),
                     Dates: createDateAttribute(project.start_date, project.end_date),
                     Costing: createCostingAttribute(project.costing),
-                    Type: project.type,
+                    Type: createTypeAttribute(project.type),
                     Actions: createActions({
                         editRoute: route("project.edit", project.id),
                         detailsRoute: route("project.show", project.id)

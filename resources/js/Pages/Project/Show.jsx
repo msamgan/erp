@@ -78,6 +78,14 @@ export default function Show({ auth, project }) {
         )
     }
 
+    const createProjectTypeAttribute = (type) => {
+        return type === "singular" ? (
+            <span className="px-2 py-1 rounded-md text-sm singular-badge-background">One Time</span>
+        ) : (
+            <span className="px-2 py-1 rounded-md text-sm recurring-badge-background">Monthly</span>
+        )
+    }
+
     useEffect(() => {
         setData(
             project.transactions.map((transaction) => {
@@ -140,7 +148,7 @@ export default function Show({ auth, project }) {
                                 <InfoCard label="Start Date" value={createDateAttribute(project.start_date)} />
                                 <InfoCard label="End Date" value={createDateAttribute(project.end_date)} />
                                 <InfoCard label="Costing" value={createCostingAttribute(project.costing)} />
-                                <InfoCard label="Type" value={project.type} />
+                                <InfoCard label="Type" value={createProjectTypeAttribute(project.type)} />
                             </div>
                         </div>
                     </section>

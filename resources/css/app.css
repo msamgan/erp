@@ -53,3 +53,11 @@
 .cancelled-badge-background {
     @apply bg-red-200
 }
+
+.singular-badge-background {
+    @apply bg-purple-200
+}
+
+.recurring-badge-background {
+    @apply bg-indigo-200
+}
