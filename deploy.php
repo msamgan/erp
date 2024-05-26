@@ -17,6 +17,7 @@ host('146.190.32.125')
     ->set('remote_user', 'msamgan-erp')
     ->set('deploy_path', '~/htdocs/erp.msamgan.com');
 
+desc('Build the assets');
 task('build', function () {
     cd('{{release_path}}');
     run('npm install');
