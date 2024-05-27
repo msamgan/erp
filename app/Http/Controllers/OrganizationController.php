@@ -16,8 +16,15 @@ class OrganizationController extends Controller
      */
     public function index(): Response|ResponseFactory
     {
+        $organizations = Organization::query()->orderBy('created_at', 'desc');
+
+        if (request()->get('search')) {
+            $organizations->where('name', 'like', '%' . request()->get('search') . '%');
+            $organizations->orWhere('location', 'like', '%' . request()->get('search') . '%');
+        }
+
         return inertia('Organization/Index', [
-            'organizations' => Organization::query()->orderBy('created_at', 'desc')->get(),
+            'organizations' => $organizations->get(),
         ]);
     }
 

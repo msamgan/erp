@@ -10,6 +10,9 @@ import EditLink from "@/Components/EditLink.jsx"
 export default function Index({ auth, organizations }) {
     const [columns, setColumns] = useState(["Name", "Location", "Actions"])
     const [data, setData] = useState([])
+    const [queryParams, setQueryParams] = useState(
+        Object.fromEntries(new URLSearchParams(window.location.search).entries())
+    )
 
     const createActions = (editRoute) => {
         return (
@@ -48,7 +51,10 @@ export default function Index({ auth, organizations }) {
             <Head title="Organizations" />
 
             <Main>
-                <Table columns={columns} data={data} />
+                <Table columns={columns} data={data}
+                       queryParams={queryParams}
+                       setQueryParams={setQueryParams}
+                />
             </Main>
         </AuthenticatedLayout>
     )

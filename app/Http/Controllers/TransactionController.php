@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Models\Project;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
@@ -25,8 +26,19 @@ class TransactionController extends Controller
             $transactions->where('description', 'like', '%' . request()->get('search') . '%');
         }
 
+        if (request()->get('startDate') && request()->get('endDate')) {
+            $transactions->whereBetween('date', [
+                request()->get('startDate'),
+                Carbon::parse(request()->get('endDate'))->addDay()
+            ]);
+        }
+
+        if (request()->get('type') && request()->get('type') !== 'all') {
+            $transactions->where('type', request()->get('type'));
+        }
+
         return Inertia::render('Transaction/Index', [
-            'transactions' => $transactions->get()
+            'transactions' => $transactions->get(),
         ]);
     }
 

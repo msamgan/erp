@@ -5,7 +5,6 @@ import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
 import PrimaryLink from "@/Components/PrimaryLink.jsx"
 import { useEffect, useState } from "react"
-import SearchForm from "@/Pages/Transaction/SearchForm.jsx"
 
 export default function Index({ auth, transactions }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Project", "Date"])
@@ -37,9 +36,7 @@ export default function Index({ auth, transactions }) {
 
     const createDateAttribute = (date) => {
         return (
-            <>
-                <div className="flex space-x-1">{date ? new Date(date).toDateString() : ""}</div>
-            </>
+            <div className="flex space-x-1">{date ? new Date(date).toDateString() : ""}</div>
         )
     }
 
@@ -75,6 +72,48 @@ export default function Index({ auth, transactions }) {
         setTotalExpense(expense)
     }, [])
 
+    const searchFormExtension = () => {
+        return (
+            <>
+                <div className="flex flex-col">
+                    <input
+                        type="date"
+                        name="startDate"
+                        placeholder=""
+                        value={queryParams.startDate}
+                        onChange={(e) => setQueryParams({ ...queryParams, startDate: e.target.value })}
+                        className="border border-gray-300 rounded-md h-10 px-2"
+                    />
+                    <small className="text-gray-500 ml-2 mt-0.5">start date</small>
+                </div>
+                <div className="flex flex-col">
+                    <input
+                        type="date"
+                        name="endDate"
+                        placeholder=""
+                        value={queryParams.endDate}
+                        onChange={(e) => setQueryParams({ ...queryParams, endDate: e.target.value })}
+                        className="border border-gray-300 rounded-md h-10 px-2"
+                    />
+                    <small className="text-gray-500 ml-2 mt-0.5">end date</small>
+                </div>
+                <div className="flex flex-col">
+                    <select
+                        id="type"
+                        name={"type"}
+                        className="border border-gray-300 rounded-md h-10"
+                        defaultValue={queryParams.type}
+                    >
+                        <option key={"all"} value={"all"}>{"All"}</option>
+                        <option key={"incoming"} value={"incoming"}>{"Incoming"}</option>
+                        <option key={"outgoing"} value={"outgoing"}>{"Outgoing"}</option>
+                    </select>
+                    <small className="text-gray-500 ml-2 mt-0.5">type</small>
+                </div>
+            </>
+        )
+    }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -88,10 +127,13 @@ export default function Index({ auth, transactions }) {
             <Head title="Transactions" />
 
             <Main>
-                <div className={"mb-4"}>
-                    <SearchForm queryParams={queryParams} setQueryParams={setQueryParams} />
-                </div>
-                <Table columns={columns} data={data} />
+                <Table
+                    columns={columns}
+                    data={data}
+                    queryParams={queryParams}
+                    setQueryParams={setQueryParams}
+                    searchFormExtension={searchFormExtension}
+                />
                 <div className="flex justify-between">
                     <div className="flex space-x-2">
                         <span className="px-2 py-1 bg-green-200 rounded-full text-lg">

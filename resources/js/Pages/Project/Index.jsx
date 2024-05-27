@@ -13,7 +13,7 @@ import {
     createStatusAttribute,
     createTypeAttribute
 } from "@/Pages/Project/partials.jsx"
-import SearchForm from "@/Pages/Project/SearchForm.jsx"
+import { projectStatuses } from "@/helpers/constants.js"
 
 export default function Index({ auth, projects }) {
     const [columns, setColumns] = useState([
@@ -85,6 +85,29 @@ export default function Index({ auth, projects }) {
         )
     }, [])
 
+    const searchFormExtension = () => {
+        return (
+            <div className="flex flex-col">
+                <select
+                    id="status"
+                    name={"status"}
+                    className="border border-gray-300 rounded-md h-10"
+                    defaultValue={queryParams.status}
+                >
+                    <option key={"all"} value={"all"}>
+                        {"All"}
+                    </option>
+                    {projectStatuses.map((status, index) => (
+                        <option key={index} value={status.key}>
+                            {status.value}
+                        </option>
+                    ))}
+                </select>
+                <small className="text-gray-500 ml-2 mt-0.5">status</small>
+            </div>
+        )
+    }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -98,10 +121,13 @@ export default function Index({ auth, projects }) {
             <Head title="Projects" />
 
             <Main>
-                <div className={"mb-4"}>
-                    <SearchForm queryParams={queryParams} setQueryParams={setQueryParams} />
-                </div>
-                <Table columns={columns} data={data} />
+                <Table
+                    columns={columns}
+                    data={data}
+                    queryParams={queryParams}
+                    setQueryParams={setQueryParams}
+                    searchFormExtension={searchFormExtension}
+                />
             </Main>
         </AuthenticatedLayout>
     )

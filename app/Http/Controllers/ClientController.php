@@ -19,13 +19,24 @@ class ClientController extends Controller
      */
     public function index(): Response|ResponseFactory
     {
+        $clients = Client::query()
+            ->with('organization')
+            ->with('emails')
+            ->with('phones')
+            ->orderBy('created_at', 'desc');
+
+        if (request()->get('search')) {
+            $clients->where('name', 'like', '%' . request()->get('search') . '%');
+            $clients->orWhereHas('organization', function ($query) {
+                $query->where('name', 'like', '%' . request()->get('search') . '%');
+            });
+            $clients->orWhereHas('emails', function ($query) {
+                $query->where('email', 'like', '%' . request()->get('search') . '%');
+            });
+        }
+
         return inertia('Client/Index', [
-            'clients' => Client::query()
-                ->with('organization')
-                ->with('emails')
-                ->with('phones')
-                ->orderBy('created_at', 'desc')
-                ->get(),
+            'clients' => $clients->get(),
         ]);
     }
 
