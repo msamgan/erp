@@ -17,11 +17,16 @@ class TransactionController extends Controller
      */
     public function index(): Response
     {
+        $transactions = Transaction::query()
+            ->with('project')
+            ->orderBy('created_at', 'desc');
+
+        if (request()->get('search')) {
+            $transactions->where('description', 'like', '%' . request()->get('search') . '%');
+        }
+
         return Inertia::render('Transaction/Index', [
-            'transactions' => Transaction::query()
-                ->with('project')
-                ->orderBy('created_at', 'desc')
-                ->get(),
+            'transactions' => $transactions->get()
         ]);
     }
 

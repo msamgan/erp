@@ -5,12 +5,16 @@ import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
 import PrimaryLink from "@/Components/PrimaryLink.jsx"
 import { useEffect, useState } from "react"
+import SearchForm from "@/Pages/Transaction/SearchForm.jsx"
 
 export default function Index({ auth, transactions }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Project", "Date"])
     const [data, setData] = useState([])
     const [totalIncome, setTotalIncome] = useState(0)
     const [totalExpense, setTotalExpense] = useState(0)
+    const [queryParams, setQueryParams] = useState(
+        Object.fromEntries(new URLSearchParams(window.location.search).entries())
+    )
 
     const createTypeAttribute = (type) => {
         return (
@@ -84,6 +88,9 @@ export default function Index({ auth, transactions }) {
             <Head title="Transactions" />
 
             <Main>
+                <div className={"mb-4"}>
+                    <SearchForm queryParams={queryParams} setQueryParams={setQueryParams} />
+                </div>
                 <Table columns={columns} data={data} />
                 <div className="flex justify-between">
                     <div className="flex space-x-2">
