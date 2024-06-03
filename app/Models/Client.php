@@ -8,10 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/**
- * @method static create(mixed $validated)
- * @method static firstOrCreate(array $array)
- */
 class Client extends Model
 {
     use HasFactory, HasUuids;
