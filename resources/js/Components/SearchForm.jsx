@@ -3,7 +3,7 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx"
 export default function SearchForm({ queryParams, setQueryParams, searchFormExtension = null }) {
     return (
         <form action={""} method="get">
-            <div className="flex flex-row space-x-2 justify-end">
+            <div className="flex flex-row space-x-2 justify-end mb-4">
                 {searchFormExtension && searchFormExtension()}
 
                 <div className="flex flex-col">
