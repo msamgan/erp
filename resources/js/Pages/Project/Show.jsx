@@ -125,7 +125,7 @@ export default function Show({ auth, project }) {
                                 <h2 className="text-lg mb-4 font-medium text-gray-900">Transactions</h2>
                             </header>
 
-                            <Table columns={columns} data={data} />
+                            <Table columns={columns} data={data} showSearchForm={false} />
                         </section>
                     )}
 
