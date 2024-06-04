@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react"
 import SearchForm from "@/Components/SearchForm.jsx"
 
-export default function Table({ columns, data, queryParams, setQueryParams, searchFormExtension = null }) {
+export default function Table({
+    columns,
+    data,
+    queryParams,
+    setQueryParams,
+    searchFormExtension = null,
+    showSearchForm = true
+}) {
     const [totalRows, setTotalRows] = useState(0)
 
     useEffect(() => {
@@ -10,13 +17,14 @@ export default function Table({ columns, data, queryParams, setQueryParams, sear
 
     return (
         <>
-            <div className={"mb-4"}>
+            {showSearchForm ? (
                 <SearchForm
                     queryParams={queryParams}
                     setQueryParams={setQueryParams}
-                    searchFormExtension={searchFormExtension}
+                    extension={searchFormExtension}
                 />
-            </div>
+            ) : null}
+
             <div className="overflow-x-auto rounded-lg border border-gray-200 border-left-primary shadow">
                 <table className="min-w-full divide-y-2 divide-gray-200 text-lg">
                     <thead className="text-left primary-bg white-lg">
