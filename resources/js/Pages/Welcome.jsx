@@ -1,55 +1,34 @@
-import { Head } from "@inertiajs/react"
+import { Head, Link } from "@inertiajs/react"
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx"
 
 export default function Welcome({}) {
-
     return (
         <>
-            <Head title="Welcome" />
+            <Head title="Welcome to msamgan ERP" />
 
-            <header className="bg-white shadow-md py-6">
-                <div className="container mx-auto flex justify-between items-center">
-                    {/*<h1 className="text-3xl font-bold text-green-700">msamgan</h1>*/}
-                    <a href="/login" className="text-green-700 hover:text-green-800 font-medium">Login</a>
-                </div>
-            </header>
-
-            <main className="container mx-auto mt-56 px-4">
-                <section className="text-center text-green-900">
-                    <ApplicationLogo className="w-72 h-auto mx-auto" />
-                    <h2 className="text-5xl font-bold mb-6">Welcome Back to ERP, Sir!!</h2>
-                    <p className="text-xl mb-8">Manage clients, projects, organizations, and transactions seamlessly.</p>
-                </section>
-
-                <section className="mt-18 mb-30 flex flex-col items-center">
-                    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl">
-                        <ul className="list-inside space-y-4 text-lg">
-                            <li>
-                                <h4 className="text-2xl font-bold mb-2 text-green-700">Client Management</h4>
-                                <p className="text-gray-700">Organize and track client information efficiently.</p>
-                            </li>
-                            <li>
-                                <h4 className="text-2xl font-bold mb-2 text-green-700">Project Tracking</h4>
-                                <p className="text-gray-700">Keep your projects on schedule and manage tasks
-                                    effortlessly.</p>
-                            </li>
-                            <li>
-                                <h4 className="text-2xl font-bold mb-2 text-green-700">Organization Management</h4>
-                                <p className="text-gray-700">Maintain organizational structure and manage teams
-                                    effectively.</p>
-                            </li>
-                            <li>
-                                <h4 className="text-2xl font-bold mb-2 text-green-700">Transaction Monitoring</h4>
-                                <p className="text-gray-700">Monitor financial transactions with real-time updates and
-                                    reports.</p>
-                            </li>
-                        </ul>
+            <section className="bg-gray-100 text-gray-800">
+                <div className="container mx-auto flex flex-col items-center px-4 py-16 text-center md:py-32 md:px-10 lg:px-32 xl:max-w-3xl">
+                    <ApplicationLogo className="w-72 h-auto mt-12" />
+                    <h1 className="text-4xl font-bold leading-none sm:text-5xl">
+                        msamgan
+                        <span className="text-emerald-600 ml-3">ERP</span>
+                    </h1>
+                    <p className="px-8 mt-8 mb-12 text-lg">
+                        A simple and powerful ERP system for personal and small businesses.
+                    </p>
+                    <div className="flex flex-wrap justify-center">
+                        <Link
+                            className="px-8 py-3 m-2 text-lg font-semibold rounded bg-emerald-600 text-gray-50"
+                            href="/login"
+                        >
+                            Login
+                        </Link>
                     </div>
-                </section>
-            </main>
+                </div>
+            </section>
 
-            <footer className="bg-gray-800 text-white py-6 mt-20">
-                <div className="container mx-auto text-center">
+            <footer className="">
+                <div className="container mx-auto text-center text-gray-500">
                     <p>&copy; {new Date().getFullYear()} ERP. All rights reserved.</p>
                 </div>
             </footer>
