@@ -35,9 +35,7 @@ export default function Index({ auth, transactions }) {
     }
 
     const createDateAttribute = (date) => {
-        return (
-            <div className="flex space-x-1">{date ? new Date(date).toDateString() : ""}</div>
-        )
+        return <div className="flex space-x-1">{date ? new Date(date).toDateString() : ""}</div>
     }
 
     const createAmountAttribute = (amount) => {
@@ -104,9 +102,15 @@ export default function Index({ auth, transactions }) {
                         className="border border-gray-300 rounded-md h-10"
                         defaultValue={queryParams.type}
                     >
-                        <option key={"all"} value={"all"}>{"All"}</option>
-                        <option key={"incoming"} value={"incoming"}>{"Incoming"}</option>
-                        <option key={"outgoing"} value={"outgoing"}>{"Outgoing"}</option>
+                        <option key={"all"} value={"all"}>
+                            {"All"}
+                        </option>
+                        <option key={"incoming"} value={"incoming"}>
+                            {"Incoming"}
+                        </option>
+                        <option key={"outgoing"} value={"outgoing"}>
+                            {"Outgoing"}
+                        </option>
                     </select>
                     <small className="text-gray-500 ml-2 mt-0.5">type</small>
                 </div>

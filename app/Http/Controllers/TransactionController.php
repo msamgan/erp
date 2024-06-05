@@ -29,7 +29,7 @@ class TransactionController extends Controller
         if (request()->get('startDate') && request()->get('endDate')) {
             $transactions->whereBetween('date', [
                 request()->get('startDate'),
-                Carbon::parse(request()->get('endDate'))->addDay()
+                Carbon::parse(request()->get('endDate'))->addDay(),
             ]);
         }
 

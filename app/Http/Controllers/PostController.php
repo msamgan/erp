@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -13,7 +14,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Post/Index', [
+            'posts' => Post::all(),
+        ]);
     }
 
     /**
@@ -21,7 +24,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Post/Create');
     }
 
     /**
@@ -29,7 +32,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
@@ -45,7 +48,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return Inertia::render('Post/Edit', [
+            'postData' => $post,
+        ]);
     }
 
     /**
@@ -53,7 +58,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        dd($request->all());
     }
 
     /**
@@ -61,6 +66,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        dd($post->delete());
     }
 }

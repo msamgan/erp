@@ -15,3 +15,4 @@ require __DIR__ . '/client.php';
 require __DIR__ . '/organization.php';
 require __DIR__ . '/project.php';
 require __DIR__ . '/transaction.php';
+require __DIR__ . '/post.php';
