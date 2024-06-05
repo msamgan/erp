@@ -4,33 +4,34 @@ import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Form from "@/Pages/Organization/Form.jsx"
 import FormSection from "@/Components/FormSection.jsx"
-import { organizationDataObject } from "@/Pages/Organization/common.js"
+import { organizationDataObject, pageDataObject } from "@/Pages/Organization/methods.js"
 
-export default function Create({ auth }) {
-    const dataObject = organizationDataObject()
+export default function FormHolder({ auth, organization = null }) {
+    const dataObject = organizationDataObject(organization)
 
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+
+    const pageData = pageDataObject(organization)
 
     const onSubmit = (e) => {
         e.preventDefault()
 
-        post(route("organization.store"), {
+        post(pageData.actionUrl, {
             preserveScroll: true,
             onSuccess: () => {
-                setData(dataObject)
+                if (!organization) {
+                    setData(dataObject)
+                }
             }
         })
     }
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Add Organization" />}>
-            <Head title="Add Organization" />
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title={pageData.title} />}>
+            <Head title={pageData.title} />
 
             <Main>
-                <FormSection
-                    headerTitle="Organization Information"
-                    headerDescription="Create a new organization with it's information."
-                >
+                <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
                     <Form
                         data={data}
                         setData={setData}

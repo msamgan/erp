@@ -44,7 +44,7 @@ class OrganizationController extends Controller
      */
     public function create(): Response|ResponseFactory
     {
-        return inertia('Organization/Create');
+        return inertia('Organization/FormHolder');
     }
 
     /**
@@ -60,7 +60,7 @@ class OrganizationController extends Controller
      */
     public function edit(Organization $organization): Response|ResponseFactory
     {
-        return inertia('Organization/Edit', [
+        return inertia('Organization/FormHolder', [
             'organization' => $organization,
         ]);
     }
