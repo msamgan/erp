@@ -90,24 +90,21 @@ export default function Show({ auth, project }) {
                     <section>
                         <header>
                             <h1 className="text-xl font-medium text-gray-900">{project.name}</h1>
+                            {project.document_url ? (
+                                <a
+                                    href={project.document_url}
+                                    target="_blank"
+                                    className="text-sm text-blue-500 hover:underline"
+                                >
+                                    View Doc
+                                </a>
+                            ) : null}
                         </header>
 
                         <div className="mt-4">
-                            <div className="grid gap-y-5 sm:grid-cols-3">
+                            <div className="grid gap-6 gap-y-8 sm:grid-cols-3">
                                 <InfoCard label="Client" value={project.client.name} />
                                 <InfoCard label="Description" value={project.description} />
-                                <InfoCard
-                                    label="Document URL"
-                                    value={
-                                        <a
-                                            href={project.document_url}
-                                            target="_blank"
-                                            className="text-blue-500 hover:underline"
-                                        >
-                                            View Doc
-                                        </a>
-                                    }
-                                />
                                 <InfoCard label="Status" value={createStatusAttribute(project.status)} />
                                 <InfoCard label="Start Date" value={createDateAttribute(project.start_date)} />
                                 <InfoCard label="End Date" value={createDateAttribute(project.end_date)} />

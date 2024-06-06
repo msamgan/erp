@@ -46,7 +46,7 @@ export default function Index({ auth, projects }) {
                 )}
 
                 {docUrl ? (
-                    <a href={docUrl} target="_blank" className="text-blue-500">
+                    <a href={docUrl} target="_blank" className="text-sm text-blue-500">
                         View Doc
                     </a>
                 ) : (
