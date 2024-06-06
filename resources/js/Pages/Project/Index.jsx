@@ -91,7 +91,7 @@ export default function Index({ auth, projects }) {
                 <select
                     id="status"
                     name={"status"}
-                    className="border border-gray-300 rounded-md h-10"
+                    className="h-10 border border-gray-300 rounded-md"
                     defaultValue={queryParams.status}
                 >
                     <option key={"all"} value={"all"}>

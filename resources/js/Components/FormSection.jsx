@@ -1,6 +1,6 @@
 export default function FormSection({ children, headerTitle, headerDescription }) {
     return (
-        <div className="shadow p-4 sm:rounded-lg border-left-primary">
+        <div className="p-4 shadow sm:rounded-lg border-left-primary">
             <section>
                 <header>
                     <h2 className="text-lg font-medium text-gray-900">{headerTitle}</h2>

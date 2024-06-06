@@ -6,12 +6,12 @@ export default function Welcome({}) {
         <>
             <Head title="Welcome to msamgan ERP" />
 
-            <section className="bg-gray-100 text-gray-800">
-                <div className="container mx-auto flex flex-col items-center px-4 py-16 text-center md:py-32 md:px-10 lg:px-32 xl:max-w-3xl">
-                    <ApplicationLogo className="w-72 h-auto mt-12" />
+            <section className="text-gray-800 bg-gray-100">
+                <div className="container flex flex-col items-center px-4 py-16 mx-auto text-center md:py-32 md:px-10 lg:px-32 xl:max-w-3xl">
+                    <ApplicationLogo className="h-auto mt-12 w-72" />
                     <h1 className="text-4xl font-bold leading-none sm:text-5xl">
                         msamgan
-                        <span className="text-emerald-600 ml-3">ERP</span>
+                        <span className="ml-3 text-emerald-600">ERP</span>
                     </h1>
                     <p className="px-8 mt-8 mb-12 text-lg">
                         A simple and powerful ERP system for personal and small businesses.

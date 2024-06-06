@@ -19,12 +19,12 @@ export default function Index({ auth, transactions }) {
         return (
             <div className="flex space-x-1">
                 {type === "incoming" ? (
-                    <span className="px-2 py-1 bg-green-200 text-green-800 rounded-full text-sm">Incoming</span>
+                    <span className="px-2 py-1 text-sm text-green-800 bg-green-200 rounded-full">Incoming</span>
                 ) : (
                     ""
                 )}
                 {type === "outgoing" ? (
-                    <span className="px-2 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm">
+                    <span className="px-2 py-1 text-sm text-yellow-800 bg-yellow-200 rounded-full">
                         Outgoing
                     </span>
                 ) : (
@@ -80,7 +80,7 @@ export default function Index({ auth, transactions }) {
                         placeholder=""
                         value={queryParams.startDate}
                         onChange={(e) => setQueryParams({ ...queryParams, startDate: e.target.value })}
-                        className="border border-gray-300 rounded-md h-10 px-2"
+                        className="h-10 px-2 border border-gray-300 rounded-md"
                     />
                     <small className="text-gray-500 ml-2 mt-0.5">start date</small>
                 </div>
@@ -91,7 +91,7 @@ export default function Index({ auth, transactions }) {
                         placeholder=""
                         value={queryParams.endDate}
                         onChange={(e) => setQueryParams({ ...queryParams, endDate: e.target.value })}
-                        className="border border-gray-300 rounded-md h-10 px-2"
+                        className="h-10 px-2 border border-gray-300 rounded-md"
                     />
                     <small className="text-gray-500 ml-2 mt-0.5">end date</small>
                 </div>
@@ -99,7 +99,7 @@ export default function Index({ auth, transactions }) {
                     <select
                         id="type"
                         name={"type"}
-                        className="border border-gray-300 rounded-md h-10"
+                        className="h-10 border border-gray-300 rounded-md"
                         defaultValue={queryParams.type}
                     >
                         <option key={"all"} value={"all"}>
@@ -140,10 +140,10 @@ export default function Index({ auth, transactions }) {
                 />
                 <div className="flex justify-between">
                     <div className="flex space-x-2">
-                        <span className="px-2 py-1 bg-green-200 rounded-full text-lg">
+                        <span className="px-2 py-1 text-lg bg-green-200 rounded-full">
                             Total Income: {createAmountAttribute(totalIncome)}
                         </span>
-                        <span className="px-2 py-1 bg-yellow-200 rounded-full text-lg ml-3">
+                        <span className="px-2 py-1 ml-3 text-lg bg-yellow-200 rounded-full">
                             Total Expense: {createAmountAttribute(totalExpense)}
                         </span>
                     </div>

@@ -35,12 +35,12 @@ export default function Show({ auth, project }) {
         return (
             <div className="flex space-x-1">
                 {type === "incoming" ? (
-                    <span className="px-2 py-1 bg-green-200 text-green-800 rounded-full text-sm">Incoming</span>
+                    <span className="px-2 py-1 text-sm text-green-800 bg-green-200 rounded-full">Incoming</span>
                 ) : (
                     ""
                 )}
                 {type === "outgoing" ? (
-                    <span className="px-2 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm">
+                    <span className="px-2 py-1 text-sm text-yellow-800 bg-yellow-200 rounded-full">
                         Outgoing
                     </span>
                 ) : (
@@ -86,7 +86,7 @@ export default function Show({ auth, project }) {
             <Head title="Project Details" />
 
             <Main>
-                <div className="shadow p-4 sm:rounded-lg border-left-primary">
+                <div className="p-4 shadow sm:rounded-lg border-left-primary">
                     <section>
                         <header>
                             <h1 className="text-xl font-medium text-gray-900">{project.name}</h1>
@@ -122,7 +122,7 @@ export default function Show({ auth, project }) {
                     ) : (
                         <section className="mt-8">
                             <header>
-                                <h2 className="text-lg mb-4 font-medium text-gray-900">Transactions</h2>
+                                <h2 className="mb-4 text-lg font-medium text-gray-900">Transactions</h2>
                             </header>
 
                             <Table columns={columns} data={data} showSearchForm={false} />
@@ -131,7 +131,7 @@ export default function Show({ auth, project }) {
 
                     <section className="mt-8">
                         <header>
-                            <h2 className="text-lg mb-4 font-medium text-gray-900">Financial Summary</h2>
+                            <h2 className="mb-4 text-lg font-medium text-gray-900">Financial Summary</h2>
                         </header>
 
                         <div className="grid gap-y-5 sm:grid-cols-3">
