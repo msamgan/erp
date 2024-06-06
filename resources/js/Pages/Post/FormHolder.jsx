@@ -4,12 +4,14 @@ import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Form from "@/Pages/Post/Form.jsx"
 import FormSection from "@/Components/FormSection.jsx"
-import { postDataObject, toolbarOptions } from "@/Pages/Post/common.js"
+import { pageDataObject, postDataObject, toolbarOptions } from "@/Pages/Post/methods.js"
 
-export default function Create({ auth }) {
-    const dataObject = postDataObject()
+export default function FormHolder({ auth, postData = null }) {
+    const dataObject = postDataObject(postData)
 
     const { data, setData, patch, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+
+    const pageData = pageDataObject(postData)
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -23,11 +25,11 @@ export default function Create({ auth }) {
     }
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Add Post" />}>
-            <Head title="Add Post" />
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title={pageData.title} />}>
+            <Head title={pageData.title} />
 
             <Main>
-                <FormSection headerTitle="New Post" headerDescription="Create a new post with details.">
+                <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
                     <Form
                         data={data}
                         setData={setData}
@@ -35,7 +37,6 @@ export default function Create({ auth }) {
                         processing={processing}
                         recentlySuccessful={recentlySuccessful}
                         onSubmit={onSubmit}
-                        toolbarOptions={toolbarOptions}
                     />
                 </FormSection>
             </Main>

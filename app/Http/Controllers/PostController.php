@@ -24,7 +24,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Post/Create');
+        return Inertia::render('Post/FormHolder');
     }
 
     /**
@@ -48,7 +48,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return Inertia::render('Post/Edit', [
+        return Inertia::render('Post/FormHolder', [
             'postData' => $post,
         ]);
     }

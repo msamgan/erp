@@ -3,7 +3,7 @@ import TextInput from "@/Components/TextInput.jsx"
 import InputError from "@/Components/InputError.jsx"
 import { Transition } from "@headlessui/react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo, useRef } from "react"
 
 export default function Form({
     data,
@@ -14,19 +14,7 @@ export default function Form({
     onSubmit,
     toolbarOptions
 }) {
-    const [quill, setQuill] = useState(null)
-
-    useEffect(() => {
-        setQuill(
-            new Quill("#content", {
-                placeholder: "Compose an epic...",
-                theme: "bubble",
-                modules: {
-                    toolbar: toolbarOptions
-                }
-            })
-        )
-    }, [data])
+    useEffect(() => {}, [])
 
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
@@ -47,7 +35,6 @@ export default function Form({
                 <div
                     id="content"
                     className="mt-1 block border-primary w-full focus:border-teal-950 rounded-md shadow-sm text-lg h-60"
-                    dangerouslySetInnerHTML={{ __html: data.content }}
                 ></div>
             </div>
             <div className="flex gap-4">

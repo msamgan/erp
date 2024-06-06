@@ -10,6 +10,18 @@ export const postDataObject = (post = null) => {
     }
 }
 
+export const pageDataObject = (post = null) => {
+    return {
+        type: post ? "edit" : "create",
+        title: post ? "Edit Post" : "Create Post",
+        headerTitle: "Post Information",
+        description: post
+            ? "Update an existing Post with It's information."
+            : "Create a new Post with details.",
+        actionUrl: post ? route("post.update", post.id) : route("post.store")
+    }
+}
+
 export const toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
     ["blockquote", "code-block", "code"],
