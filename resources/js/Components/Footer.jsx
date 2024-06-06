@@ -30,12 +30,12 @@ export default function Footer() {
     }
 
     return (
-        <footer className="primary-bg text-white text-center py-4">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <footer className="py-4 text-center text-white primary-bg">
+            <div className="container px-4 mx-auto sm:px-6 lg:px-8">
                 <p>&copy; {new Date().getFullYear()} All rights reserved.</p>
             </div>
             {/*Current Time.*/}
-            {/*<div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-2">
+            {/*<div className="container px-4 mx-auto mb-2 sm:px-6 lg:px-8">
                 <p>
                     <TimeCard title={"SRV"} time={serverTime} />
                     <TimeCard title={"IST"} time={indianTime} className={'ml-4'} />

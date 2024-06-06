@@ -22,7 +22,7 @@ export default function Form({
                 <InputLabel htmlFor="title" value="Title" isRequired={true} />
                 <TextInput
                     id="title"
-                    className="mt-1 block w-full"
+                    className="block w-full mt-1"
                     value={data.title}
                     onChange={(e) => setData("title", e.target.value)}
                     isFocused
@@ -34,7 +34,7 @@ export default function Form({
                 <InputLabel htmlFor="content" value="Content" isRequired={true} />
                 <div
                     id="content"
-                    className="mt-1 block border-primary w-full focus:border-teal-950 rounded-md shadow-sm text-lg h-60"
+                    className="block w-full mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950 h-60"
                 ></div>
             </div>
             <div className="flex gap-4">
@@ -42,7 +42,7 @@ export default function Form({
                     <InputLabel htmlFor="status" value="Status" isRequired={true} />
                     <select
                         id="status"
-                        className="mt-1 block border-primary w-full focus:border-teal-950 rounded-md shadow-sm text-lg"
+                        className="block w-full mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950"
                         defaultValue={data.status}
                         onChange={(e) => setData("status", e.target.value)}
                     >
@@ -55,7 +55,7 @@ export default function Form({
                     <InputLabel htmlFor="featured_image" value="Featured Image" />
                     <TextInput
                         id="featured_image"
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         value={data.featured_image}
                         onChange={(e) => setData("featured_image", e.target.value)}
                         autoComplete="featured_image"
@@ -68,7 +68,7 @@ export default function Form({
                 <InputLabel htmlFor="excerpt" value="Excerpt" />
                 <textarea
                     id="excerpt"
-                    className="border-primary focus:border-teal-950 rounded-md shadow-sm text-lg mt-1 block w-full"
+                    className="block w-full mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950"
                     value={data.excerpt}
                     onChange={(e) => setData("excerpt", e.target.value)}
                 />
@@ -79,7 +79,7 @@ export default function Form({
                 <InputLabel htmlFor="meta_description" value="Meta Description" />
                 <textarea
                     id="meta_description"
-                    className="border-primary focus:border-teal-950 rounded-md shadow-sm text-lg mt-1 block w-full"
+                    className="block w-full mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950"
                     value={data.meta_description}
                     onChange={(e) => setData("meta_description", e.target.value)}
                 />

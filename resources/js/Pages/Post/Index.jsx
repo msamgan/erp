@@ -33,7 +33,7 @@ export default function Index({ auth, posts }) {
                                     ? post.featured_image
                                     : "https://fakeimg.pl/200x200"
                             }
-                            className="h-8 w-8"
+                            className="w-8 h-8"
                         />
                     ),
                     Title: post.title,

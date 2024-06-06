@@ -12,7 +12,7 @@ export default function Form({ data, setData, errors, processing, recentlySucces
                 <InputLabel htmlFor="name" value="Name" isRequired={true} />
                 <TextInput
                     id="name"
-                    className="mt-1 block w-1/2"
+                    className="block w-1/2 mt-1"
                     value={data.name}
                     onChange={(e) => setData("name", e.target.value)}
                     isFocused
@@ -25,7 +25,7 @@ export default function Form({ data, setData, errors, processing, recentlySucces
                 <InputLabel htmlFor="location" value="Location" isRequired={false} />
                 <TextInput
                     id="location"
-                    className="mt-1 block w-1/2"
+                    className="block w-1/2 mt-1"
                     value={data.location}
                     onChange={(e) => setData("location", e.target.value)}
                     autoComplete="location"

@@ -12,13 +12,13 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
     return (
         <>
             <div className="min-h-screen">
-                <nav className="primary-bg border-gray-100">
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <nav className="border-gray-100 primary-bg">
+                    <div className="container px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="flex justify-between h-16">
                             <div className="flex">
-                                <div className="shrink-0 flex items-center">
+                                <div className="flex items-center shrink-0">
                                     <Link href="/">
-                                        <ApplicationLogo className="block h-14 mt-4 invert w-auto fill-current text-gray-800" />
+                                        <ApplicationLogo className="block w-auto h-16 mt-4 text-gray-800 fill-current invert" />
                                     </Link>
                                 </div>
 
@@ -28,7 +28,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                             </div>
 
                             <div className="hidden sm:flex sm:items-center sm:ms-6">
-                                <div className="ms-3 relative">
+                                <div className="relative ms-3">
                                     <Dropdown>
                                         <Dropdown.Trigger>
                                             <span className="inline-flex rounded-md">
@@ -54,7 +54,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                             </span>
                                         </Dropdown.Trigger>
 
-                                        <Dropdown.Content>
+                                        <Dropdown.Content width="64">
                                             <Dropdown.Link className={"text-xl"} href={route("client.create")}>
                                                 Add Client
                                             </Dropdown.Link>
@@ -79,13 +79,13 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                         </Dropdown.Content>
                                     </Dropdown>
                                 </div>
-                                <div className="ms-3 relative">
+                                <div className="relative ms-3">
                                     <Dropdown>
                                         <Dropdown.Trigger>
                                             <span className="inline-flex rounded-md">
                                                 <button
                                                     type="button"
-                                                    className="inline-flex items-center px-3 py-2 border border-transparent leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 text-xl"
+                                                    className="inline-flex items-center px-3 py-2 text-xl font-medium text-gray-500 bg-white border border-transparent leading-4 transition duration-150 ease-in-out rounded-md hover:text-gray-700 focus:outline-none"
                                                 >
                                                     {user.name}
 
@@ -123,15 +123,15 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                 </div>
                             </div>
 
-                            <div className="-me-2 flex items-center sm:hidden">
+                            <div className="flex items-center -me-2 sm:hidden">
                                 <button
                                     onClick={() =>
                                         setShowingNavigationDropdown((previousState) => !previousState)
                                     }
-                                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                    className="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
                                 >
                                     <svg
-                                        className="h-6 w-6"
+                                        className="w-6 h-6"
                                         stroke="currentColor"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -165,8 +165,8 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
 
                         <div className="pt-4 pb-1 border-t border-gray-200">
                             <div className="px-4">
-                                <div className="font-medium text-base text-gray-800">{user.name}</div>
-                                <div className="font-medium text-sm text-gray-500">{user.email}</div>
+                                <div className="text-base font-medium text-gray-800">{user.name}</div>
+                                <div className="text-sm font-medium text-gray-500">{user.email}</div>
                             </div>
 
                             <div className="mt-3 space-y-1">
@@ -180,8 +180,8 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                 </nav>
 
                 {header && (
-                    <header className="secondary-bg shadow">
-                        <div className="container mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between h-18">
+                    <header className="shadow secondary-bg">
+                        <div className="container flex justify-between px-4 py-6 mx-auto sm:px-6 lg:px-8 h-18">
                             {header}
                             {subMenu && <ul className="items-stretch hidden space-x-3 md:flex">{subMenu}</ul>}
                         </div>

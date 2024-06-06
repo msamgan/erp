@@ -1,3 +1,3 @@
 export default function HeaderTitle({ title }) {
-    return <h2 className="font-semibold text-xl text-white leading-tight">{title}</h2>
+    return <h2 className="text-xl font-semibold leading-tight text-white">{title}</h2>
 }

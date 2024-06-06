@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: "Alexandria", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
 .primary-bg {
     background-color: #006769;
 }
@@ -61,3 +68,11 @@
 .recurring-badge-background {
     @apply bg-indigo-200;
 }
+
+.tooltip {
+    @apply absolute invisible;
+  }
+  
+  .has-tooltip:hover .tooltip {
+    @apply z-50 visible;
+  }

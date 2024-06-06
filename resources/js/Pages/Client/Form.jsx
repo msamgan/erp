@@ -21,7 +21,7 @@ export default function Form({
                 <InputLabel htmlFor="name" value="Name" isRequired={true} />
                 <TextInput
                     id="name"
-                    className="mt-1 block w-1/2"
+                    className="block w-1/2 mt-1"
                     value={data.name}
                     onChange={(e) => setData("name", e.target.value)}
                     isFocused
@@ -34,7 +34,7 @@ export default function Form({
                 <InputLabel htmlFor="email" value="Emails" />
                 <TextInput
                     id="emails"
-                    className="mt-1 block w-1/2"
+                    className="block w-1/2 mt-1"
                     value={data.emails}
                     onChange={(e) => setData("emails", e.target.value)}
                     autoComplete="emails"
@@ -47,7 +47,7 @@ export default function Form({
                 <InputLabel htmlFor="phones" value="Phones" />
                 <TextInput
                     id="phones"
-                    className="mt-1 block w-1/2"
+                    className="block w-1/2 mt-1"
                     value={data.phones}
                     onChange={(e) => setData("phones", e.target.value)}
                     autoComplete="phones"
@@ -68,7 +68,7 @@ export default function Form({
                             type="text"
                             list="OrganizationList"
                             id="Organization"
-                            className="mt-1 block w-1/2"
+                            className="block w-1/2 mt-1"
                             placeholder="Please select"
                             value={data.organization}
                             onChange={(e) => setData("organization", e.target.value)}
@@ -85,7 +85,7 @@ export default function Form({
                             </Link>{" "}
                             organization if not in the list
                             <span
-                                className="w-1/2 mr-16 text-blue-500 hover:text-blue-700 cursor-pointer float-end"
+                                className="w-1/2 mr-16 text-blue-500 cursor-pointer hover:text-blue-700 float-end"
                                 onClick={(e) => {
                                     e.target.innerHTML = "Refreshing..."
                                     refreshOrganizationList()

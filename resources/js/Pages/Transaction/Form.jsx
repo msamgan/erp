@@ -18,12 +18,12 @@ export default function Form({
 }) {
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
-            <div className="flex gap-4 w-1/2">
+            <div className="flex w-1/2 gap-4">
                 <div className="w-1/2">
                     <InputLabel htmlFor="type" value="Type" isRequired={true} />
                     <select
                         id="type"
-                        className="mt-1 block w-full border-primary focus:border-teal-950 rounded-md shadow-sm"
+                        className="block w-full mt-1 border-primary focus:border-teal-950 rounded-md shadow-sm"
                         value={data.type}
                         onChange={(e) => setData("type", e.target.value)}
                     >
@@ -37,7 +37,7 @@ export default function Form({
                     <InputLabel htmlFor="amount" value="Amount" isRequired={true} />
                     <TextInput
                         id="amount"
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         value={data.amount}
                         onChange={(e) => setData("amount", e.target.value)}
                         type={"number"}
@@ -61,7 +61,7 @@ export default function Form({
                         type="text"
                         list="ProjectList"
                         id="Project"
-                        className="mt-1 block w-1/2"
+                        className="block w-1/2 mt-1"
                         placeholder="Please select"
                         value={data.project}
                         onChange={(e) => setData("project", e.target.value)}
@@ -79,7 +79,7 @@ export default function Form({
                         </Link>{" "}
                         project if not in the list
                         <span
-                            className="w-1/2 mr-16 text-blue-500 hover:text-blue-700 cursor-pointer float-end"
+                            className="w-1/2 mr-16 text-blue-500 cursor-pointer hover:text-blue-700 float-end"
                             onClick={(e) => {
                                 e.target.innerHTML = "Refreshing..."
                                 refreshProjectList()
@@ -116,7 +116,7 @@ export default function Form({
                         type="text"
                         list="DescriptionList"
                         id="Description"
-                        className="mt-1 block w-1/2"
+                        className="block w-1/2 mt-1"
                         placeholder="Please select"
                         value={data.description}
                         onChange={(e) => setData("description", e.target.value)}
@@ -138,7 +138,7 @@ export default function Form({
                 <TextInput
                     id="date"
                     type={"date"}
-                    className="mt-1 block w-1/2"
+                    className="block w-1/2 mt-1"
                     value={data.date}
                     onChange={(e) => setData("date", e.target.value)}
                 />

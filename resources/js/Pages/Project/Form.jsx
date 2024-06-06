@@ -22,7 +22,7 @@ export default function Form({
                 <InputLabel htmlFor="name" value="Name" isRequired={true} />
                 <TextInput
                     id="name"
-                    className="mt-1 block w-1/2"
+                    className="block w-1/2 mt-1"
                     value={data.name}
                     onChange={(e) => setData("name", e.target.value)}
                     isFocused
@@ -46,7 +46,7 @@ export default function Form({
                         type="text"
                         list="ClientList"
                         id="Client"
-                        className="mt-1 block w-1/2"
+                        className="block w-1/2 mt-1"
                         placeholder="Please select"
                         value={data.client}
                         onChange={(e) => setData("client", e.target.value)}
@@ -64,7 +64,7 @@ export default function Form({
                         </Link>{" "}
                         client if not in the list
                         <span
-                            className="w-1/2 mr-16 text-blue-500 hover:text-blue-700 cursor-pointer float-end"
+                            className="w-1/2 mr-16 text-blue-500 cursor-pointer hover:text-blue-700 float-end"
                             onClick={(e) => {
                                 e.target.innerHTML = "Refreshing..."
                                 refreshClientList()
@@ -90,7 +90,7 @@ export default function Form({
                     <InputLabel htmlFor="costing" value="Costing" isRequired={true} />
                     <TextInput
                         id="costing"
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         value={data.costing}
                         onChange={(e) => setData("costing", e.target.value)}
                         type={"number"}
@@ -102,7 +102,7 @@ export default function Form({
                     <InputLabel htmlFor="status" value="Status" isRequired={true} />
                     <select
                         id="status"
-                        className="mt-1 block border-primary w-full focus:border-teal-950 rounded-md shadow-sm text-lg"
+                        className="block w-full mt-1 text-lg border-primary focus:border-teal-950 rounded-md shadow-sm"
                         value={data.status}
                         onChange={(e) => setData("status", e.target.value)}
                     >
@@ -120,7 +120,7 @@ export default function Form({
                 <InputLabel htmlFor="type" value="Type" isRequired={true} />
                 <select
                     id="status"
-                    className="mt-1 block border-primary w-1/2 focus:border-teal-950 rounded-md shadow-sm text-lg"
+                    className="block w-1/2 mt-1 text-lg border-primary focus:border-teal-950 rounded-md shadow-sm"
                     value={data.type}
                     defaultValue={data.type}
                     onChange={(e) => setData("type", e.target.value)}
@@ -136,7 +136,7 @@ export default function Form({
                 <TextInput
                     id="document_url"
                     type={"url"}
-                    className="mt-1 block w-1/2"
+                    className="block w-1/2 mt-1"
                     value={data.document_url}
                     onChange={(e) => setData("document_url", e.target.value)}
                 />
@@ -147,20 +147,20 @@ export default function Form({
                 <InputLabel htmlFor="description" value="Description" />
                 <textarea
                     id="description"
-                    className="border-primary focus:border-teal-950 rounded-md shadow-sm text-lg mt-1 block w-1/2"
+                    className="block w-1/2 mt-1 text-lg border-primary focus:border-teal-950 rounded-md shadow-sm"
                     value={data.description}
                     onChange={(e) => setData("description", e.target.value)}
                 />
                 <InputError className="mt-2" message={errors.description} />
             </div>
 
-            <div className="flex gap-4 w-1/2">
+            <div className="flex w-1/2 gap-4">
                 <div className="w-1/2">
                     <InputLabel htmlFor="start_date" value="Start Date" />
                     <TextInput
                         id="start_date"
                         type={"date"}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         value={data.start_date}
                         onChange={(e) => setData("start_date", e.target.value)}
                     />
@@ -172,7 +172,7 @@ export default function Form({
                     <TextInput
                         id="end_date"
                         type={"date"}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         value={data.end_date}
                         onChange={(e) => setData("end_date", e.target.value)}
                     />
