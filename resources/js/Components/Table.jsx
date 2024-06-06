@@ -45,8 +45,8 @@ export default function Table({
                                         key={index}
                                         className={
                                             Object.keys(row)[index] === "Description"
-                                                ? "whitespace-pre-wrap px-4 py-2 font-medium text-gray-900"
-                                                : "whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                                                ? "whitespace-pre-wrap px-4 py-2 text-gray-900 font-light"
+                                                : "whitespace-nowrap px-4 py-2 text-gray-900 font-light"
                                         }
                                     >
                                         {cell}

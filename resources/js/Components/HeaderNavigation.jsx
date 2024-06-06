@@ -3,11 +3,11 @@ import NavLink from "@/Components/NavLink.jsx"
 export default function HeaderNavigation() {
     return (
         <>
-            <NavLink className={"white-xl"} href={route("dashboard")} active={route().current("dashboard")}>
+            <NavLink className={"white-xl font-light"} href={route("dashboard")} active={route().current("dashboard")}>
                 Dashboard
             </NavLink>
             <NavLink
-                className={"white-xl"}
+                className={"white-xl font-light"}
                 href={route("client")}
                 active={
                     route().current("client") ||
@@ -18,7 +18,7 @@ export default function HeaderNavigation() {
                 Clients
             </NavLink>
             <NavLink
-                className={"white-xl"}
+                className={"white-xl font-light"}
                 href={route("organization")}
                 active={
                     route().current("organization") ||
@@ -29,7 +29,7 @@ export default function HeaderNavigation() {
                 Organizations
             </NavLink>
             <NavLink
-                className={"white-xl"}
+                className={"white-xl font-light"}
                 href={route("project")}
                 active={
                     route().current("project") ||
@@ -41,14 +41,14 @@ export default function HeaderNavigation() {
                 Projects
             </NavLink>
             <NavLink
-                className={"white-xl"}
+                className={"white-xl font-light"}
                 href={route("transaction")}
                 active={route().current("transaction") || route().current("transaction.create")}
             >
                 Transactions
             </NavLink>
             <NavLink
-                className={"white-xl"}
+                className={"white-xl font-light"}
                 href={route("post")}
                 active={
                     route().current("post") || route().current("post.create") || route().current("post.edit")

@@ -18,7 +18,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                             <div className="flex">
                                 <div className="flex items-center shrink-0">
                                     <Link href="/">
-                                        <ApplicationLogo className="block w-auto mt-4 text-gray-800 fill-current h-14 invert" />
+                                        <ApplicationLogo className="block w-auto h-16 mt-4 text-gray-800 fill-current invert" />
                                     </Link>
                                 </div>
 
@@ -54,7 +54,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                             </span>
                                         </Dropdown.Trigger>
 
-                                        <Dropdown.Content>
+                                        <Dropdown.Content width="64">
                                             <Dropdown.Link className={"text-xl"} href={route("client.create")}>
                                                 Add Client
                                             </Dropdown.Link>
@@ -85,7 +85,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                             <span className="inline-flex rounded-md">
                                                 <button
                                                     type="button"
-                                                    className="inline-flex items-center px-3 py-2 text-xl font-medium text-gray-500 bg-white border border-transparent leading-4 rounded-md hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                    className="inline-flex items-center px-3 py-2 text-xl font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
                                                 >
                                                     {user.name}
 
@@ -128,7 +128,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                     onClick={() =>
                                         setShowingNavigationDropdown((previousState) => !previousState)
                                     }
-                                    className="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                    className="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
                                 >
                                     <svg
                                         className="w-6 h-6"
