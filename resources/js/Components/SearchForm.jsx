@@ -1,4 +1,5 @@
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
+import { useEffect } from "react"
 
 export default function SearchForm({ queryParams, setQueryParams, searchFormExtension = null }) {
     return (

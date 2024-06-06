@@ -23,6 +23,7 @@ export default function Table({
                     queryParams={queryParams}
                     setQueryParams={setQueryParams}
                     extension={searchFormExtension}
+                    searchFormExtension={searchFormExtension}
                 />
             ) : null}
 

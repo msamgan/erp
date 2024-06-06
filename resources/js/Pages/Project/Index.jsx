@@ -35,8 +35,8 @@ export default function Index({ auth, projects }) {
         return (
             <div className="flex flex-col space-y-1">
                 {description ? (
-                    <div class="has-tooltip">
-                        <span class="w-1/3 p-2 -mt-16 text-white bg-black rounded shadow-lg tooltip text-wrap">
+                    <div className="has-tooltip">
+                        <span className="w-1/3 p-2 -mt-16 text-white bg-black rounded shadow-lg tooltip text-wrap">
                             {description}
                         </span>
                         {name}
