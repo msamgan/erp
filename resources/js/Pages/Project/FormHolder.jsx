@@ -5,9 +5,9 @@ import Main from "@/Components/Main.jsx"
 import Form from "@/Pages/Project/Form.jsx"
 import { useCallback, useEffect, useState } from "react"
 import FormSection from "@/Components/FormSection.jsx"
-import { getClientList, projectDataObject } from "@/Pages/Project/common.js"
+import { getClientList, pageDataObject, projectDataObject } from "@/Pages/Project/methods.js"
 
-export default function Create({ auth, project }) {
+export default function FormHolder({ auth, project = null }) {
     const [clients, setClients] = useState([])
 
     const clientList = useCallback(() => {
@@ -22,28 +22,29 @@ export default function Create({ auth, project }) {
 
     const dataObject = projectDataObject(project)
 
+    const pageData = pageDataObject(project)
+
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
 
     const onSubmit = (e) => {
         e.preventDefault()
 
-        post(route("project.update", project.id), {
+        post(pageData.actionUrl, {
             preserveScroll: true,
             onSuccess: () => {
-                //
+                if (!project) {
+                    setData(projectDataObject())
+                }
             }
         })
     }
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Edit Project" />}>
-            <Head title="Edit Project" />
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title={pageData.title} />}>
+            <Head title={pageData.title} />
 
             <Main>
-                <FormSection
-                    headerTitle="Project Information"
-                    headerDescription="Update an existing Project with It's information."
-                >
+                <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
                     <Form
                         data={data}
                         setData={setData}
