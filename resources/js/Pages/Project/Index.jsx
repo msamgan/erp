@@ -16,16 +16,7 @@ import {
 import { projectStatuses } from "@/helpers/constants.js"
 
 export default function Index({ auth, projects }) {
-    const [columns, setColumns] = useState([
-        "Name",
-        "Client",
-        "Description",
-        "Status",
-        "Dates",
-        "Costing",
-        "Type",
-        "Actions"
-    ])
+    const [columns, setColumns] = useState(["Name", "Client", "Status", "Dates", "Costing", "Type", "Actions"])
     const [data, setData] = useState([])
     const [queryParams, setQueryParams] = useState(
         Object.fromEntries(new URLSearchParams(window.location.search).entries())
@@ -40,10 +31,20 @@ export default function Index({ auth, projects }) {
         )
     }
 
-    const createNameAttribute = (name, docUrl) => {
+    const createNameAttribute = (name, docUrl, description) => {
         return (
             <div className="flex flex-col space-y-1">
-                <div>{name}</div>
+                {description ? (
+                    <div class="has-tooltip">
+                        <span class="w-1/3 p-2 -mt-16 text-white bg-black rounded shadow-lg tooltip text-wrap">
+                            {description}
+                        </span>
+                        {name}
+                    </div>
+                ) : (
+                    <div>{name}</div>
+                )}
+
                 {docUrl ? (
                     <a href={docUrl} target="_blank" className="text-blue-500">
                         View Doc
@@ -69,9 +70,8 @@ export default function Index({ auth, projects }) {
         setData(
             projects.map((project) => {
                 return {
-                    Name: createNameAttribute(project.name, project.document_url),
+                    Name: createNameAttribute(project.name, project.document_url, project.description),
                     Client: project.client.name,
-                    Description: project.description,
                     Status: createStatusAttribute(project.status),
                     Dates: createFormattedDateAttribute(project.start_date, project.end_date),
                     Costing: createCostingAttribute(project.costing),

@@ -7,7 +7,8 @@ export default function Table({
     queryParams,
     setQueryParams,
     searchFormExtension = null,
-    showSearchForm = true
+    showSearchForm = true,
+    tdClassName = ""
 }) {
     const [totalRows, setTotalRows] = useState(0)
 
@@ -44,9 +45,8 @@ export default function Table({
                                     <td
                                         key={index}
                                         className={
-                                            Object.keys(row)[index] === "Description"
-                                                ? "whitespace-pre-wrap px-4 py-2 text-gray-900 font-light"
-                                                : "whitespace-nowrap px-4 py-2 text-gray-900 font-light"
+                                            "whitespace-nowrap px-4 py-2 text-gray-900 font-light " +
+                                            tdClassName
                                         }
                                     >
                                         {cell}

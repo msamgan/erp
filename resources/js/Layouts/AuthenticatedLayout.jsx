@@ -85,7 +85,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                             <span className="inline-flex rounded-md">
                                                 <button
                                                     type="button"
-                                                    className="inline-flex items-center px-3 py-2 text-xl font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
+                                                    className="inline-flex items-center px-3 py-2 text-xl font-medium text-gray-500 bg-white border border-transparent leading-4 transition duration-150 ease-in-out rounded-md hover:text-gray-700 focus:outline-none"
                                                 >
                                                     {user.name}
 
