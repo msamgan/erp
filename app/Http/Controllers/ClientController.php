@@ -68,7 +68,6 @@ class ClientController extends Controller
             }
 
             DB::commit();
-
         } catch (Throwable $th) {
             DB::rollBack();
         }
@@ -84,7 +83,7 @@ class ClientController extends Controller
      */
     public function create(): Response|ResponseFactory
     {
-        return inertia('Client/Create');
+        return inertia('Client/FormHolder');
     }
 
     private function storeEmails(Client $client, array $emails): void
@@ -118,7 +117,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client): Response|ResponseFactory
     {
-        return inertia('Client/Edit', [
+        return inertia('Client/FormHolder', [
             'client' => $client->load('organization', 'emails', 'phones'),
         ]);
     }
@@ -153,7 +152,6 @@ class ClientController extends Controller
             }
 
             DB::commit();
-
         } catch (Throwable $th) {
             DB::rollBack();
         }

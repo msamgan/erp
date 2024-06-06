@@ -61,7 +61,7 @@ class ProjectController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Project/Create');
+        return Inertia::render('Project/FormHolder');
     }
 
     /**
@@ -79,7 +79,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project): Response
     {
-        return Inertia::render('Project/Edit', [
+        return Inertia::render('Project/FormHolder', [
             'project' => $project->load('client'),
         ]);
     }

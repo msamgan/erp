@@ -47,6 +47,15 @@ export default function HeaderNavigation() {
             >
                 Transactions
             </NavLink>
+            <NavLink
+                className={"white-xl"}
+                href={route("post")}
+                active={
+                    route().current("post") || route().current("post.create") || route().current("post.edit")
+                }
+            >
+                Posts
+            </NavLink>
         </>
     )
 }

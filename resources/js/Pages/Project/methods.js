@@ -12,6 +12,16 @@ export const projectDataObject = (project = null) => {
     }
 }
 
+export const pageDataObject = (project = null) => {
+    return {
+        type: project ? "edit" : "create",
+        title: project ? "Edit Project" : "Create Project",
+        headerTitle: "Project Information",
+        description: project ? "Update an existing Project with It's information." : "Create a new Project.",
+        actionUrl: project ? route("project.update", project.id) : route("project.store")
+    }
+}
+
 export const getClientList = async () => {
     return axios(route("client.list"))
         .then((response) => {

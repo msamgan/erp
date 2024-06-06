@@ -2,35 +2,34 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import HeaderTitle from "@/Components/HeaderTitle.jsx"
 import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
-import Form from "@/Pages/Organization/Form.jsx"
+import Form from "@/Pages/Post/Form.jsx"
 import FormSection from "@/Components/FormSection.jsx"
-import { organizationDataObject } from "@/Pages/Organization/common.js"
+import { pageDataObject, postDataObject, toolbarOptions } from "@/Pages/Post/methods.js"
 
-export default function Create({ auth, organization }) {
-    const dataObject = organizationDataObject(organization)
+export default function FormHolder({ auth, postData = null }) {
+    const dataObject = postDataObject(postData)
 
-    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+    const { data, setData, patch, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+
+    const pageData = pageDataObject(postData)
 
     const onSubmit = (e) => {
         e.preventDefault()
 
-        post(route("organization.update", organization.id), {
+        post(route("post.store"), {
             preserveScroll: true,
             onSuccess: () => {
-                //
+                setData(dataObject)
             }
         })
     }
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Add Organization" />}>
-            <Head title="Add Organization" />
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title={pageData.title} />}>
+            <Head title={pageData.title} />
 
             <Main>
-                <FormSection
-                    headerTitle="Organization Information"
-                    headerDescription="Update an existing organization with it's information."
-                >
+                <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
                     <Form
                         data={data}
                         setData={setData}

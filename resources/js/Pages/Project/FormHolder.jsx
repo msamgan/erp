@@ -2,48 +2,49 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import HeaderTitle from "@/Components/HeaderTitle.jsx"
 import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
-import Form from "@/Pages/Client/Form.jsx"
+import Form from "@/Pages/Project/Form.jsx"
 import { useCallback, useEffect, useState } from "react"
 import FormSection from "@/Components/FormSection.jsx"
-import { clientDataObject, getOrganizationList } from "@/Pages/Client/common.js"
+import { getClientList, pageDataObject, projectDataObject } from "@/Pages/Project/methods.js"
 
-export default function Create({ auth, client }) {
-    const [organizations, setOrganizations] = useState([])
+export default function FormHolder({ auth, project = null }) {
+    const [clients, setClients] = useState([])
 
-    const organizationList = useCallback(() => {
-        getOrganizationList().then((response) => {
-            setOrganizations(response)
+    const clientList = useCallback(() => {
+        getClientList().then((response) => {
+            setClients(response)
         })
     }, [])
 
     useEffect(() => {
-        organizationList()
+        clientList()
     }, [])
 
-    const dataObject = clientDataObject(client)
+    const dataObject = projectDataObject(project)
+
+    const pageData = pageDataObject(project)
 
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
 
     const onSubmit = (e) => {
         e.preventDefault()
 
-        post(route("client.update", client.id), {
+        post(pageData.actionUrl, {
             preserveScroll: true,
             onSuccess: () => {
-                //
+                if (!project) {
+                    setData(projectDataObject())
+                }
             }
         })
     }
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Edit Client" />}>
-            <Head title="Edit Client" />
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title={pageData.title} />}>
+            <Head title={pageData.title} />
 
             <Main>
-                <FormSection
-                    headerTitle="Client Information"
-                    headerDescription="Update an existing client with their information."
-                >
+                <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
                     <Form
                         data={data}
                         setData={setData}
@@ -51,8 +52,8 @@ export default function Create({ auth, client }) {
                         processing={processing}
                         recentlySuccessful={recentlySuccessful}
                         onSubmit={onSubmit}
-                        organizations={organizations}
-                        refreshOrganizationList={organizationList}
+                        clients={clients}
+                        refreshClientList={clientList}
                     />
                 </FormSection>
             </Main>
