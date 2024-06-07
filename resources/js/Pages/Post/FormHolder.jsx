@@ -4,7 +4,7 @@ import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Form from "@/Pages/Post/Form.jsx"
 import FormSection from "@/Components/FormSection.jsx"
-import { pageDataObject, postDataObject, toolbarOptions } from "@/Pages/Post/methods.js"
+import { pageDataObject, postDataObject } from "@/Pages/Post/methods.js"
 
 export default function FormHolder({ auth, postData = null }) {
     const dataObject = postDataObject(postData)
@@ -16,12 +16,14 @@ export default function FormHolder({ auth, postData = null }) {
     const onSubmit = (e) => {
         e.preventDefault()
 
-        post(route("post.store"), {
+        console.log(data);
+
+       /*  post(route("post.store"), {
             preserveScroll: true,
             onSuccess: () => {
                 setData(dataObject)
             }
-        })
+        }) */
     }
 
     return (

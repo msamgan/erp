@@ -21,19 +21,3 @@ export const pageDataObject = (post = null) => {
         actionUrl: post ? route("post.update", post.id) : route("post.store")
     }
 }
-
-export const toolbarOptions = [
-    ["bold", "italic", "underline", "strike"], // toggled buttons
-    ["blockquote", "code-block", "code"],
-    ["link"],
-
-    [{ header: 1 }, { header: 2 }, { header: 3 }], // custom button values
-    [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-    [{ script: "sub" }, { script: "super" }], // superscript/subscript
-    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-    [{ direction: "rtl" }], // text direction
-
-    [{ align: [] }],
-
-    ["clean"] // remove formatting button
-]

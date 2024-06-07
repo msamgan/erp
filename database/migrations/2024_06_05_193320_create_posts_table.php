@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->text('content');
+            $table->json('content_raw');
             $table->string('excerpt');
             $table->string('slug')->unique();
             $table->timestamp('published_at')->nullable();

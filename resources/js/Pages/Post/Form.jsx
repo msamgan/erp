@@ -3,18 +3,52 @@ import TextInput from "@/Components/TextInput.jsx"
 import InputError from "@/Components/InputError.jsx"
 import { Transition } from "@headlessui/react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
-import { useEffect, useState, useMemo, useRef } from "react"
+import { useEffect } from "react"
 
-export default function Form({
-    data,
-    setData,
-    errors,
-    processing,
-    recentlySuccessful,
-    onSubmit,
-    toolbarOptions
-}) {
-    useEffect(() => {}, [])
+import EditorJS from "@editorjs/editorjs"
+import Header from "@editorjs/header"
+import Paragraph from "@editorjs/paragraph"
+import CodeTool from "@editorjs/code"
+import List from "@editorjs/list"
+import InlineCode from "@editorjs/inline-code"
+import Quote from "@editorjs/quote"
+import Delimiter from "@editorjs/delimiter"
+
+import "./editor.css"
+
+export default function Form({ data, setData, errors, processing, recentlySuccessful, onSubmit }) {
+    useEffect(() => {
+        const editor = new EditorJS({
+            holder: "editor",
+            placeholder: "Let`s write an awesome story!",
+            tools: {
+                paragraph: {
+                    class: Paragraph,
+                    inlineToolbar: true
+                },
+                header: Header,
+                code: CodeTool,
+                list: {
+                    class: List,
+                    inlineToolbar: true,
+                    config: {
+                        defaultStyle: "unordered"
+                    }
+                },
+                inlineCode: {
+                    class: InlineCode,
+                    shortcut: "CMD+SHIFT+M"
+                },
+                quote: Quote,
+                delimiter: Delimiter
+            },
+            onChange: (api, event) => {
+                editor.save().then((outputData) => {
+                    setData("content", outputData)
+                })
+            }
+        })
+    }, [])
 
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
@@ -31,11 +65,8 @@ export default function Form({
                 <InputError className="mt-2" message={errors.title} />
             </div>
             <div>
-                <InputLabel htmlFor="content" value="Content" isRequired={true} />
-                <div
-                    id="content"
-                    className="block w-full mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950 h-60"
-                ></div>
+                <InputLabel htmlFor="editor" value="Content" isRequired={true} />
+                <div id="editor" className="mt-4" />
             </div>
             <div className="flex gap-4">
                 <div className={"w-1/2"}>
@@ -88,16 +119,7 @@ export default function Form({
             </div>
 
             <div className="flex items-center gap-4">
-                <PrimaryButton
-                    onClick={(e) => {
-                        e.preventDefault()
-                        setData("content", quill.root.innerHTML)
-                        onSubmit()
-                    }}
-                    disabled={processing}
-                >
-                    Save
-                </PrimaryButton>
+                <PrimaryButton disabled={processing}>Save</PrimaryButton>
 
                 <Transition
                     show={recentlySuccessful}
