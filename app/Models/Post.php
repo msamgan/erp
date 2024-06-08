@@ -11,4 +11,21 @@ class Post extends Model
     use HasFactory, HasUuids;
 
     protected $keyType = 'string';
+
+    protected $fillable = [
+        'title',
+        'content',
+        'content_raw',
+        'excerpt',
+        'slug',
+        'published_at',
+        'status',
+        'featured_image',
+        'meta_description',
+    ];
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tag');
+    }
 }

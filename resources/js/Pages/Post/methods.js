@@ -2,11 +2,12 @@ export const postDataObject = (post = null) => {
     return {
         title: post ? post.title : "",
         excerpt: post ? post.excerpt : "",
-        content: post ? post.content : "",
+        content: post ? post.content : null,
         status: post ? post.status : "draft",
         featured_image: post ? post.featured_image : "",
         meta_description: post ? post.meta_description : "",
-        tags: post ? post.tags : []
+        slug: post ? post.slug : "",
+        tags: post?.tags ? post.tags.map((tag) => tag.name) : [],
     }
 }
 

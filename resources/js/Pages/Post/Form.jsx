@@ -3,53 +3,16 @@ import TextInput from "@/Components/TextInput.jsx"
 import InputError from "@/Components/InputError.jsx"
 import { Transition } from "@headlessui/react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
-import { useEffect } from "react"
 
-import EditorJS from "@editorjs/editorjs"
-import Header from "@editorjs/header"
-import Paragraph from "@editorjs/paragraph"
-import CodeTool from "@editorjs/code"
-import List from "@editorjs/list"
-import InlineCode from "@editorjs/inline-code"
-import Quote from "@editorjs/quote"
-import Delimiter from "@editorjs/delimiter"
-
-import "./editor.css"
-
-export default function Form({ data, setData, errors, processing, recentlySuccessful, onSubmit }) {
-    useEffect(() => {
-        const editor = new EditorJS({
-            holder: "editor",
-            placeholder: "Let`s write an awesome story!",
-            tools: {
-                paragraph: {
-                    class: Paragraph,
-                    inlineToolbar: true
-                },
-                header: Header,
-                code: CodeTool,
-                list: {
-                    class: List,
-                    inlineToolbar: true,
-                    config: {
-                        defaultStyle: "unordered"
-                    }
-                },
-                inlineCode: {
-                    class: InlineCode,
-                    shortcut: "CMD+SHIFT+M"
-                },
-                quote: Quote,
-                delimiter: Delimiter
-            },
-            onChange: (api, event) => {
-                editor.save().then((outputData) => {
-                    setData("content", outputData)
-                })
-            }
-        })
-    }, [])
-
+export default function Form({
+    data,
+    setData,
+    errors,
+    processing,
+    recentlySuccessful,
+    onSubmit,
+    tagList,
+}) {
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div>
@@ -64,10 +27,19 @@ export default function Form({ data, setData, errors, processing, recentlySucces
                 />
                 <InputError className="mt-2" message={errors.title} />
             </div>
-            <div>
-                <InputLabel htmlFor="editor" value="Content" isRequired={true} />
-                <div id="editor" className="mt-4" />
-            </div>
+            {data.slug && (
+                <div>
+                    <InputLabel htmlFor="slug" value="Slug" isRequired={true} />
+                    <TextInput
+                        id="slug"
+                        className="block w-full mt-1"
+                        value={data.slug}
+                        onChange={(e) => setData("slug", e.target.value)}
+                        autoComplete="slug"
+                    />
+                    <InputError className="mt-2" message={errors.slug} />
+                </div>
+            )}
             <div className="flex gap-4">
                 <div className={"w-1/2"}>
                     <InputLabel htmlFor="status" value="Status" isRequired={true} />
@@ -116,6 +88,61 @@ export default function Form({ data, setData, errors, processing, recentlySucces
                 />
                 <small className="text-gray-500">Max 160 characters</small>
                 <InputError className="mt-2" message={errors.meta_description} />
+            </div>
+
+            <div className="relative mt-1.5">
+                <InputLabel htmlFor="Tag" value="Tags" />
+                <TextInput
+                    type="text"
+                    list="tagList"
+                    id="Tag"
+                    className="block w-full mt-1"
+                    placeholder="Please select"
+                    onKeyUp={(e) => {
+                        if (e.key === ",") {
+                            let tag = e.target.value.slice(0, -1)
+                            setData("tags", [...data.tags, tag])
+                            e.target.value = ""
+                        }
+                    }}
+                />
+                <small className="text-gray-500">Press comma to add a tag</small>
+
+                <datalist name="Tag" id="tagList">
+                    {tagList.map((tag, index) => (
+                        <option key={index}>{tag.name}</option>
+                    ))}
+                </datalist>
+            </div>
+
+            <div>
+                {data.tags.length > 0 && (
+                    <>
+                        <div className="flex items-center gap-2 mb-2">
+                            {data.tags.map((tag, index) => (
+                                <span
+                                    key={index}
+                                    className="px-2 py-1 text-sm text-gray-900 bg-gray-200 rounded-lg"
+                                    onClick={() => {
+                                        setData(
+                                            "tags",
+                                            data.tags.filter((t) => t !== tag)
+                                        )
+                                    }}
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                        <small className="mt-4 text-gray-500">Click the tag to remove</small>
+                    </>
+                )}
+            </div>
+
+            <div>
+                <InputLabel htmlFor="editor" value="Content" isRequired={true} />
+                <div id="editor" className="mt-4" />
+                <InputError className="mt-2" message={errors.content} />
             </div>
 
             <div className="flex items-center gap-4">

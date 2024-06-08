@@ -27,7 +27,7 @@ export default function Welcome({}) {
                 </div>
             </section>
 
-            <footer className="">
+            <footer className="mt-12">
                 <div className="container mx-auto text-center text-gray-500">
                     <p>&copy; {new Date().getFullYear()} ERP. All rights reserved.</p>
                 </div>

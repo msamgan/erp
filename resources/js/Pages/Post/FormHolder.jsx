@@ -5,33 +5,157 @@ import Main from "@/Components/Main.jsx"
 import Form from "@/Pages/Post/Form.jsx"
 import FormSection from "@/Components/FormSection.jsx"
 import { pageDataObject, postDataObject } from "@/Pages/Post/methods.js"
+import { useCallback, useEffect, useState } from "react"
+import axios from "axios"
+import { useRef } from "react"
+
+import EditorJS from "@editorjs/editorjs"
+import Header from "@editorjs/header"
+import Paragraph from "@editorjs/paragraph"
+import CodeTool from "@editorjs/code"
+import List from "@editorjs/list"
+import InlineCode from "@editorjs/inline-code"
+import Quote from "@editorjs/quote"
+import Delimiter from "@editorjs/delimiter"
+
+import "./editor.css"
 
 export default function FormHolder({ auth, postData = null }) {
     const dataObject = postDataObject(postData)
 
-    const { data, setData, patch, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+    const { data, setData } = useForm(dataObject)
+
+    const [processing, setProcessing] = useState(false)
+    const [recentlySuccessful, setRecentlySuccessful] = useState(false)
+    const [errors, setErrors] = useState({})
 
     const pageData = pageDataObject(postData)
 
-    const onSubmit = (e) => {
+    const [tagList, setTagList] = useState([])
+    const [content, setContent] = useState(postData ? postData.content : {})
+    const editor = useRef(null)
+
+    const getTagList = useCallback(() => {
+        axios.get(route("tag.list")).then((response) => {
+            setTagList(response.data)
+        })
+    }, [])
+
+    const onSubmit = async (e) => {
         e.preventDefault()
 
-        console.log(data);
+        setProcessing(true)
 
-       /*  post(route("post.store"), {
-            preserveScroll: true,
-            onSuccess: () => {
-                setData(dataObject)
-            }
-        }) */
+        if (data.title === "") {
+            setErrors({
+                title: "The title field is required."
+            })
+            setProcessing(false)
+            return
+        }
+
+        if (data.excerpt === "") {
+            setErrors({
+                excerpt: "The excerpt field is required."
+            })
+            setProcessing(false)
+            return
+        }
+
+        if (Object.keys(content).length === 0) {
+            setErrors({
+                content: "The content field is required."
+            })
+            setProcessing(false)
+            return
+        }
+
+        let formData = {
+            ...data,
+            content: content
+        }
+
+        axios
+            .post(pageData.actionUrl, formData)
+            .then((response) => {
+                setProcessing(false)
+                setRecentlySuccessful(true)
+
+                setTimeout(() => {
+                    setRecentlySuccessful(false)
+                }, 5000)
+
+                if (!postData) {
+                    setData(postDataObject())
+                    setContent({})
+                    editor.current.destroy()
+                    editor.current = initEditor()
+                }
+            })
+            .catch((error) => {
+                console.log(error.response)
+            })
     }
+
+    const initEditor = () => {
+        return new EditorJS({
+            holder: "editor",
+            placeholder: "Let`s write an awesome story!",
+            tools: {
+                paragraph: {
+                    class: Paragraph,
+                    inlineToolbar: true
+                },
+                header: Header,
+                code: CodeTool,
+                list: {
+                    class: List,
+                    inlineToolbar: true,
+                    config: {
+                        defaultStyle: "unordered"
+                    }
+                },
+                inlineCode: {
+                    class: InlineCode,
+                    shortcut: "CMD+SHIFT+M"
+                },
+                quote: Quote,
+                delimiter: Delimiter
+            },
+            onReady: async (api) => {
+                console.log("Editor.js is ready to work!")
+            },
+            onChange: async (api, event) => {
+                // console.log(await api.saver.save())
+                setContent(await api.saver.save())
+            },
+            data: data.content
+        })
+    }
+
+    useEffect(() => {
+        getTagList()
+
+        editor.current = initEditor()
+    }, [])
 
     return (
         <AuthenticatedLayout user={auth.user} header={<HeaderTitle title={pageData.title} />}>
             <Head title={pageData.title} />
 
+            {data.featured_image && (
+                <Main>
+                    <img
+                        src={data.featured_image}
+                        alt={data.title}
+                        className="object-cover h-64 max-w-full rounded-lg"
+                    />
+                </Main>
+            )}
+
             <Main>
                 <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
+                    <div className="float-right"></div>
                     <Form
                         data={data}
                         setData={setData}
@@ -39,6 +163,7 @@ export default function FormHolder({ auth, postData = null }) {
                         processing={processing}
                         recentlySuccessful={recentlySuccessful}
                         onSubmit={onSubmit}
+                        tagList={tagList}
                     />
                 </FormSection>
             </Main>

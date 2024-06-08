@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use App\Models\Tag;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -15,7 +17,7 @@ class PostController extends Controller
     public function index()
     {
         return Inertia::render('Post/Index', [
-            'posts' => Post::all(),
+            'posts' => Post::with('tags')->get()
         ]);
     }
 
@@ -32,7 +34,16 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        dd($request->all());
+        $request = $this->processRequest($request);
+
+        $post = Post::create($request->all());
+
+        if (!empty($request->tags)) {
+            $tagsIds = Tag::tagNameToIdArray($request->tags);
+            $post->tags()->sync($tagsIds);
+        }
+
+        return response()->noContent();
     }
 
     /**
@@ -48,8 +59,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $post->content = json_decode($post->content_raw);
+
         return Inertia::render('Post/FormHolder', [
-            'postData' => $post,
+            'postData' => $post->load('tags')
         ]);
     }
 
@@ -58,7 +71,40 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        dd($request->all());
+        $request = $this->processRequest($request, $post);
+
+        $post->update($request->except('tags'));
+
+        if (!empty($request->tags)) {
+            $tagsIds = Tag::tagNameToIdArray($request->tags);
+            $post->tags()->sync($tagsIds);
+        } else {
+            $post->tags()->detach();
+        }
+
+        return response()->noContent();
+    }
+
+    private function processRequest($request, $post = null)
+    {
+        $request->merge([
+            'content_raw' => json_encode($request->content),
+            'content' => removeNbsp(editorJsParser($request->content)),
+            'slug' => $post ? Str::slug($request->slug) : Str::slug($request->title),
+        ]);
+
+        if ($request->status === 'published') {
+            $request->merge([
+                'published_at' => now(),
+            ]);
+        }
+
+        return $request;
+    }
+
+    public function tagList()
+    {
+        return Tag::all();
     }
 
     /**
@@ -66,6 +112,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        dd($post->delete());
+        $post->tags()->detach();
+        $post->delete();
+
+        return response()->json([
+            'message' => 'Post deleted successfully'
+        ]);
     }
 }

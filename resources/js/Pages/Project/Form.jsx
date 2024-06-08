@@ -102,7 +102,7 @@ export default function Form({
                     <InputLabel htmlFor="status" value="Status" isRequired={true} />
                     <select
                         id="status"
-                        className="block w-full mt-1 text-lg border-primary focus:border-teal-950 rounded-md shadow-sm"
+                        className="block w-full mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950"
                         value={data.status}
                         onChange={(e) => setData("status", e.target.value)}
                     >
@@ -120,7 +120,7 @@ export default function Form({
                 <InputLabel htmlFor="type" value="Type" isRequired={true} />
                 <select
                     id="status"
-                    className="block w-1/2 mt-1 text-lg border-primary focus:border-teal-950 rounded-md shadow-sm"
+                    className="block w-1/2 mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950"
                     value={data.type}
                     defaultValue={data.type}
                     onChange={(e) => setData("type", e.target.value)}
@@ -147,7 +147,7 @@ export default function Form({
                 <InputLabel htmlFor="description" value="Description" />
                 <textarea
                     id="description"
-                    className="block w-1/2 mt-1 text-lg border-primary focus:border-teal-950 rounded-md shadow-sm"
+                    className="block w-1/2 mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950"
                     value={data.description}
                     onChange={(e) => setData("description", e.target.value)}
                 />
