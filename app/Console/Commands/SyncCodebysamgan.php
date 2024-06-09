@@ -37,7 +37,10 @@ class SyncCodebysamgan extends Command
             $formattedPost = $this->formatPost($post);
             $this->info('Syncing post: ' . $formattedPost['title']);
 
-            $existingPost = Post::where('slug', $formattedPost['slug'])->first();
+
+            dump($formattedPost);
+
+            /* $existingPost = Post::where('slug', $formattedPost['slug'])->first();
 
             if ($existingPost) {
                 $existingPost->update($formattedPost);
@@ -48,7 +51,7 @@ class SyncCodebysamgan extends Command
             $tagList = $this->getTagList($post['tags']);
             $tagIds = $this->getTagIds($tagList);
 
-            $existingPost->tags()->sync($tagIds);
+            $existingPost->tags()->sync($tagIds); */
         }
 
         $this->info('Syncing completed!');
