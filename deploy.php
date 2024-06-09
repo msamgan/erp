@@ -25,7 +25,14 @@ task('build', function () {
     run('npm run build');
 });
 
+task('optimize', function () {
+    cd('{{release_path}}');
+    run('php artisan optimize');
+});
+
 after('deploy:update_code', 'build');
+after('deploy:symlink', 'optimize');
+
 
 // Hooks
 

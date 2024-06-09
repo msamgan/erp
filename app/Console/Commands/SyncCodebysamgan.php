@@ -37,7 +37,6 @@ class SyncCodebysamgan extends Command
             $formattedPost = $this->formatPost($post);
             $this->info('Syncing post: ' . $formattedPost['title']);
 
-
             dump($formattedPost);
 
             /* $existingPost = Post::where('slug', $formattedPost['slug'])->first();

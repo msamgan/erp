@@ -76,11 +76,11 @@ if (!function_exists('htmlToEditorJsBlockParser')) {
             }
         }
 
-        return [
+        return json_encode([
             'time' => time(),
             'blocks' => $blocks,
             'version' => '2.29.1'
-        ];
+        ]);
     }
 }
 
