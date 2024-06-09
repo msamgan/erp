@@ -118,7 +118,7 @@ export default function Form({
             <div>
                 {data.tags.length > 0 && (
                     <>
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="flex items-center mb-2 gap-2">
                             {data.tags.map((tag, index) => (
                                 <span
                                     key={index}

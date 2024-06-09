@@ -67,7 +67,7 @@ export default function Index({ auth, posts }) {
                         <div className="text-sm text-gray-500">{excerpt.substring(0, title.length)}...</div>
                     ) : null}
                     {tags.length > 0 ? (
-                        <div className="mt-3 space-x-3 text-sm text-gray-500">
+                        <div className="mt-3 text-sm text-gray-500 space-x-3">
                             {tags.map((tag) => {
                                 return (
                                     <span

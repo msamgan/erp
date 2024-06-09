@@ -16,8 +16,14 @@ class PostController extends Controller
      */
     public function index()
     {
+        $posts = Post::with('tags');
+
+        if (request()->get('search')) {
+            $posts = $posts->where('title', 'like', '%' . request()->get('search') . '%');
+        }
+
         return Inertia::render('Post/Index', [
-            'posts' => Post::with('tags')->get()
+            'posts' => $posts->get()
         ]);
     }
 
