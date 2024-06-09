@@ -89,7 +89,7 @@ class SyncCodebysamgan extends Command
             'title' => $post['title'],
             'slug' => $post['slug'],
             'content' => $post['body'],
-            'content_raw' => htmlToEditorJsBlockParser($post['body']),
+             //'content_raw' => htmlToEditorJsBlockParser($post['body']),
             'excerpt' => $post['excerpt'],
             'status' => 'draft',
             "meta_description"  => $post['meta']['meta_description'] ?? null,
