@@ -113,6 +113,34 @@ class PostController extends Controller
         return Tag::all();
     }
 
+    public function postList()
+    {
+        $posts = Post::query()
+            ->select('id', 'title', 'slug', 'excerpt', 'status', 'featured_image', 'published_at')
+            ->where('status', 'published')
+            ->with('tags')
+            ->get();
+
+        $posts->map(function ($post) {
+            $tagsArray = $post->tags->pluck('name');
+            unset($post->tags);
+            $post->tags = $tagsArray;
+        });
+
+        return response()->json($posts);
+    }
+
+    public function postShow(Post $post)
+    {
+        $tagArray = $post->tags->pluck('name');
+
+        unset($post->tags);
+        unset($post->content_raw);
+        $post->tags = $tagArray;
+
+        return response()->json($post);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
