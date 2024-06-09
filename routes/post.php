@@ -12,5 +12,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/post/{post}', [PostController::class, 'update'])->name('post.update');
     Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
-    Route::get('api/post/list', [PostController::class, 'postList'])->name('post.list');
+    Route::get('api/tag/list', [PostController::class, 'tagList'])->name('tag.list');
 });

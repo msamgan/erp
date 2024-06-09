@@ -15,12 +15,13 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->text('content');
-            $table->string('excerpt');
+            $table->json('content_raw')->nullable();
+            $table->text('excerpt');
             $table->string('slug')->unique();
             $table->timestamp('published_at')->nullable();
             $table->string('status')->default('draft');
             $table->string('featured_image')->nullable();
-            $table->string('meta_description')->nullable();
+            $table->text('meta_description')->nullable();
             $table->timestamps();
         });
     }

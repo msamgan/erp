@@ -3,7 +3,6 @@ import TextInput from "@/Components/TextInput.jsx"
 import InputError from "@/Components/InputError.jsx"
 import { Transition } from "@headlessui/react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
-import { useEffect, useState, useMemo, useRef } from "react"
 
 export default function Form({
     data,
@@ -12,10 +11,8 @@ export default function Form({
     processing,
     recentlySuccessful,
     onSubmit,
-    toolbarOptions
+    tagList,
 }) {
-    useEffect(() => {}, [])
-
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div>
@@ -30,13 +27,19 @@ export default function Form({
                 />
                 <InputError className="mt-2" message={errors.title} />
             </div>
-            <div>
-                <InputLabel htmlFor="content" value="Content" isRequired={true} />
-                <div
-                    id="content"
-                    className="block w-full mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950 h-60"
-                ></div>
-            </div>
+            {data.slug && (
+                <div>
+                    <InputLabel htmlFor="slug" value="Slug" isRequired={true} />
+                    <TextInput
+                        id="slug"
+                        className="block w-full mt-1"
+                        value={data.slug}
+                        onChange={(e) => setData("slug", e.target.value)}
+                        autoComplete="slug"
+                    />
+                    <InputError className="mt-2" message={errors.slug} />
+                </div>
+            )}
             <div className="flex gap-4">
                 <div className={"w-1/2"}>
                     <InputLabel htmlFor="status" value="Status" isRequired={true} />
@@ -87,17 +90,63 @@ export default function Form({
                 <InputError className="mt-2" message={errors.meta_description} />
             </div>
 
-            <div className="flex items-center gap-4">
-                <PrimaryButton
-                    onClick={(e) => {
-                        e.preventDefault()
-                        setData("content", quill.root.innerHTML)
-                        onSubmit()
+            <div className="relative mt-1.5">
+                <InputLabel htmlFor="Tag" value="Tags" />
+                <TextInput
+                    type="text"
+                    list="tagList"
+                    id="Tag"
+                    className="block w-full mt-1"
+                    placeholder="Please select"
+                    onKeyUp={(e) => {
+                        if (e.key === ",") {
+                            let tag = e.target.value.slice(0, -1)
+                            setData("tags", [...data.tags, tag])
+                            e.target.value = ""
+                        }
                     }}
-                    disabled={processing}
-                >
-                    Save
-                </PrimaryButton>
+                />
+                <small className="text-gray-500">Press comma to add a tag</small>
+
+                <datalist name="Tag" id="tagList">
+                    {tagList.map((tag, index) => (
+                        <option key={index}>{tag.name}</option>
+                    ))}
+                </datalist>
+            </div>
+
+            <div>
+                {data.tags.length > 0 && (
+                    <>
+                        <div className="flex items-center mb-2 gap-2">
+                            {data.tags.map((tag, index) => (
+                                <span
+                                    key={index}
+                                    className="px-2 py-1 text-sm text-gray-900 bg-gray-200 rounded-lg"
+                                    onClick={() => {
+                                        setData(
+                                            "tags",
+                                            data.tags.filter((t) => t !== tag)
+                                        )
+                                    }}
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                        <small className="mt-4 text-gray-500">Click the tag to remove</small>
+                    </>
+                )}
+            </div>
+
+            <div>
+                <InputLabel htmlFor="editor" value="Content" isRequired={true} />
+                <div id="editor" className="mt-4" />
+                <InputError className="mt-2" message={errors.content} />
+            </div>
+
+            <div className="flex items-center gap-4">
+                <PrimaryButton disabled={processing}>Save</PrimaryButton>
 
                 <Transition
                     show={recentlySuccessful}
