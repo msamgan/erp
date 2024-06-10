@@ -117,7 +117,12 @@ class PostController extends Controller
             ->get();
 
         $posts->map(function ($post) {
-            $tagsArray = $post->tags->pluck('name');
+            $tagsArray = [];
+            foreach ($post->tags as $key => $tag) {
+                $tagsArray[$key]['name'] = $tag->name;
+                $tagsArray[$key]['slug'] = $tag->slug;
+            }
+
             unset($post->tags);
             $post->tags = $tagsArray;
         });
@@ -132,26 +137,32 @@ class PostController extends Controller
 
     public function postShow()
     {
-        $posts = Post::query()
+        $post = Post::query()
             ->where('slug', request()->route('slug'))
             ->with('tags')
             ->first();
 
-        if (!$posts) {
+        if (!$post) {
             return response()->json([
+                'status' => false,
                 'message' => 'Post not found'
             ], 404);
         }
 
-        $tagArray = $posts->tags->pluck('name');
-        $posts->related_posts = $this->getRelatedPosts($posts->tags, $posts->slug);
+        $tagsArray = [];
+        foreach ($post->tags as $key => $tag) {
+            $tagsArray[$key]['name'] = $tag->name;
+            $tagsArray[$key]['slug'] = $tag->slug;
+        }
 
-        unset($posts->tags);
-        unset($posts->content_raw);
+        $post->related_posts = $this->getRelatedPosts($post->tags, $post->slug);
 
-        $posts->tags = $tagArray;
+        unset($post->tags);
+        unset($post->content_raw);
 
-        return response()->json($posts);
+        $post->tags = $tagsArray;
+
+        return response()->json($post);
     }
 
     public function postTag()
@@ -163,6 +174,7 @@ class PostController extends Controller
 
         if (!$posts) {
             return response()->json([
+                'status' => false,
                 'message' => 'Tag not found'
             ], 404);
         }
@@ -170,7 +182,13 @@ class PostController extends Controller
         $posts->posts->map(function ($post) {
             unset($post->content_raw);
             unset($post->content);
-            $tagsArray = $post->tags->pluck('name');
+            $tagsArray = [];
+
+            foreach ($post->tags as $key => $tag) {
+                $tagsArray[$key]['name'] = $tag->name;
+                $tagsArray[$key]['slug'] = $tag->slug;
+            }
+
             unset($post->tags);
             unset($post->pivot);
 

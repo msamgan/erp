@@ -13,6 +13,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 });
 
+// public API routes
 Route::get('api/tag/list', [PostController::class, 'tagList'])->name('api.tag.list');
 Route::get('api/post/list', [PostController::class, 'postList'])->name('api.post.list');
 Route::get('api/post/{slug}', [PostController::class, 'postShow'])->name('api.post.show');
