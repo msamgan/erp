@@ -130,15 +130,36 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
-    public function postShow(Post $post)
+    public function postShow()
     {
-        $tagArray = $post->tags->pluck('name');
+        $posts = Post::query()
+            ->where('slug', request()->route('slug'))
+            ->with('tags')
+            ->first();
 
-        unset($post->tags);
-        unset($post->content_raw);
-        $post->tags = $tagArray;
+        $tagArray = $posts->tags->pluck('name');
+        $posts->related_posts = $this->getRelatedPosts($posts->tags, $posts->slug);
 
-        return response()->json($post);
+        unset($posts->tags);
+        unset($posts->content_raw);
+
+        $posts->tags = $tagArray;
+
+        return response()->json($posts);
+    }
+
+    private function getRelatedPosts($postTags, $currentPostSlug)
+    {
+        return Post::query()
+            ->select('title', 'slug', 'excerpt', 'featured_image', 'published_at')
+            ->whereHas('tags', function ($query) use ($postTags) {
+                $query->whereIn('name', $postTags->pluck('name'));
+            })
+            ->where('status', 'published')
+            ->where('slug', '!=', $currentPostSlug)
+            ->orderBy('published_at', 'desc')
+            ->limit(10)
+            ->get();
     }
 
     /**

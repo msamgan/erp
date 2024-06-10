@@ -16,4 +16,4 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('api/post/list', [PostController::class, 'postList'])->name('api.post.list');
-Route::get('api/post/{post}', [PostController::class, 'postShow'])->name('api.post.show');
+Route::get('api/post/{slug}', [PostController::class, 'postShow'])->name('api.post.show');
