@@ -36,7 +36,7 @@ export default function FormHolder({ auth, postData = null }) {
     const editor = useRef(null)
 
     const getTagList = useCallback(() => {
-        axios.get(route("tag.list")).then((response) => {
+        axios.get(route("api.tag.list")).then((response) => {
             setTagList(response.data)
         })
     }, [])

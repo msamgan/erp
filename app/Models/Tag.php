@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 class Tag extends Model
@@ -29,5 +30,12 @@ class Tag extends Model
         }
 
         return $tagIds;
+    }
+
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'post_tag', 'tag_id', 'post_id')
+            ->where('status', 'published')
+            ->orderBy('published_at', 'desc');
     }
 }

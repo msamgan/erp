@@ -108,11 +108,6 @@ class PostController extends Controller
         return $request;
     }
 
-    public function tagList()
-    {
-        return Tag::all();
-    }
-
     public function postList()
     {
         $posts = Post::query()
@@ -130,12 +125,23 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
+    public function tagList()
+    {
+        return Tag::query()->withCount('posts')->get();
+    }
+
     public function postShow()
     {
         $posts = Post::query()
             ->where('slug', request()->route('slug'))
             ->with('tags')
             ->first();
+
+        if (!$posts) {
+            return response()->json([
+                'message' => 'Post not found'
+            ], 404);
+        }
 
         $tagArray = $posts->tags->pluck('name');
         $posts->related_posts = $this->getRelatedPosts($posts->tags, $posts->slug);
@@ -146,6 +152,32 @@ class PostController extends Controller
         $posts->tags = $tagArray;
 
         return response()->json($posts);
+    }
+
+    public function postTag()
+    {
+        $posts = Tag::query()
+            ->where('slug', request()->route('tag'))
+            ->with('posts', "posts.tags")
+            ->first();
+
+        if (!$posts) {
+            return response()->json([
+                'message' => 'Tag not found'
+            ], 404);
+        }
+
+        $posts->posts->map(function ($post) {
+            unset($post->content_raw);
+            unset($post->content);
+            $tagsArray = $post->tags->pluck('name');
+            unset($post->tags);
+            unset($post->pivot);
+
+            $post->tags = $tagsArray;
+        });
+
+        return response()->json($posts->posts);
     }
 
     private function getRelatedPosts($postTags, $currentPostSlug)
