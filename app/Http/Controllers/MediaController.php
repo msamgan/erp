@@ -6,8 +6,10 @@ use App\Http\Requests\StoreMediaRequest;
 use App\Http\Requests\UpdateMediaRequest;
 use App\Models\Media;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Collection;
 
 class MediaController extends Controller
 {
@@ -48,9 +50,10 @@ class MediaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMediaRequest $request)
+    public function store(StoreMediaRequest $request): void
     {
-        //
+        $file = $request->file('files');
+        $file->store('images', 'public');
     }
 
     /**
@@ -75,6 +78,18 @@ class MediaController extends Controller
     public function update(UpdateMediaRequest $request, Media $media)
     {
         //
+    }
+
+    public function photos(): Collection
+    {
+        $files = collect(Storage::disk('public')->files('images'));
+
+        return $files->map(function ($file) {
+            return [
+                'url' => url('images/' . basename($file)),
+                'name' => basename($file),
+            ];
+        });
     }
 
     /**

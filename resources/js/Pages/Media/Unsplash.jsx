@@ -64,16 +64,19 @@ export default function Unsplash({ queryParams, photos }) {
                         </PrimaryLink>
                     }
 
-                    <PrimaryLink
-                        href={route("media.unsplash", {
-                            ...queryParams,
-                            page: parseInt(queryParams.page || 1) + 1
-                        })}
-                        className={"h-8"}
-                        title="Next"
-                    >
-                        Next
-                    </PrimaryLink>
+                    {
+                        photos && photos.length > 0 && <PrimaryLink
+                            href={route("media.unsplash", {
+                                ...queryParams,
+                                page: parseInt(queryParams.page || 1) + 1
+                            })}
+                            className={"h-8"}
+                            title="Next"
+                        >
+                            Next
+                        </PrimaryLink>
+                    }
+
                 </div>
             </div>
 
