@@ -36,6 +36,10 @@
         "@editorjs/list": "^1.9.0",
         "@editorjs/paragraph": "^2.11.4",
         "@editorjs/quote": "^2.6.0",
-        "prettier": "^3.2.5"
+        "filepond": "^4.31.1",
+        "filepond-plugin-image-exif-orientation": "^1.0.11",
+        "filepond-plugin-image-preview": "^4.6.12",
+        "prettier": "^3.2.5",
+        "react-filepond": "^7.1.2"
     }
 }

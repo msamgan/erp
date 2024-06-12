@@ -18,7 +18,8 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                             <div className="flex">
                                 <div className="flex items-center shrink-0">
                                     <Link href="/">
-                                        <ApplicationLogo className="block w-auto h-16 mt-4 text-gray-800 fill-current invert" />
+                                        <ApplicationLogo
+                                            className="block w-auto h-16 mt-4 text-gray-800 fill-current invert" />
                                     </Link>
                                 </div>
 
@@ -76,6 +77,13 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                             >
                                                 Add Transaction
                                             </Dropdown.Link>
+                                            <hr />
+                                            <Dropdown.Link
+                                                className={"text-xl"}
+                                                href={route("post.create")}
+                                            >
+                                                Add Post
+                                            </Dropdown.Link>
                                         </Dropdown.Content>
                                     </Dropdown>
                                 </div>
@@ -108,6 +116,10 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                         <Dropdown.Content>
                                             <Dropdown.Link className={"text-xl"} href={route("profile.edit")}>
                                                 Profile
+                                            </Dropdown.Link>
+                                            <hr />
+                                            <Dropdown.Link className={"text-xl"} href={route("media")}>
+                                                Media
                                             </Dropdown.Link>
                                             <hr />
                                             <Dropdown.Link
