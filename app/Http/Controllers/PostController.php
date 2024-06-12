@@ -8,13 +8,14 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
         $posts = Post::with('tags');
 
@@ -22,17 +23,13 @@ class PostController extends Controller
             $posts = $posts->where('title', 'like', '%' . request()->get('search') . '%');
         }
 
-        return Inertia::render('Post/Index', [
-            'posts' => $posts->get()
-        ]);
-    }
+        if (request()->get('status') && request()->get('status') !== 'all') {
+            $posts = $posts->where('status', request()->get('status'));
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return Inertia::render('Post/FormHolder');
+        return Inertia::render('Post/Index', [
+            'posts' => $posts->orderBy('created_at', 'desc')->get(),
+        ]);
     }
 
     /**
@@ -47,45 +44,6 @@ class PostController extends Controller
         if (!empty($request->tags)) {
             $tagsIds = Tag::tagNameToIdArray($request->tags);
             $post->tags()->sync($tagsIds);
-        }
-
-        return response()->noContent();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        $post->content = json_decode($post->content_raw);
-
-        return Inertia::render('Post/FormHolder', [
-            'postData' => $post->load('tags')
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePostRequest $request, Post $post)
-    {
-        $request = $this->processRequest($request, $post);
-
-        $post->update($request->except('tags'));
-
-        if (!empty($request->tags)) {
-            $tagsIds = Tag::tagNameToIdArray($request->tags);
-            $post->tags()->sync($tagsIds);
-        } else {
-            $post->tags()->detach();
         }
 
         return response()->noContent();
@@ -106,6 +64,53 @@ class PostController extends Controller
         }
 
         return $request;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): Response
+    {
+        return Inertia::render('Post/FormHolder');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Post $post)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Post $post)
+    {
+        $post->content = json_decode($post->content_raw);
+
+        return Inertia::render('Post/FormHolder', [
+            'postData' => $post->load('tags'),
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdatePostRequest $request, Post $post)
+    {
+        $request = $this->processRequest($request, $post);
+
+        $post->update($request->except('tags'));
+
+        if (!empty($request->tags)) {
+            $tagsIds = Tag::tagNameToIdArray($request->tags);
+            $post->tags()->sync($tagsIds);
+        } else {
+            $post->tags()->detach();
+        }
+
+        return response()->noContent();
     }
 
     public function postList()
@@ -145,7 +150,7 @@ class PostController extends Controller
         if (!$post) {
             return response()->json([
                 'status' => false,
-                'message' => 'Post not found'
+                'message' => 'Post not found',
             ], 404);
         }
 
@@ -165,17 +170,31 @@ class PostController extends Controller
         return response()->json($post);
     }
 
+    private function getRelatedPosts($postTags, $currentPostSlug)
+    {
+        return Post::query()
+            ->select('title', 'slug', 'excerpt', 'featured_image', 'published_at')
+            ->whereHas('tags', function ($query) use ($postTags) {
+                $query->whereIn('name', $postTags->pluck('name'));
+            })
+            ->where('status', 'published')
+            ->where('slug', '!=', $currentPostSlug)
+            ->orderBy('published_at', 'desc')
+            ->limit(10)
+            ->get();
+    }
+
     public function postTag()
     {
         $posts = Tag::query()
             ->where('slug', request()->route('tag'))
-            ->with('posts', "posts.tags")
+            ->with('posts', 'posts.tags')
             ->first();
 
         if (!$posts) {
             return response()->json([
                 'status' => false,
-                'message' => 'Tag not found'
+                'message' => 'Tag not found',
             ], 404);
         }
 
@@ -198,20 +217,6 @@ class PostController extends Controller
         return response()->json($posts->posts);
     }
 
-    private function getRelatedPosts($postTags, $currentPostSlug)
-    {
-        return Post::query()
-            ->select('title', 'slug', 'excerpt', 'featured_image', 'published_at')
-            ->whereHas('tags', function ($query) use ($postTags) {
-                $query->whereIn('name', $postTags->pluck('name'));
-            })
-            ->where('status', 'published')
-            ->where('slug', '!=', $currentPostSlug)
-            ->orderBy('published_at', 'desc')
-            ->limit(10)
-            ->get();
-    }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -221,7 +226,7 @@ class PostController extends Controller
         $post->delete();
 
         return response()->json([
-            'message' => 'Post deleted successfully'
+            'message' => 'Post deleted successfully',
         ]);
     }
 }
