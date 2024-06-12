@@ -118,6 +118,10 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                                                 Profile
                                             </Dropdown.Link>
                                             <hr />
+                                            <Dropdown.Link className={"text-xl"} href={route("media")}>
+                                                Media
+                                            </Dropdown.Link>
+                                            <hr />
                                             <Dropdown.Link
                                                 className={"text-xl"}
                                                 href={route("logout")}
