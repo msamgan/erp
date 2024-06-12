@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMediaRequest;
 use App\Http\Requests\UpdateMediaRequest;
 use App\Models\Media;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Collection;
 
 class MediaController extends Controller
 {
@@ -83,10 +83,14 @@ class MediaController extends Controller
     public function photos(): Collection
     {
         $files = collect(Storage::disk('public')->files('images'));
-
         return $files->map(function ($file) {
+
+            $fileUrl = config('app.env') === 'production'
+                ? url('storage/images/' . basename($file))
+                : url('images/' . basename($file));
+
             return [
-                'url' => url('images/' . basename($file)),
+                'url' => $fileUrl,
                 'name' => basename($file),
             ];
         });
