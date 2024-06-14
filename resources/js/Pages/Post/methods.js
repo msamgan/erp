@@ -7,7 +7,7 @@ export const postDataObject = (post = null) => {
         featured_image: post ? post.featured_image : "",
         meta_description: post ? post.meta_description : "",
         slug: post ? post.slug : "",
-        tags: post?.tags ? post.tags.map((tag) => tag.name) : [],
+        tags: post?.tags ? post.tags.map((tag) => tag.name) : []
     }
 }
 

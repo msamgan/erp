@@ -18,6 +18,8 @@ class TransactionController extends Controller
      */
     public function index(): Response
     {
+        $pageSize = request()->get('page-size') ?? PAGE_SIZE;
+
         $transactions = Transaction::query()
             ->with('project')
             ->orderBy('created_at', 'desc');
@@ -38,7 +40,7 @@ class TransactionController extends Controller
         }
 
         return Inertia::render('Transaction/Index', [
-            'transactions' => $transactions->get(),
+            'transactions' => $transactions->paginate($pageSize),
         ]);
     }
 

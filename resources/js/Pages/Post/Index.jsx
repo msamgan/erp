@@ -113,9 +113,15 @@ export default function Index({ auth, posts }) {
                     className="h-10 border border-gray-300 rounded-md"
                     defaultValue={queryParams.status}
                 >
-                    <option key={"all"} value={"all"}>{"All"}</option>
-                    <option key={"draft"} value={"draft"}>{"Draft"}</option>
-                    <option key={"published"} value={"published"}>{"Published"}</option>
+                    <option key={"all"} value={"all"}>
+                        {"All"}
+                    </option>
+                    <option key={"draft"} value={"draft"}>
+                        {"Draft"}
+                    </option>
+                    <option key={"published"} value={"published"}>
+                        {"Published"}
+                    </option>
                 </select>
                 <small className="text-gray-500 ml-2 mt-0.5">status</small>
             </div>
@@ -124,7 +130,7 @@ export default function Index({ auth, posts }) {
 
     useEffect(() => {
         setData(
-            posts.map((post) => {
+            posts.data.map((post) => {
                 return {
                     Title: createTitleAttribute(post.title, post.excerpt, post.tags, post.featured_image),
                     Status: createStatusAttribute(post.status, post.published_at),
@@ -156,6 +162,11 @@ export default function Index({ auth, posts }) {
                     queryParams={queryParams}
                     setQueryParams={setQueryParams}
                     searchFormExtension={searchFormExtension}
+                    totalDataRows={posts.total}
+                    from={posts.from}
+                    to={posts.to}
+                    nextPage={posts.next_page_url}
+                    previousPage={posts.prev_page_url}
                 />
             </Main>
         </AuthenticatedLayout>

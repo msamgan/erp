@@ -5,6 +5,7 @@ import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
 import PrimaryLink from "@/Components/PrimaryLink.jsx"
 import { useEffect, useState } from "react"
+import { appendQueryParamsToUrl } from "@/helpers/methods.js"
 
 export default function Index({ auth, transactions }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Project", "Date"])
@@ -47,7 +48,7 @@ export default function Index({ auth, transactions }) {
         let expense = 0
 
         setData(
-            transactions.map((transaction) => {
+            transactions.data.map((transaction) => {
                 if (transaction.type === "incoming") {
                     income += transaction.amount
                 }
@@ -137,6 +138,11 @@ export default function Index({ auth, transactions }) {
                     queryParams={queryParams}
                     setQueryParams={setQueryParams}
                     searchFormExtension={searchFormExtension}
+                    totalDataRows={transactions.total}
+                    from={transactions.from}
+                    to={transactions.to}
+                    nextPage={transactions.next_page_url}
+                    previousPage={transactions.prev_page_url}
                 />
                 <div className="flex justify-between">
                     <div className="flex space-x-2">

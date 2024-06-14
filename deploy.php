@@ -33,7 +33,6 @@ task('optimize', function () {
 after('deploy:update_code', 'build');
 after('deploy:symlink', 'optimize');
 
-
 // Hooks
 
 after('deploy:failed', 'deploy:unlock');
