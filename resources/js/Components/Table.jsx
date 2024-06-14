@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import SearchForm from "@/Components/SearchForm.jsx"
+import { Link } from "@inertiajs/react"
+import { appendQueryParamsToUrl } from "@/helpers/methods.js"
 
 export default function Table({
     columns,
@@ -8,12 +10,27 @@ export default function Table({
     setQueryParams,
     searchFormExtension = null,
     showSearchForm = true,
-    tdClassName = ""
+    tdClassName = "",
+    totalDataRows = 0,
+    from = 0,
+    to = 0,
+    nextPage = null,
+    previousPage = null
 }) {
     const [totalRows, setTotalRows] = useState(0)
+    const [nextPageLink, setNextPageLink] = useState(null)
+    const [previousPageLink, setPreviousPageLink] = useState(null)
 
     useEffect(() => {
         setTotalRows(data.length)
+
+        if (nextPage) {
+            setNextPageLink(appendQueryParamsToUrl(queryParams, nextPage))
+        }
+
+        if (previousPage) {
+            setPreviousPageLink(appendQueryParamsToUrl(queryParams, previousPage))
+        }
     }, [data])
 
     return (
@@ -58,8 +75,30 @@ export default function Table({
                     </tbody>
                 </table>
             </div>
-            <div className="flex items-center justify-between py-2 border-t border-gray-200 bg-gray-50">
-                <p className="text-sm text-gray-700">Showing {totalRows} entries</p>
+            <div className="flex items-center justify-between py-2 border-t border-gray-200">
+                <p className="text-sm text-gray-700">
+                    Showing {totalRows} entries{" "}
+                    {totalDataRows > 0 ? `of ${totalDataRows} | from ${from} to ${to}` : ""}
+                </p>
+
+                <div className="flex items-center space-x-2">
+                    {previousPage && (
+                        <Link
+                            href={previousPageLink}
+                            className="px-3 py-1 text-sm text-white bg-teal-800 rounded-lg"
+                        >
+                            Previous
+                        </Link>
+                    )}
+                    {nextPage && (
+                        <Link
+                            href={nextPageLink}
+                            className="px-3 py-1 text-sm text-white bg-teal-800 rounded-lg"
+                        >
+                            Next
+                        </Link>
+                    )}
+                </div>
             </div>
         </>
     )

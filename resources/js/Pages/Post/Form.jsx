@@ -4,15 +4,7 @@ import InputError from "@/Components/InputError.jsx"
 import { Transition } from "@headlessui/react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
 
-export default function Form({
-    data,
-    setData,
-    errors,
-    processing,
-    recentlySuccessful,
-    onSubmit,
-    tagList,
-}) {
+export default function Form({ data, setData, errors, processing, recentlySuccessful, onSubmit, tagList }) {
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div>

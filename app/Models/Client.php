@@ -33,4 +33,9 @@ class Client extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
 }

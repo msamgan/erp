@@ -1,7 +1,9 @@
 <?php
 
-if (!function_exists('editorJsParser')) {
-    function editorJsParser($content)
+const PAGE_SIZE = 20;
+
+if (! function_exists('editorJsParser')) {
+    function editorJsParser($content): string
     {
         $parsedContent = '';
 
@@ -29,8 +31,8 @@ if (!function_exists('editorJsParser')) {
     }
 }
 
-if (!function_exists('htmlToEditorJsBlockParser')) {
-    function htmlToEditorJsBlockParser($html)
+if (! function_exists('htmlToEditorJsBlockParser')) {
+    function htmlToEditorJsBlockParser($html): false|string
     {
         $blocks = [];
 
@@ -79,13 +81,13 @@ if (!function_exists('htmlToEditorJsBlockParser')) {
         return json_encode([
             'time' => time(),
             'blocks' => $blocks,
-            'version' => '2.29.1'
+            'version' => '2.29.1',
         ]);
     }
 }
 
-if (!function_exists('removeNbsp')) {
-    function removeNbsp($string)
+if (! function_exists('removeNbsp')) {
+    function removeNbsp($string): array|string
     {
         return str_replace('&nbsp;', '', $string);
     }

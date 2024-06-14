@@ -30,5 +30,3 @@ Route::middleware('auth')->group(function () {
     Route::get('/media/photos', [MediaController::class, 'photos'])
         ->name('media.photos');
 });
-
-

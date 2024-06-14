@@ -113,9 +113,15 @@ export default function Index({ auth, posts }) {
                     className="h-10 border border-gray-300 rounded-md"
                     defaultValue={queryParams.status}
                 >
-                    <option key={"all"} value={"all"}>{"All"}</option>
-                    <option key={"draft"} value={"draft"}>{"Draft"}</option>
-                    <option key={"published"} value={"published"}>{"Published"}</option>
+                    <option key={"all"} value={"all"}>
+                        {"All"}
+                    </option>
+                    <option key={"draft"} value={"draft"}>
+                        {"Draft"}
+                    </option>
+                    <option key={"published"} value={"published"}>
+                        {"Published"}
+                    </option>
                 </select>
                 <small className="text-gray-500 ml-2 mt-0.5">status</small>
             </div>

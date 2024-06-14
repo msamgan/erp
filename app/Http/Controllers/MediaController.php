@@ -83,6 +83,7 @@ class MediaController extends Controller
     public function photos(): Collection
     {
         $files = collect(Storage::disk('public')->files('images'));
+
         return $files->map(function ($file) {
 
             $fileUrl = config('app.env') === 'production'

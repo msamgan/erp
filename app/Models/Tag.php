@@ -16,7 +16,7 @@ class Tag extends Model
 
     protected $fillable = [
         'name',
-        'slug'
+        'slug',
     ];
 
     public static function tagNameToIdArray($tags)
@@ -25,7 +25,7 @@ class Tag extends Model
         foreach ($tags as $tag) {
             $tagIds[] = Tag::firstOrCreate([
                 'name' => strtolower($tag),
-                'slug' => Str::slug(strtolower($tag))
+                'slug' => Str::slug(strtolower($tag)),
             ])->id;
         }
 

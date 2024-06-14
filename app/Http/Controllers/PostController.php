@@ -41,7 +41,7 @@ class PostController extends Controller
 
         $post = Post::create($request->all());
 
-        if (!empty($request->tags)) {
+        if (! empty($request->tags)) {
             $tagsIds = Tag::tagNameToIdArray($request->tags);
             $post->tags()->sync($tagsIds);
         }
@@ -103,7 +103,7 @@ class PostController extends Controller
 
         $post->update($request->except('tags'));
 
-        if (!empty($request->tags)) {
+        if (! empty($request->tags)) {
             $tagsIds = Tag::tagNameToIdArray($request->tags);
             $post->tags()->sync($tagsIds);
         } else {
@@ -147,7 +147,7 @@ class PostController extends Controller
             ->with('tags')
             ->first();
 
-        if (!$post) {
+        if (! $post) {
             return response()->json([
                 'status' => false,
                 'message' => 'Post not found',
@@ -191,7 +191,7 @@ class PostController extends Controller
             ->with('posts', 'posts.tags')
             ->first();
 
-        if (!$posts) {
+        if (! $posts) {
             return response()->json([
                 'status' => false,
                 'message' => 'Tag not found',
