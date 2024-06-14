@@ -59,6 +59,14 @@ if (! function_exists('htmlToEditorJsBlockParser')) {
                 foreach ($liElements as $liElement) {
                     $block['data']['items'][] = $liElement->textContent;
                 }
+            } elseif ($element->tagName === 'ol') {
+                $block['type'] = 'list';
+                $block['data']['style'] = 'ordered';
+                $block['data']['items'] = [];
+                $liElements = $element->getElementsByTagName('li');
+                foreach ($liElements as $liElement) {
+                    $block['data']['items'][] = $liElement->textContent;
+                }
             } elseif ($element->tagName === 'hr') {
                 $block['type'] = 'delimiter';
             } elseif ($element->tagName === 'pre') {
