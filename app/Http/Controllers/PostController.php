@@ -17,6 +17,8 @@ class PostController extends Controller
      */
     public function index(): Response
     {
+        $pageSize = request()->get('page-size') ?? PAGE_SIZE;
+
         $posts = Post::with('tags');
 
         if (request()->get('search')) {
@@ -28,7 +30,7 @@ class PostController extends Controller
         }
 
         return Inertia::render('Post/Index', [
-            'posts' => $posts->orderBy('created_at', 'desc')->get(),
+            'posts' => $posts->orderBy('created_at', 'desc')->paginate($pageSize),
         ]);
     }
 

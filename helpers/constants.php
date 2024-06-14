@@ -1,6 +1,6 @@
 <?php
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 12;
 
 if (! function_exists('editorJsParser')) {
     function editorJsParser($content): string
