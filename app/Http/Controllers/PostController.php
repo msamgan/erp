@@ -6,6 +6,9 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -87,7 +90,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit(Post $post): Response
     {
         $post->content = json_decode($post->content_raw);
 
@@ -99,7 +102,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post): \Illuminate\Http\Response
     {
         $request = $this->processRequest($request, $post);
 
@@ -115,39 +118,45 @@ class PostController extends Controller
         return response()->noContent();
     }
 
-    public function postList()
+    public function postList(): JsonResponse
     {
-        $posts = Post::query()
-            ->select('id', 'title', 'slug', 'excerpt', 'status', 'featured_image', 'published_at')
-            ->where('status', 'published')
-            ->with('tags')
-            ->get();
+        $posts = Cache::remember('posts', CACHE_TTL, function () {
+            $posts = Post::query()
+                ->select('id', 'title', 'slug', 'excerpt', 'status', 'featured_image', 'published_at')
+                ->where('status', 'published')
+                ->with('tags')
+                ->get();
 
-        $posts->map(function ($post) {
-            $tagsArray = [];
-            foreach ($post->tags as $key => $tag) {
-                $tagsArray[$key]['name'] = $tag->name;
-                $tagsArray[$key]['slug'] = $tag->slug;
-            }
+            $posts->map(function ($post) {
+                $tagsArray = [];
+                foreach ($post->tags as $key => $tag) {
+                    $tagsArray[$key]['name'] = $tag->name;
+                    $tagsArray[$key]['slug'] = $tag->slug;
+                }
 
-            unset($post->tags);
-            $post->tags = $tagsArray;
+                unset($post->tags);
+                $post->tags = $tagsArray;
+            });
+
+            return $posts;
         });
 
         return response()->json($posts);
     }
 
-    public function tagList()
+    public function tagList(): Collection|array
     {
         return Tag::query()->withCount('posts')->get();
     }
 
-    public function postShow()
+    public function postShow(): JsonResponse
     {
-        $post = Post::query()
-            ->where('slug', request()->route('slug'))
-            ->with('tags')
-            ->first();
+        $post = Cache::remember('post_' . request()->route('slug'), CACHE_TTL, function () {
+            return Post::query()
+                ->where('slug', request()->route('slug'))
+                ->with('tags')
+                ->first();
+        });
 
         if (! $post) {
             return response()->json([
@@ -156,13 +165,24 @@ class PostController extends Controller
             ], 404);
         }
 
-        $tagsArray = [];
-        foreach ($post->tags as $key => $tag) {
-            $tagsArray[$key]['name'] = $tag->name;
-            $tagsArray[$key]['slug'] = $tag->slug;
-        }
+        $tagsArray = Cache::remember('post_' . request()->route('slug') . '_tags',
+            CACHE_TTL,
+            function () use ($post) {
+                $tagsArray = [];
+                foreach ($post->tags as $key => $tag) {
+                    $tagsArray[$key]['name'] = $tag->name;
+                    $tagsArray[$key]['slug'] = $tag->slug;
+                }
 
-        $post->related_posts = $this->getRelatedPosts($post->tags, $post->slug);
+                return $tagsArray;
+            });
+
+        $post->related_posts = Cache::remember(
+            'post_' . request()->route('slug') . '_related_posts',
+            CACHE_TTL,
+            function () use ($post) {
+                return $this->getRelatedPosts($post->tags, $post->slug);
+            });
 
         unset($post->tags);
         unset($post->content_raw);
@@ -172,7 +192,7 @@ class PostController extends Controller
         return response()->json($post);
     }
 
-    private function getRelatedPosts($postTags, $currentPostSlug)
+    private function getRelatedPosts($postTags, $currentPostSlug): Collection|array
     {
         return Post::query()
             ->select('title', 'slug', 'excerpt', 'featured_image', 'published_at')
@@ -186,7 +206,7 @@ class PostController extends Controller
             ->get();
     }
 
-    public function postTag()
+    public function postTag(): JsonResponse
     {
         $posts = Tag::query()
             ->where('slug', request()->route('tag'))

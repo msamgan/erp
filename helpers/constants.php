@@ -1,6 +1,7 @@
 <?php
 
 const PAGE_SIZE = 12;
+const CACHE_TTL = 60 * 60 * 24; // 24 hours
 
 if (! function_exists('editorJsParser')) {
     function editorJsParser($content): string
