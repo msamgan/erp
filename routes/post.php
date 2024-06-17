@@ -11,6 +11,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::post('/post/{post}', [PostController::class, 'update'])->name('post.update');
     Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+
+    Route::get('api/post/latest', [PostController::class, 'latestPost'])->name('api.post.latest');
 });
 
 // public API routes

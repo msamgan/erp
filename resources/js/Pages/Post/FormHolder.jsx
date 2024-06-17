@@ -86,10 +86,9 @@ export default function FormHolder({ auth, postData = null }) {
                 }, 5000)
 
                 if (!postData) {
-                    setData(postDataObject())
-                    setContent({})
-                    editor.current.destroy()
-                    editor.current = initEditor()
+                    axios.get(route("api.post.latest")).then((response) => {
+                        window.history.pushState({}, "", route("post.edit", response.data.id))
+                    })
                 }
             })
             .catch((error) => {

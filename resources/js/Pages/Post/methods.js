@@ -2,7 +2,7 @@ export const postDataObject = (post = null) => {
     return {
         title: post ? post.title : "",
         excerpt: post ? post.excerpt : "",
-        content: post ? post.content : null,
+        content: post ? post.content : "null",
         status: post ? post.status : "draft",
         featured_image: post ? post.featured_image : "",
         meta_description: post ? post.meta_description : "",
