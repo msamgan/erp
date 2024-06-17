@@ -4,6 +4,7 @@ import PrimaryLink from "@/Components/PrimaryLink.jsx"
 
 export default function Unsplash({ queryParams, photos }) {
     const [search, setSearch] = useState(queryParams.search || "")
+    const [type, setType] = useState(queryParams.type || "landscape")
     const [notification, setNotification] = useState(null)
 
     return (
@@ -21,6 +22,7 @@ export default function Unsplash({ queryParams, photos }) {
                         </button>
                     </span>
                     <form>
+                        <input type={"hidden"} name={"type"} value={type} />
                         <input
                             type="search"
                             name="search"
@@ -34,6 +36,26 @@ export default function Unsplash({ queryParams, photos }) {
                         </PrimaryButton>
                     </form>
                 </div>
+                <small
+                    onClick={() => setType("landscape")}
+                    className={
+                        type === "landscape"
+                            ? "text-primary mr-3 cursor-pointer"
+                            : "text-gray-500 mr-3 cursor-pointer"
+                    }
+                >
+                    landscape
+                </small>
+                <small
+                    onClick={() => setType("portrait")}
+                    className={
+                        type === "portrait"
+                            ? "text-primary mr-3 cursor-pointer"
+                            : "text-gray-500 mr-3 cursor-pointer"
+                    }
+                >
+                    portrait
+                </small>
             </fieldset>
 
             <div>

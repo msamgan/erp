@@ -29,6 +29,7 @@ class MediaController extends Controller
                 'page' => request('page') ?: 1,
                 'per_page' => 30,
                 'client_id' => config('app.unsplash_access_key'),
+                'orientation' => request('type'),
             ]);
 
             return Inertia::render('Media/Index', [
@@ -37,6 +38,16 @@ class MediaController extends Controller
         }
 
         return Inertia::render('Media/Index');
+    }
+
+    public function proxyPhotos(): \Illuminate\Http\Client\Response
+    {
+        return Http::get('https://api.unsplash.com/search/photos', [
+            'query' => request('query'),
+            'per_page' => request('per_page'),
+            'client_id' => config('app.unsplash_access_key'),
+            'orientation' => request('orientation'),
+        ]);
     }
 
     /**

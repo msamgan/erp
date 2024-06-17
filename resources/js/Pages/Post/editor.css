@@ -17,3 +17,9 @@ h2 {
 h3 {
     @apply text-lg font-bold;
 }
+
+.inline-image__orientation-button {
+    margin-right: 15px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
