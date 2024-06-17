@@ -5,9 +5,8 @@ import Main from "@/Components/Main.jsx"
 import Form from "@/Pages/Post/Form.jsx"
 import FormSection from "@/Components/FormSection.jsx"
 import { pageDataObject, postDataObject } from "@/Pages/Post/methods.js"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import axios from "axios"
-import { useRef } from "react"
 
 import EditorJS from "@editorjs/editorjs"
 import Header from "@editorjs/header"
@@ -17,6 +16,7 @@ import List from "@editorjs/list"
 import InlineCode from "@editorjs/inline-code"
 import Quote from "@editorjs/quote"
 import Delimiter from "@editorjs/delimiter"
+import InlineImage from "editorjs-inline-image"
 
 import "./editor.css"
 
@@ -120,6 +120,20 @@ export default function FormHolder({ auth, postData = null }) {
                     shortcut: "CMD+SHIFT+M"
                 },
                 quote: Quote,
+                image: {
+                    class: InlineImage,
+                    inlineToolbar: true,
+                    config: {
+                        embed: {
+                            display: true
+                        },
+                        unsplash: {
+                            appName: "CodeBySamgan",
+                            apiUrl: "https://erp.msamgan.com",
+                            maxResults: 30
+                        }
+                    }
+                },
                 delimiter: Delimiter
             },
             onReady: async (api) => {

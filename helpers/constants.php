@@ -25,6 +25,8 @@ if (! function_exists('editorJsParser')) {
                 $parsedContent .= "<pre><code>{$block['data']['code']}</code></pre>";
             } elseif ($block['type'] === 'quote') {
                 $parsedContent .= "<div><blockquote>{$block['data']['text']}</blockquote>" . ($block['data']['caption'] ? "<cite>{$block['data']['caption']}</cite>" : '') . '</div>';
+            } elseif ($block['type'] === 'image') {
+                $parsedContent .= "<img src=\"{$block['data']['url']}\" alt=\"{$block['data']['caption']}\" title=\"{$block['data']['caption']}\">";
             }
         }
 
@@ -80,6 +82,13 @@ if (! function_exists('htmlToEditorJsBlockParser')) {
                 if ($citeElement->length) {
                     $block['data']['caption'] = $citeElement->item(0)->textContent;
                 }
+            } elseif ($element->tagName === 'img') {
+                $block['type'] = 'image';
+                $block['data']['url'] = $element->getAttribute('src');
+                $block['data']['caption'] = $element->getAttribute('alt');
+                $block['data']['withBorder'] = false;
+                $block['data']['withBackground'] = false;
+                $block['data']['stretched'] = true;
             }
 
             if ($block) {

@@ -9,3 +9,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/media/store', [MediaController::class, 'store'])->name('media.store');
     Route::get('/media/photos', [MediaController::class, 'photos'])->name('media.photos');
 });
+
+Route::get('search/photos', [MediaController::class, 'proxyPhotos'])->name('api.media.photos');
