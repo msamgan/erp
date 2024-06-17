@@ -147,8 +147,11 @@ class PostController extends Controller
     public function latestPost(): JsonResponse
     {
         $post = Post::query()
+            ->with('tags')
             ->orderBy('created_at', 'desc')
             ->first();
+
+        $post->content = json_decode($post->content_raw);
 
         return response()->json($post);
     }
