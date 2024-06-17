@@ -40,7 +40,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request): \Illuminate\Http\Response
     {
         $request = $this->processRequest($request);
 
@@ -142,6 +142,18 @@ class PostController extends Controller
         });
 
         return response()->json($posts);
+    }
+
+    public function latestPost(): JsonResponse
+    {
+        $post = Post::query()
+            ->with('tags')
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $post->content = json_decode($post->content_raw);
+
+        return response()->json($post);
     }
 
     public function tagList(): Collection|array

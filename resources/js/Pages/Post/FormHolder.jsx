@@ -29,7 +29,7 @@ export default function FormHolder({ auth, postData = null }) {
     const [recentlySuccessful, setRecentlySuccessful] = useState(false)
     const [errors, setErrors] = useState({})
 
-    const pageData = pageDataObject(postData)
+    const [pageData, setPageData] = useState(pageDataObject(postData))
 
     const [tagList, setTagList] = useState([])
     const [content, setContent] = useState(postData ? postData.content : {})
@@ -86,10 +86,11 @@ export default function FormHolder({ auth, postData = null }) {
                 }, 5000)
 
                 if (!postData) {
-                    setData(postDataObject())
-                    setContent({})
-                    editor.current.destroy()
-                    editor.current = initEditor()
+                    axios.get(route("api.post.latest")).then((response) => {
+                        window.history.pushState({}, "", route("post.edit", response.data.id))
+                        setPageData(pageDataObject(response.data))
+                        setData(postDataObject(response.data))
+                    })
                 }
             })
             .catch((error) => {
