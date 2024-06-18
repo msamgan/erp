@@ -18,7 +18,7 @@ class TaskController extends Controller
     public function index(): Response
     {
         $todayTask = Task::query()
-            ->whereDate('due_date', now())
+            ->whereDate('due_date', '<=', now())
             ->with('project')
             ->get();
 

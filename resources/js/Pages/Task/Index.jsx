@@ -2,10 +2,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import HeaderTitle from "@/Components/HeaderTitle.jsx"
 import { Head } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
-import Table from "@/Components/Table.jsx"
 import PrimaryLink from "@/Components/PrimaryLink.jsx"
 import { useEffect, useState } from "react"
 import EditLink from "@/Components/EditLink.jsx"
+import PrimaryButton from "@/Components/PrimaryButton.jsx"
+import CheckedTable from "@/Components/CheckedTable.jsx"
 
 export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
     const [columns, setColumns] = useState(["Name", "Project", "Due Date", "Actions"])
@@ -13,8 +14,10 @@ export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
     const [tomorrowTaskData, setTomorrowTaskData] = useState([])
     const [restTaskData, setRestTaskData] = useState([])
 
+    const [checked, setChecked] = useState([])
+
     const createDateAttribute = (date) => {
-        return  date
+        return date
         // return <div className="flex space-x-1">{date ? new Date(date).toDateString() : ""}</div>
     }
 
@@ -39,6 +42,7 @@ export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
         setTodayTaskData(
             todayTask.map((task) => {
                 return {
+                    ID: task.id,
                     Name: createNameAttribute(task.name, task.description),
                     Project: task.project ? task.project.name : "",
                     "Due Date": createDateAttribute(task.due_date),
@@ -54,6 +58,7 @@ export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
         setTomorrowTaskData(
             tomorrowTask.map((task) => {
                 return {
+                    ID: task.id,
                     Name: createNameAttribute(task.name, task.description),
                     Project: task.project ? task.project.name : "",
                     "Due Date": createDateAttribute(task.due_date),
@@ -69,6 +74,7 @@ export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
         setRestTaskData(
             restTasks.map((task) => {
                 return {
+                    ID: task.id,
                     Name: createNameAttribute(task.name, task.description),
                     Project: task.project ? task.project.name : "",
                     "Due Date": createDateAttribute(task.due_date),
@@ -81,6 +87,10 @@ export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
             })
         )
     }, [])
+
+    useEffect(() => {
+        console.log(checked)
+    }, [checked])
 
     return (
         <AuthenticatedLayout
@@ -95,26 +105,46 @@ export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
             <Head title="Tasks" />
 
             <Main>
-                <Table
-                    columns={columns}
-                    data={todayTaskData}
-                    showSearchForm={false}
-                    title={'Today\'s Tasks'}
-                />
-                <span className="block h-6"></span>
-                <Table
-                    columns={columns}
-                    data={tomorrowTaskData}
-                    showSearchForm={false}
-                    title={'Tomorrow\'s Tasks'}
-                />
-                <span className="block h-6"></span>
-                <Table
-                    columns={columns}
-                    data={restTaskData}
-                    showSearchForm={false}
-                    title={'Rest of the Tasks'}
-                />
+                <div className="flex flex-col">
+                    <div>
+                        <PrimaryButton
+                            disabled={checked.length <= 0}
+                            title="Mark as Completed"
+                            className={"mb-6 float-end"}
+                        >
+                            Mark as Completed
+                        </PrimaryButton>
+                    </div>
+                    <div>
+                        <CheckedTable
+                            columns={columns}
+                            data={todayTaskData}
+                            showSearchForm={false}
+                            title={"Today's Tasks"}
+                            checked={checked}
+                            setChecked={setChecked}
+                        />
+                        <span className="block h-6"></span>
+
+                        <CheckedTable
+                            columns={columns}
+                            data={tomorrowTaskData}
+                            showSearchForm={false}
+                            title={"Tomorrow's Tasks"}
+                            checked={checked}
+                            setChecked={setChecked}
+                        />
+                        <span className="block h-6"></span>
+                        <CheckedTable
+                            columns={columns}
+                            data={restTaskData}
+                            showSearchForm={false}
+                            title={"Rest of the Tasks"}
+                            checked={checked}
+                            setChecked={setChecked}
+                        />
+                    </div>
+                </div>
             </Main>
         </AuthenticatedLayout>
     )
