@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "react"
 import FormSection from "@/Components/FormSection.jsx"
 import Form from "@/Pages/Transaction/Form.jsx"
 
-export default function FormHolder({ auth }) {
+export default function Create({ auth }) {
     const [projects, setProjects] = useState([])
     const [descriptions, setDescriptions] = useState([])
 
@@ -70,7 +70,7 @@ export default function FormHolder({ auth }) {
             <Main>
                 <FormSection
                     headerTitle="Transaction Information"
-                    headerDescription="FormHolder a new transaction."
+                    headerDescription="Create a new transaction."
                 >
                     <Form
                         data={data}
