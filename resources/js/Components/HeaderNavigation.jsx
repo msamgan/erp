@@ -78,6 +78,13 @@ export default function HeaderNavigation() {
             >
                 Transactions
             </NavLink>
+            <NavLink
+                className={"white-xl"}
+                href={route("task")}
+                active={route().current("task") || route().current("task.create")}
+            >
+                Tasks
+            </NavLink>
         </>
     )
 }

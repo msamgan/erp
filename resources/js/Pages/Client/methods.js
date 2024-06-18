@@ -12,7 +12,9 @@ export const pageDataObject = (client = null) => {
         type: client ? "edit" : "create",
         title: client ? "Edit Client" : "Add Client",
         headerTitle: "Client Information",
-        description: client ? "Edit the client's information." : "Create a new client with their information.",
+        description: client
+            ? "Edit the client's information."
+            : "FormHolder a new client with their information.",
         actionUrl: client ? route("client.update", client.id) : route("client.store")
     }
 }

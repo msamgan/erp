@@ -4,27 +4,16 @@ import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import { useCallback, useEffect, useState } from "react"
 import FormSection from "@/Components/FormSection.jsx"
-import Form from "@/Pages/Transaction/Form.jsx"
+import Form from "@/Pages/Task/Form.jsx"
+import { pageDataObject, taskDataObject } from "@/Pages/Task/methods.js"
 
-export default function FormHolder({ auth }) {
+export default function FormHolder({ auth, task = null }) {
     const [projects, setProjects] = useState([])
-    const [descriptions, setDescriptions] = useState([])
 
     const projectList = useCallback(() => {
         axios(route("project.list"))
             .then((response) => {
                 setProjects(response.data)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-    }, [])
-
-    const descriptionList = useCallback(() => {
-        axios(route("transaction.descriptions"))
-            .then((response) => {
-                console.log(response)
-                setDescriptions(response.data)
             })
             .catch((error) => {
                 console.error(error)
@@ -37,41 +26,32 @@ export default function FormHolder({ auth }) {
 
     useEffect(() => {
         projectList()
-        descriptionList()
     }, [])
 
-    const dataObject = {
-        project: "",
-        description: "",
-        type: "incoming",
-        amount: "",
-        date: new Date().toISOString().split("T")[0]
-    }
+    const dataObject = taskDataObject(task)
 
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
 
+    const pageData = pageDataObject(task)
+
     const onSubmit = (e) => {
         e.preventDefault()
-        let confirm = window.confirm("Are you sure you want to add this transaction?")
-        if (confirm) {
-            post(route("transaction.store"), {
-                preserveScroll: true,
-                onSuccess: () => {
+        post(pageData.actionUrl, {
+            preserveScroll: true,
+            onSuccess: () => {
+                if (!task) {
                     setData(dataObject)
                 }
-            })
-        }
+            }
+        })
     }
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Add Transaction" />}>
-            <Head title="Add Transaction" />
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Add Task" />}>
+            <Head title="Add Task" />
 
             <Main>
-                <FormSection
-                    headerTitle="Transaction Information"
-                    headerDescription="FormHolder a new transaction."
-                >
+                <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
                     <Form
                         data={data}
                         setData={setData}
@@ -81,7 +61,6 @@ export default function FormHolder({ auth }) {
                         onSubmit={onSubmit}
                         projects={projects}
                         refreshProjectList={refreshProjectList}
-                        descriptions={descriptions}
                     />
                 </FormSection>
             </Main>

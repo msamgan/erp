@@ -17,3 +17,4 @@ require __DIR__ . '/project.php';
 require __DIR__ . '/transaction.php';
 require __DIR__ . '/post.php';
 require __DIR__ . '/media.php';
+require __DIR__ . '/tasks.php';

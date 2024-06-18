@@ -13,47 +13,39 @@ export default function Form({
     recentlySuccessful,
     onSubmit,
     projects,
-    refreshProjectList,
-    descriptions
+    refreshProjectList
 }) {
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
-            <div className="flex w-1/2 gap-4">
-                <div className="w-1/2">
-                    <InputLabel htmlFor="type" value="Type" isRequired={true} />
-                    <select
-                        id="type"
-                        className="block w-full mt-1 border-primary focus:border-teal-950 rounded-md shadow-sm"
-                        value={data.type}
-                        onChange={(e) => setData("type", e.target.value)}
-                    >
-                        <option value="incoming">Incoming</option>
-                        <option value="outgoing">Outgoing</option>
-                    </select>
-                    <InputError className="mt-2" message={errors.type} />
-                </div>
-
-                <div className="w-1/2">
-                    <InputLabel htmlFor="amount" value="Amount" isRequired={true} />
-                    <TextInput
-                        id="amount"
-                        className="block w-full mt-1"
-                        value={data.amount}
-                        onChange={(e) => setData("amount", e.target.value)}
-                        type={"number"}
-                    />
-                    <InputError className="mt-2" message={errors.amount} />
-                </div>
+            <div>
+                <InputLabel htmlFor="name" value="Name" isRequired={true} />
+                <TextInput
+                    id="name"
+                    className="block w-1/2 mt-1"
+                    value={data.name}
+                    onChange={(e) => setData("name", e.target.value)}
+                    isFocused
+                    autoComplete="name"
+                />
+                <InputError className="mt-2" message={errors.name} />
             </div>
-
+            <div>
+                <InputLabel htmlFor="description" value="Description" />
+                <textarea
+                    id="description"
+                    className="block w-1/2 mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950"
+                    value={data.description}
+                    onChange={(e) => setData("description", e.target.value)}
+                />
+                <InputError className="mt-2" message={errors.description} />
+            </div>
             <div>
                 <InputLabel
                     htmlFor="Project"
                     isRequired={false}
                     className="block text-sm font-medium text-gray-900"
                 >
-                    {" "}
-                    Project{" "}
+                    Project
                 </InputLabel>
 
                 <div className="relative mt-1.5">
@@ -76,7 +68,7 @@ export default function Form({
                             }}
                         >
                             Add new
-                        </Link>{" "}
+                        </Link>
                         project if not in the list
                         <span
                             className="w-1/2 mr-16 text-blue-500 cursor-pointer hover:text-blue-700 float-end"
@@ -103,46 +95,15 @@ export default function Form({
             </div>
 
             <div>
-                <InputLabel
-                    htmlFor="Description"
-                    isRequired={true}
-                    className="block text-sm font-medium text-gray-900"
-                >
-                    Description
-                </InputLabel>
-
-                <div className="relative mt-1.5">
-                    <TextInput
-                        type="text"
-                        list="DescriptionList"
-                        id="Description"
-                        className="block w-1/2 mt-1"
-                        placeholder="Please select"
-                        value={data.description}
-                        onChange={(e) => setData("description", e.target.value)}
-                    />
-                    <InputError className="mt-2" message={errors.description} />
-                </div>
-
-                <datalist name="Description" id="DescriptionList">
-                    {descriptions.map((description, index) => (
-                        <option key={index} value={description}>
-                            {description}
-                        </option>
-                    ))}
-                </datalist>
-            </div>
-
-            <div>
-                <InputLabel htmlFor="date" value="Date" isRequired={true} />
+                <InputLabel htmlFor="date" value="Due Date" isRequired={false} />
                 <TextInput
                     id="date"
                     type={"date"}
                     className="block w-1/2 mt-1"
-                    value={data.date}
-                    onChange={(e) => setData("date", e.target.value)}
+                    value={data.due_date}
+                    onChange={(e) => setData("due_date", e.target.value)}
                 />
-                <InputError className="mt-2" message={errors.date} />
+                <InputError className="mt-2" message={errors.due_date} />
             </div>
 
             <div className="flex items-center gap-4">

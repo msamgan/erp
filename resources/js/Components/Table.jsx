@@ -15,7 +15,8 @@ export default function Table({
     from = 0,
     to = 0,
     nextPage = null,
-    previousPage = null
+    previousPage = null,
+    title = null
 }) {
     const [totalRows, setTotalRows] = useState(0)
     const [nextPageLink, setNextPageLink] = useState(null)
@@ -45,6 +46,7 @@ export default function Table({
             ) : null}
 
             <div className="overflow-x-auto border border-gray-200 rounded-lg shadow border-left-primary">
+                {title && <h2 className={"text-lg font-semibold px-4 py-2 border-b border-gray-200"}>{title}</h2>}
                 <table className="min-w-full text-lg divide-y-2 divide-gray-200">
                     <thead className="text-left primary-bg white-lg">
                         <tr>

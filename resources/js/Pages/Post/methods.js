@@ -14,11 +14,11 @@ export const postDataObject = (post = null) => {
 export const pageDataObject = (post = null) => {
     return {
         type: post ? "edit" : "create",
-        title: post ? "Edit Post" : "Create Post",
+        title: post ? "Edit Post" : "FormHolder Post",
         headerTitle: "Post Information",
         description: post
             ? "Update an existing Post with It's information."
-            : "Create a new Post with details.",
+            : "FormHolder a new Post with details.",
         actionUrl: post ? route("post.update", post.id) : route("post.store")
     }
 }

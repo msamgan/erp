@@ -12,7 +12,7 @@ export const pageDataObject = (organization = null) => {
         headerTitle: "Organization Information",
         description: organization
             ? "Update an existing organization with it's information."
-            : "Create a new organization with it's information.",
+            : "FormHolder a new organization with it's information.",
         actionUrl: organization ? route("organization.update", organization.id) : route("organization.store")
     }
 }
