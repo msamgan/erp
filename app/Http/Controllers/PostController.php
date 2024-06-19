@@ -120,12 +120,20 @@ class PostController extends Controller
 
     public function postList(): JsonResponse
     {
-        $posts = Cache::remember('posts', CACHE_TTL, function () {
+        $query = request('query');
+
+        $cacheKey = $query ? 'posts_' . $query : 'posts';
+
+        $posts = Cache::remember($cacheKey, CACHE_TTL, function () use ($query) {
             $posts = Post::query()
                 ->select('id', 'title', 'slug', 'excerpt', 'status', 'featured_image', 'published_at')
                 ->where('status', 'published')
                 ->with('tags')
                 ->orderBy('published_at', 'desc')
+                ->when($query, function ($query) {
+                    $query->where('title', 'like', '%' . request('query') . '%');
+                    $query->orWhere('excerpt', 'like', '%' . request('query') . '%');
+                })
                 ->get();
 
             $posts->map(function ($post) {
