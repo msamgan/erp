@@ -14,7 +14,7 @@ export const postDataObject = (post = null) => {
 export const pageDataObject = (post = null) => {
     return {
         type: post ? "edit" : "create",
-        title: post ? "Edit Post" : "FormHolder Post",
+        title: post ? "Edit Post" : "Create Post",
         headerTitle: "Post Information",
         description: post
             ? "Update an existing Post with It's information."

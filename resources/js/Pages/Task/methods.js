@@ -11,7 +11,7 @@ export const taskDataObject = (task = null) => {
 export const pageDataObject = (task = null) => {
     return {
         type: task ? "edit" : "create",
-        title: task ? "Update Task" : "Add Task",
+        title: task ? "Update Task" : "Create Task",
         headerTitle: "Task Information",
         description: task
             ? "Update an existing task with it's information."

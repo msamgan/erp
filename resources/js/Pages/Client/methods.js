@@ -14,7 +14,7 @@ export const pageDataObject = (client = null) => {
         headerTitle: "Client Information",
         description: client
             ? "Edit the client's information."
-            : "FormHolder a new client with their information.",
+            : "Create a new client with their information.",
         actionUrl: client ? route("client.update", client.id) : route("client.store")
     }
 }
