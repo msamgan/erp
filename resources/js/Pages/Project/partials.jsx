@@ -36,11 +36,3 @@ export const createTypeAttribute = (type) => {
 export const createCostingAttribute = (costing) => {
     return costing.toLocaleString("en-US", { style: "currency", currency: "USD" })
 }
-
-export const createDateAttribute = (date) => {
-    if (date) {
-        return new Date(date).toDateString()
-    }
-
-    return "-"
-}

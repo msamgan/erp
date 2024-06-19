@@ -9,11 +9,11 @@ import EditLink from "@/Components/EditLink.jsx"
 import DetailsLink from "@/Components/DetailsLink.jsx"
 import {
     createCostingAttribute,
-    createDateAttribute,
     createStatusAttribute,
     createTypeAttribute
 } from "@/Pages/Project/partials.jsx"
 import { projectStatuses } from "@/helpers/constants.js"
+import { createDateAttribute } from "@/helpers/methods.js"
 
 export default function Index({ auth, projects }) {
     const [columns, setColumns] = useState(["Name", "Client", "Status", "Dates", "Costing", "Type", "Actions"])

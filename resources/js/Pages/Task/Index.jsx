@@ -7,8 +7,10 @@ import { useEffect, useState } from "react"
 import EditLink from "@/Components/EditLink.jsx"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import CheckedTable from "@/Components/CheckedTable.jsx"
+import axios from "axios"
+import { createDateAttribute } from "@/helpers/methods.js"
 
-export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
+export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Name", "Project", "Due Date", "Actions"])
     const [todayTaskData, setTodayTaskData] = useState([])
     const [tomorrowTaskData, setTomorrowTaskData] = useState([])
@@ -16,9 +18,63 @@ export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
 
     const [checked, setChecked] = useState([])
 
-    const createDateAttribute = (date) => {
-        return date
-        // return <div className="flex space-x-1">{date ? new Date(date).toDateString() : ""}</div>
+    const getTasks = () => {
+        axios.get(route("task.list")).then((response) => {
+            const todayTask = response.data.todayTasks
+            const tomorrowTask = response.data.tomorrowTasks
+            const restTasks = response.data.restTasks
+
+            setTodayTaskData(
+                todayTask.map((task) => {
+                    return {
+                        ID: task.id,
+                        Name: createNameAttribute(task.name, task.description),
+                        Project: task.project ? task.project.name : "",
+                        "Due Date": createDateAttribute(task.due_date),
+                        Actions: (
+                            <div className="flex space-x-2">
+                                <EditLink editRoute={route("task.edit", task.id)} />
+                            </div>
+                        )
+                    }
+                })
+            )
+
+            setTomorrowTaskData(
+                tomorrowTask.map((task) => {
+                    return {
+                        ID: task.id,
+                        Name: createNameAttribute(task.name, task.description),
+                        Project: task.project ? task.project.name : "",
+                        "Due Date": createDateAttribute(task.due_date),
+                        Actions: (
+                            <div className="flex space-x-2">
+                                <EditLink editRoute={route("task.edit", task.id)} />
+                            </div>
+                        )
+                    }
+                })
+            )
+
+            setRestTaskData(
+                restTasks.map((task) => {
+                    return {
+                        ID: task.id,
+                        Name: createNameAttribute(task.name, task.description),
+                        Project: task.project ? task.project.name : "",
+                        "Due Date": createDateAttribute(task.due_date),
+                        Actions: (
+                            <div className="flex space-x-2">
+                                <EditLink editRoute={route("task.edit", task.id)} />
+                            </div>
+                        )
+                    }
+                })
+            )
+
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     const createNameAttribute = (name, description) => {
@@ -39,58 +95,8 @@ export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
     }
 
     useEffect(() => {
-        setTodayTaskData(
-            todayTask.map((task) => {
-                return {
-                    ID: task.id,
-                    Name: createNameAttribute(task.name, task.description),
-                    Project: task.project ? task.project.name : "",
-                    "Due Date": createDateAttribute(task.due_date),
-                    Actions: (
-                        <div className="flex space-x-2">
-                            <EditLink editRoute={route("task.edit", task.id)} />
-                        </div>
-                    )
-                }
-            })
-        )
-
-        setTomorrowTaskData(
-            tomorrowTask.map((task) => {
-                return {
-                    ID: task.id,
-                    Name: createNameAttribute(task.name, task.description),
-                    Project: task.project ? task.project.name : "",
-                    "Due Date": createDateAttribute(task.due_date),
-                    Actions: (
-                        <div className="flex space-x-2">
-                            <EditLink editRoute={route("task.edit", task.id)} />
-                        </div>
-                    )
-                }
-            })
-        )
-
-        setRestTaskData(
-            restTasks.map((task) => {
-                return {
-                    ID: task.id,
-                    Name: createNameAttribute(task.name, task.description),
-                    Project: task.project ? task.project.name : "",
-                    "Due Date": createDateAttribute(task.due_date),
-                    Actions: (
-                        <div className="flex space-x-2">
-                            <EditLink editRoute={route("task.edit", task.id)} />
-                        </div>
-                    )
-                }
-            })
-        )
+        getTasks()
     }, [])
-
-    useEffect(() => {
-        console.log(checked)
-    }, [checked])
 
     return (
         <AuthenticatedLayout
@@ -111,6 +117,19 @@ export default function Index({ auth, todayTask, tomorrowTask, restTasks }) {
                             disabled={checked.length <= 0}
                             title="Mark as Completed"
                             className={"mb-6 float-end"}
+                            onClick={() => {
+                                axios
+                                    .post(route("task.complete"), {
+                                        task_ids: checked
+                                    })
+                                    .then((response) => {
+                                        getTasks()
+                                        setChecked([])
+                                    })
+                                    .catch((error) => {
+                                        console.log(error)
+                                    })
+                            }}
                         >
                             Mark as Completed
                         </PrimaryButton>
