@@ -125,6 +125,7 @@ class PostController extends Controller
                 ->select('id', 'title', 'slug', 'excerpt', 'status', 'featured_image', 'published_at')
                 ->where('status', 'published')
                 ->with('tags')
+                ->orderBy('published_at', 'desc')
                 ->get();
 
             $posts->map(function ($post) {
