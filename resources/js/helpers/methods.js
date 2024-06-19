@@ -1,3 +1,5 @@
+import moment from "moment"
+
 export const appendQueryParamsToUrl = (queryParams, url) => {
     if (!url) {
         return null
@@ -19,4 +21,8 @@ export const appendQueryParamsToUrl = (queryParams, url) => {
         .join("&")
 
     return newUrl + "?" + queryString
+}
+
+export const createDateAttribute = (date) => {
+    return moment(date).format("MMMM Do YYYY")
 }

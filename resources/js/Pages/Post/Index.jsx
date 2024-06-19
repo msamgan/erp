@@ -7,6 +7,7 @@ import PrimaryLink from "@/Components/PrimaryLink.jsx"
 import { useEffect, useState } from "react"
 import EditLink from "@/Components/EditLink.jsx"
 import axios from "axios"
+import { createDateAttribute } from "@/helpers/methods.js"
 
 export default function Index({ auth, posts }) {
     const [columns, setColumns] = useState(["Title", "Status", "Actions"])
@@ -97,7 +98,7 @@ export default function Index({ auth, posts }) {
                 </div>
                 {status === "published" ? (
                     <>
-                        <span className="text-xs text-gray-500">on {new Date(publishedAt).toDateString()}</span>
+                        <span className="text-xs text-gray-500">on {createDateAttribute(publishedAt)}</span>
                     </>
                 ) : null}
             </div>

@@ -5,7 +5,7 @@ import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
 import PrimaryLink from "@/Components/PrimaryLink.jsx"
 import { useEffect, useState } from "react"
-import { appendQueryParamsToUrl } from "@/helpers/methods.js"
+import { createDateAttribute } from "@/helpers/methods.js"
 
 export default function Index({ auth, transactions }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Project", "Date"])
@@ -33,10 +33,6 @@ export default function Index({ auth, transactions }) {
                 )}
             </div>
         )
-    }
-
-    const createDateAttribute = (date) => {
-        return <div className="flex space-x-1">{date ? new Date(date).toDateString() : ""}</div>
     }
 
     const createAmountAttribute = (amount) => {

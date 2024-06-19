@@ -18,7 +18,7 @@ export const pageDataObject = (post = null) => {
         headerTitle: "Post Information",
         description: post
             ? "Update an existing Post with It's information."
-            : "Create a new Post with details.",
+            : "FormHolder a new Post with details.",
         actionUrl: post ? route("post.update", post.id) : route("post.store")
     }
 }

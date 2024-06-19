@@ -3,11 +3,13 @@ import SearchForm from "@/Components/SearchForm.jsx"
 import { Link } from "@inertiajs/react"
 import { appendQueryParamsToUrl } from "@/helpers/methods.js"
 
-export default function Table({
+export default function CheckedTable({
     columns,
     data,
     queryParams,
     setQueryParams,
+    setChecked,
+    checked,
     searchFormExtension = null,
     showSearchForm = true,
     tdClassName = "",
@@ -52,6 +54,18 @@ export default function Table({
                 <table className="min-w-full text-lg divide-y-2 divide-gray-200">
                     <thead className="text-left primary-bg white-lg">
                         <tr>
+                            <th className="px-4 py-2 font-medium whitespace-nowrap">
+                                <input
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setChecked(data.map((item) => item[Object.keys(item)[0]]))
+                                        } else {
+                                            setChecked([])
+                                        }
+                                    }}
+                                    type="checkbox"
+                                />
+                            </th>
                             {columns.map((column, index) => (
                                 <th key={index} className="px-4 py-2 font-medium whitespace-nowrap">
                                     {column}
@@ -71,7 +85,24 @@ export default function Table({
                                             tdClassName
                                         }
                                     >
-                                        {cell}
+                                        {index === 0 ? (
+                                            <input
+                                                onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                        setChecked([...checked, e.target.value])
+                                                    } else {
+                                                        setChecked(
+                                                            checked.filter((item) => item !== e.target.value)
+                                                        )
+                                                    }
+                                                }}
+                                                value={cell}
+                                                type="checkbox"
+                                                checked={checked?.includes(cell)}
+                                            />
+                                        ) : (
+                                            cell
+                                        )}
                                     </td>
                                 ))}
                             </tr>
