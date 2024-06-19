@@ -6,10 +6,10 @@ import { useEffect, useState } from "react"
 import Table from "@/Components/Table.jsx"
 import {
     createCostingAttribute,
-    createDateAttribute,
     createStatusAttribute,
     createTypeAttribute as createProjectTypeAttribute
 } from "@/Pages/Project/partials.jsx"
+import { createDateAttribute } from "@/helpers/methods.js"
 
 export default function Show({ auth, project }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Date"])
