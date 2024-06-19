@@ -19,62 +19,64 @@ export default function Index({ auth }) {
     const [checked, setChecked] = useState([])
 
     const getTasks = () => {
-        axios.get(route("task.list")).then((response) => {
-            const todayTask = response.data.todayTasks
-            const tomorrowTask = response.data.tomorrowTasks
-            const restTasks = response.data.restTasks
+        axios
+            .get(route("task.list"))
+            .then((response) => {
+                const todayTask = response.data.todayTasks
+                const tomorrowTask = response.data.tomorrowTasks
+                const restTasks = response.data.restTasks
 
-            setTodayTaskData(
-                todayTask.map((task) => {
-                    return {
-                        ID: task.id,
-                        Name: createNameAttribute(task.name, task.description),
-                        Project: task.project ? task.project.name : "",
-                        "Due Date": createDateAttribute(task.due_date),
-                        Actions: (
-                            <div className="flex space-x-2">
-                                <EditLink editRoute={route("task.edit", task.id)} />
-                            </div>
-                        )
-                    }
-                })
-            )
+                setTodayTaskData(
+                    todayTask.map((task) => {
+                        return {
+                            ID: task.id,
+                            Name: createNameAttribute(task.name, task.description),
+                            Project: task.project ? task.project.name : "",
+                            "Due Date": createDateAttribute(task.due_date),
+                            Actions: (
+                                <div className="flex space-x-2">
+                                    <EditLink editRoute={route("task.edit", task.id)} />
+                                </div>
+                            )
+                        }
+                    })
+                )
 
-            setTomorrowTaskData(
-                tomorrowTask.map((task) => {
-                    return {
-                        ID: task.id,
-                        Name: createNameAttribute(task.name, task.description),
-                        Project: task.project ? task.project.name : "",
-                        "Due Date": createDateAttribute(task.due_date),
-                        Actions: (
-                            <div className="flex space-x-2">
-                                <EditLink editRoute={route("task.edit", task.id)} />
-                            </div>
-                        )
-                    }
-                })
-            )
+                setTomorrowTaskData(
+                    tomorrowTask.map((task) => {
+                        return {
+                            ID: task.id,
+                            Name: createNameAttribute(task.name, task.description),
+                            Project: task.project ? task.project.name : "",
+                            "Due Date": createDateAttribute(task.due_date),
+                            Actions: (
+                                <div className="flex space-x-2">
+                                    <EditLink editRoute={route("task.edit", task.id)} />
+                                </div>
+                            )
+                        }
+                    })
+                )
 
-            setRestTaskData(
-                restTasks.map((task) => {
-                    return {
-                        ID: task.id,
-                        Name: createNameAttribute(task.name, task.description),
-                        Project: task.project ? task.project.name : "",
-                        "Due Date": createDateAttribute(task.due_date),
-                        Actions: (
-                            <div className="flex space-x-2">
-                                <EditLink editRoute={route("task.edit", task.id)} />
-                            </div>
-                        )
-                    }
-                })
-            )
-
-        }).catch((error) => {
-            console.log(error)
-        })
+                setRestTaskData(
+                    restTasks.map((task) => {
+                        return {
+                            ID: task.id,
+                            Name: createNameAttribute(task.name, task.description),
+                            Project: task.project ? task.project.name : "",
+                            "Due Date": createDateAttribute(task.due_date),
+                            Actions: (
+                                <div className="flex space-x-2">
+                                    <EditLink editRoute={route("task.edit", task.id)} />
+                                </div>
+                            )
+                        }
+                    })
+                )
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     const createNameAttribute = (name, description) => {
