@@ -229,10 +229,20 @@ class PostController extends Controller
 
     public function postTag(): JsonResponse
     {
+        $query = request('query');
+
         $posts = Tag::query()
             ->where('slug', request()->route('tag'))
             ->with('posts', 'posts.tags')
             ->first();
+
+        if ($query) {
+            $posts->posts = $posts->posts->filter(function ($post) use ($query) {
+                return Str::contains($post->title, $query) || Str::contains($post->excerpt, $query);
+            });
+
+            $posts->posts = $posts->posts->values();
+        }
 
         if (! $posts) {
             return response()->json([
