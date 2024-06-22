@@ -15,7 +15,7 @@ add('writable_dirs', []);
 // Hosts
 
 host('146.190.32.125')
-    ->set('remote_user', 'msamgandev')
+    ->set('remote_user', 'msamgan_dev')
     ->set('deploy_path', '~/htdocs/msamgan.dev');
 
 desc('Build the assets');
