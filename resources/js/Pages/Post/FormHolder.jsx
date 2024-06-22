@@ -131,7 +131,7 @@ export default function FormHolder({ auth, postData = null }) {
                         },
                         unsplash: {
                             appName: "CodeBySamgan",
-                            apiUrl: "https://erp.msamgan.com",
+                            apiUrl: "https://msamgan.dev",
                             maxResults: 30
                         }
                     }
