@@ -17,6 +17,7 @@ import InlineCode from "@editorjs/inline-code"
 import Quote from "@editorjs/quote"
 import Delimiter from "@editorjs/delimiter"
 import InlineImage from "editorjs-inline-image"
+import YoutubeEmbed from "editorjs-youtube-embed"
 
 import "./editor.css"
 
@@ -130,11 +131,12 @@ export default function FormHolder({ auth, postData = null }) {
                         },
                         unsplash: {
                             appName: "CodeBySamgan",
-                            apiUrl: "https://erp.msamgan.com",
+                            apiUrl: "https://msamgan.dev",
                             maxResults: 30
                         }
                     }
                 },
+                youtubeEmbed: YoutubeEmbed,
                 delimiter: Delimiter
             },
             onReady: async (api) => {

@@ -27,6 +27,8 @@ if (! function_exists('editorJsParser')) {
                 $parsedContent .= "<div><blockquote>{$block['data']['text']}</blockquote>" . ($block['data']['caption'] ? "<cite>{$block['data']['caption']}</cite>" : '') . '</div>';
             } elseif ($block['type'] === 'image') {
                 $parsedContent .= "<img src=\"{$block['data']['url']}\" alt=\"{$block['data']['caption']}\" title=\"{$block['data']['caption']}\">";
+            } elseif ($block['type'] === 'youtubeEmbed') {
+                $parsedContent .= "<iframe width=\"560\" height=\"315\" src=\"{$block['data']['url']}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>";
             }
         }
 
