@@ -5,6 +5,9 @@ import Main from "@/Components/Main.jsx"
 import { useCallback, useEffect, useState } from "react"
 import FormSection from "@/Components/FormSection.jsx"
 import Form from "@/Pages/Transaction/Form.jsx"
+import alertify from "alertifyjs"
+import "/node_modules/alertifyjs/build/css/alertify.css"
+import "/node_modules/alertifyjs/build/css/themes/default.css"
 
 export default function Create({ auth }) {
     const [projects, setProjects] = useState([])
@@ -23,7 +26,6 @@ export default function Create({ auth }) {
     const descriptionList = useCallback(() => {
         axios(route("transaction.descriptions"))
             .then((response) => {
-                console.log(response)
                 setDescriptions(response.data)
             })
             .catch((error) => {
@@ -52,15 +54,21 @@ export default function Create({ auth }) {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        let confirm = window.confirm("Are you sure you want to add this transaction?")
-        if (confirm) {
-            post(route("transaction.store"), {
-                preserveScroll: true,
-                onSuccess: () => {
-                    setData(dataObject)
-                }
-            })
-        }
+        alertify.confirm(
+            "Are you sure?",
+            "Are you sure you want to add this transaction? This action cannot be undone.",
+            function () {
+                post(route("transaction.store"), {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setData(dataObject)
+                    }
+                })
+            },
+            function () {
+                // alertify.error("Cancel")
+            }
+        )
     }
 
     return (
