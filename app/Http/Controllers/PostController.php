@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use AllowDynamicProperties;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Repository\PostRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
@@ -13,8 +15,14 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
+#[AllowDynamicProperties]
 class PostController extends Controller
 {
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -42,7 +50,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request): \Illuminate\Http\Response
     {
-        $request = $this->processRequest($request);
+        $request = $this->postRepository->processRequest($request);
 
         $post = Post::create($request->all());
 
@@ -52,23 +60,6 @@ class PostController extends Controller
         }
 
         return response()->noContent();
-    }
-
-    private function processRequest($request, $post = null)
-    {
-        $request->merge([
-            'content_raw' => json_encode($request->content),
-            'content' => removeNbsp(editorJsParser($request->content)),
-            'slug' => $post ? Str::slug($request->slug) : Str::slug($request->title),
-        ]);
-
-        if ($request->status === 'published') {
-            $request->merge([
-                'published_at' => now(),
-            ]);
-        }
-
-        return $request;
     }
 
     /**
@@ -104,7 +95,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post): \Illuminate\Http\Response
     {
-        $request = $this->processRequest($request, $post);
+        $request = $this->postRepository->processRequest($request, $post);
 
         $post->update($request->except('tags'));
 
@@ -121,34 +112,12 @@ class PostController extends Controller
     public function postList(): JsonResponse
     {
         $query = request('query');
+        $isPaginated = request('paginated') && request('paginated') === 'true';
+        $page = request('page') ?? 1;
 
-        $cacheKey = $query ? 'posts_' . $query : 'posts';
-
-        $posts = Cache::remember($cacheKey, CACHE_TTL, function () use ($query) {
-            $posts = Post::query()
-                ->select('id', 'title', 'slug', 'excerpt', 'status', 'featured_image', 'published_at')
-                ->where('status', 'published')
-                ->with('tags')
-                ->orderBy('published_at', 'desc')
-                ->when($query, function ($query) {
-                    $query->where('title', 'like', '%' . request('query') . '%');
-                    $query->orWhere('excerpt', 'like', '%' . request('query') . '%');
-                })
-                ->get();
-
-            $posts->map(function ($post) {
-                $tagsArray = [];
-                foreach ($post->tags as $key => $tag) {
-                    $tagsArray[$key]['name'] = $tag->name;
-                    $tagsArray[$key]['slug'] = $tag->slug;
-                }
-
-                unset($post->tags);
-                $post->tags = $tagsArray;
-            });
-
-            return $posts;
-        });
+        $posts = $isPaginated
+            ? $this->postRepository->postListPaginated($query, $page)
+            : $this->postRepository->postListNonPaginated($query);
 
         return response()->json($posts);
     }
@@ -273,7 +242,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): JsonResponse
     {
         $post->tags()->detach();
         $post->delete();
