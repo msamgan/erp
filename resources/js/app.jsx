@@ -1,5 +1,7 @@
 import "./bootstrap"
 import "../css/app.css"
+import "/node_modules/alertifyjs/build/css/alertify.css"
+import "/node_modules/alertifyjs/build/css/themes/default.css"
 
 import { createRoot } from "react-dom/client"
 import { createInertiaApp } from "@inertiajs/react"

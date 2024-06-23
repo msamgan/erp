@@ -140,7 +140,7 @@ export default function FormHolder({ auth, postData = null }) {
                 delimiter: Delimiter
             },
             onReady: async (api) => {
-                console.log("Editor.js is ready to work!")
+                // console.log("Editor.js is ready to work!")
             },
             onChange: async (api, event) => {
                 // console.log(await api.saver.save())

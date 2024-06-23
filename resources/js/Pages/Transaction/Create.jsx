@@ -6,8 +6,6 @@ import { useCallback, useEffect, useState } from "react"
 import FormSection from "@/Components/FormSection.jsx"
 import Form from "@/Pages/Transaction/Form.jsx"
 import alertify from "alertifyjs"
-import "/node_modules/alertifyjs/build/css/alertify.css"
-import "/node_modules/alertifyjs/build/css/themes/default.css"
 
 export default function Create({ auth }) {
     const [projects, setProjects] = useState([])

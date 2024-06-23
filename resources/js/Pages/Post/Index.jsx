@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import EditLink from "@/Components/EditLink.jsx"
 import axios from "axios"
 import { createDateAttribute } from "@/helpers/methods.js"
+import alertify from "alertifyjs"
 
 export default function Index({ auth, posts }) {
     const [columns, setColumns] = useState(["Title", "Status", "Actions"])
@@ -23,11 +24,18 @@ export default function Index({ auth, posts }) {
                 <button
                     className="p-1 ml-4 text-red-500 bg-red-100 rounded-full"
                     onClick={() => {
-                        if (confirm("Are you sure you want to delete this post?")) {
-                            axios.delete(deleteRoute).then(() => {
-                                window.location.reload()
-                            })
-                        }
+                        alertify.confirm(
+                            "Are you sure?",
+                            "Are you sure you want to delete this post? This action cannot be undone.",
+                            function () {
+                                axios.delete(deleteRoute).then(() => {
+                                    window.location.reload()
+                                })
+                            },
+                            function () {
+                                // alertify.error("Cancel")
+                            }
+                        )
                     }}
                 >
                     <svg
