@@ -59,9 +59,9 @@ export default function Index({ auth, projects }) {
     const createFormattedDateAttribute = (startDate, endDate) => {
         return (
             <>
-                <div className="flex space-x-1">from: {createDateAttribute(startDate)}</div>
+                <div className="flex space-x-1">from: {startDate ? createDateAttribute(startDate) : "--"}</div>
                 <hr />
-                <div className="flex space-x-1">to: {createDateAttribute(endDate)}</div>
+                <div className="flex space-x-1">to: {endDate ? createDateAttribute(endDate) : "--"}</div>
             </>
         )
     }
