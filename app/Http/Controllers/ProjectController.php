@@ -22,6 +22,8 @@ class ProjectController extends Controller
 
         if (request()->get('status') && request()->get('status') !== 'all') {
             $project->where('status', request()->get('status'));
+        } else {
+            $project->where('status', '!=', 'completed');
         }
 
         if (request()->get('search')) {
