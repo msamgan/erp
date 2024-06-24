@@ -112,12 +112,18 @@ class PostController extends Controller
     public function postList(): JsonResponse
     {
         $query = request('query');
-        $isPaginated = request('paginated') && request('paginated') === 'true';
+
+        $posts = $this->postRepository->postListNonPaginated($query);
+
+        return response()->json($posts);
+    }
+
+    public function postListPaginated(): JsonResponse
+    {
+        $query = request('query');
         $page = request('page') ?? 1;
 
-        $posts = $isPaginated
-            ? $this->postRepository->postListPaginated($query, $page)
-            : $this->postRepository->postListNonPaginated($query);
+        $posts = $this->postRepository->postListPaginated($query, $page);
 
         return response()->json($posts);
     }

@@ -18,5 +18,6 @@ Route::middleware('auth')->group(function () {
 // public API routes
 Route::get('api/tag/list', [PostController::class, 'tagList'])->name('api.tag.list');
 Route::get('api/post/list', [PostController::class, 'postList'])->name('api.post.list');
+Route::get('api/post/list/paginated', [PostController::class, 'postListPaginated'])->name('api.post.list.paginated');
 Route::get('api/post/{slug}', [PostController::class, 'postShow'])->name('api.post.show');
 Route::get('api/post/tag/{tag}', [PostController::class, 'postTag'])->name('api.post.tag');
