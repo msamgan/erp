@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import HeaderTitle from "@/Components/HeaderTitle.jsx"
-import { Head } from "@inertiajs/react"
+import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
 import PrimaryLink from "@/Components/PrimaryLink.jsx"
@@ -8,14 +8,37 @@ import { useEffect, useState } from "react"
 import EditLink from "@/Components/EditLink.jsx"
 import Drawer from "@/Components/Drawer.jsx"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
+import { organizationDataObject, pageDataObject } from "@/Pages/Organization/methods.js"
+import Form from "@/Pages/Organization/Form.jsx"
+import FormSection from "@/Components/FormSection.jsx"
 
 export default function Index({ auth, organizations }) {
     const [columns, setColumns] = useState(["Name", "Location", "Actions"])
-    const [openRight, setOpenRight] = useState(false)
-    const [data, setData] = useState([])
+    const [openDrawer, setOpenDrawer] = useState(false)
+    const [listingData, setListingData] = useState([])
     const [queryParams, setQueryParams] = useState(
         Object.fromEntries(new URLSearchParams(window.location.search).entries())
     )
+    const [organization, setOrganization] = useState(null)
+
+    const dataObject = organizationDataObject(organization)
+
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+
+    const pageData = pageDataObject(organization)
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+
+        post(pageData.actionUrl, {
+            preserveScroll: true,
+            onSuccess: () => {
+                if (!organization) {
+                    setData(dataObject)
+                }
+            }
+        })
+    }
 
     const createActions = (editRoute) => {
         return (
@@ -26,7 +49,7 @@ export default function Index({ auth, organizations }) {
     }
 
     useEffect(() => {
-        setData(
+        setListingData(
             organizations.map((organization) => {
                 return {
                     Name: organization.name,
@@ -43,16 +66,10 @@ export default function Index({ auth, organizations }) {
             header={<HeaderTitle title="Organizations" />}
             subMenu={
                 <div className="flex space-x-2">
-                    {/*<PrimaryLink
-                        className={"h-8"}
-                        title="Add Organization"
-                        href={route("organization.create")}
-                    />*/}
-
                     <PrimaryButton
                         className={"h-8"}
                         title="Add Organization"
-                        onClick={() => setOpenRight(!openRight)}
+                        onClick={() => setOpenDrawer(!openDrawer)}
                     >
                         Add Organization
                     </PrimaryButton>
@@ -64,12 +81,23 @@ export default function Index({ auth, organizations }) {
             <Main>
                 <Table
                     columns={columns}
-                    data={data}
+                    data={listingData}
                     queryParams={queryParams}
                     setQueryParams={setQueryParams}
                 />
 
-                <Drawer open={openRight} side="right" setOpen={setOpenRight}></Drawer>
+                <Drawer open={openDrawer} side="right" setOpen={setOpenDrawer}>
+                    <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
+                        <Form
+                            data={data}
+                            setData={setData}
+                            errors={errors}
+                            processing={processing}
+                            recentlySuccessful={recentlySuccessful}
+                            onSubmit={onSubmit}
+                        />
+                    </FormSection>
+                </Drawer>
             </Main>
         </AuthenticatedLayout>
     )

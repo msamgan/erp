@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { clsx } from "clsx"
 
 const openClassNames = {
@@ -23,6 +23,21 @@ const classNames = {
 }
 
 const Drawer = ({ open, setOpen, side = "right", children }) => {
+    const keyUpHandler = (event) => {
+        addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                setOpen(false)
+            }
+        })
+    }
+
+    useEffect(() => {
+        keyUpHandler()
+        return () => {
+            removeEventListener("keydown", keyUpHandler)
+        }
+    }, [])
+
     return (
         <div
             id={`dialog-${side}`}
@@ -57,7 +72,7 @@ const Drawer = ({ open, setOpen, side = "right", children }) => {
                         >
                             <div
                                 className={clsx(
-                                    "flex flex-col h-full overflow-y-scroll bg-white p-20 shadow-xl rounded-lg"
+                                    "flex flex-col h-full overflow-y-scroll bg-white p-20 shadow-xl"
                                 )}
                             >
                                 {children}
