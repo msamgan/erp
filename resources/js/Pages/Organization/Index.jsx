@@ -22,13 +22,17 @@ export default function Index({ auth }) {
     const [pageData, setPageData] = useState(pageDataObject(organization))
     const [organizations, setOrganizations] = useState([])
 
-    const dataObject = organizationDataObject(organization)
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(
+        organizationDataObject(organization)
+    )
 
-    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
-
-    const getOrganizationListing = () => {
+    const getOrganizationListing = ({ queryParams }) => {
         axios
-            .get(route("organization.list"))
+            .get(
+                route("organization.list", {
+                    ...queryParams
+                })
+            )
             .then((response) => {
                 setOrganizations(response.data)
             })
@@ -50,7 +54,7 @@ export default function Index({ auth }) {
     }, [organizations])
 
     useEffect(() => {
-        getOrganizationListing()
+        getOrganizationListing({ queryParams })
     }, [])
 
     const onSubmit = (e) => {
@@ -71,7 +75,7 @@ export default function Index({ auth }) {
                         })
                 }
 
-                getOrganizationListing()
+                getOrganizationListing({ queryParams })
             }
         })
     }

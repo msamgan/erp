@@ -15,18 +15,9 @@ class OrganizationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response|ResponseFactory|Collection
+    public function index(): Response|ResponseFactory
     {
-        $organizations = Organization::query()->orderBy('created_at', 'desc');
-
-        if (request()->get('search')) {
-            $organizations->where('name', 'like', '%' . request()->get('search') . '%');
-            $organizations->orWhere('location', 'like', '%' . request()->get('search') . '%');
-        }
-
-        return inertia('Organization/Index', [
-            'organizations' => $organizations->get(),
-        ]);
+        return inertia('Organization/Index');
     }
 
     /**
@@ -59,12 +50,12 @@ class OrganizationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Organization $organization): Response|ResponseFactory
+    /*public function edit(Organization $organization): Response|ResponseFactory
     {
         return inertia('Organization/FormHolder', [
             'organization' => $organization,
         ]);
-    }
+    }*/
 
     /**
      * Update the specified resource in storage.
@@ -79,7 +70,14 @@ class OrganizationController extends Controller
 
     public function organizationList(): Collection
     {
-        return Organization::query()->orderBy('created_at', 'desc')->get();
+        $organizations = Organization::query()->orderBy('created_at', 'desc');
+
+        if (request()->get('search')) {
+            $organizations->where('name', 'like', '%' . request()->get('search') . '%');
+            $organizations->orWhere('location', 'like', '%' . request()->get('search') . '%');
+        }
+
+        return $organizations->get();
     }
 
     public function lastCreated(): ?Model
