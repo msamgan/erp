@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 
@@ -14,7 +15,7 @@ class OrganizationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response|ResponseFactory
+    public function index(): Response|ResponseFactory|Collection
     {
         $organizations = Organization::query()->orderBy('created_at', 'desc');
 
@@ -78,7 +79,12 @@ class OrganizationController extends Controller
 
     public function organizationList(): Collection
     {
-        return Organization::all();
+        return Organization::query()->orderBy('created_at', 'desc')->get();
+    }
+
+    public function lastCreated(): ?Model
+    {
+        return Organization::query()->orderBy('created_at', 'desc')->first();
     }
 
     /**

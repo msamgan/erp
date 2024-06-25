@@ -34,7 +34,15 @@ export default function Form({ data, setData, errors, processing, recentlySucces
             </div>
 
             <div className="flex items-center gap-4">
-                <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <PrimaryButton
+                    type="submit"
+                    onClick={(event) => {
+                        onSubmit(event)
+                    }}
+                    disabled={processing}
+                >
+                    Save
+                </PrimaryButton>
 
                 <Transition
                     show={recentlySuccessful}

@@ -13,4 +13,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('organization/{organization}', [OrganizationController::class, 'destroy'])->name('organization.destroy');
 
     Route::get('api/organization/list', [OrganizationController::class, 'organizationList'])->name('organization.list');
+    Route::get('api/organization/last-created', [OrganizationController::class, 'lastCreated'])->name('organization.last_created');
 });

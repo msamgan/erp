@@ -12,7 +12,7 @@ import { organizationDataObject, pageDataObject } from "@/Pages/Organization/met
 import Form from "@/Pages/Organization/Form.jsx"
 import FormSection from "@/Components/FormSection.jsx"
 
-export default function Index({ auth, organizations }) {
+export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Name", "Location", "Actions"])
     const [openDrawer, setOpenDrawer] = useState(false)
     const [listingData, setListingData] = useState([])
@@ -20,32 +20,19 @@ export default function Index({ auth, organizations }) {
         Object.fromEntries(new URLSearchParams(window.location.search).entries())
     )
     const [organization, setOrganization] = useState(null)
+    const [pageData, setPageData] = useState(pageDataObject(organization))
+    const [organizations, setOrganizations] = useState([])
 
     const dataObject = organizationDataObject(organization)
 
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
 
-    const pageData = pageDataObject(organization)
-
-    const onSubmit = (e) => {
-        e.preventDefault()
-
-        post(pageData.actionUrl, {
-            preserveScroll: true,
-            onSuccess: () => {
-                if (!organization) {
-                    setData(dataObject)
-                }
-            }
+    const getOrganizationListing = () => {
+        axios.get(route("organization.list")).then((response) => {
+            setOrganizations(response.data)
+        }).catch((error) => {
+            console.log(error)
         })
-    }
-
-    const createActions = (editRoute) => {
-        return (
-            <div className="flex space-x-2">
-                <EditLink editRoute={editRoute} />
-            </div>
-        )
     }
 
     useEffect(() => {
@@ -58,7 +45,42 @@ export default function Index({ auth, organizations }) {
                 }
             })
         )
+    }, [organizations])
+
+    useEffect(() => {
+        getOrganizationListing()
     }, [])
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+        post(pageData.actionUrl, {
+            preserveScroll: true,
+            onSuccess: () => {
+                if (!organization) {
+                    axios
+                        .get(route("organization.last_created"))
+                        .then((response) => {
+                            setOrganization(response.data)
+                            setData(organizationDataObject(response.data))
+                            setPageData(pageDataObject(response.data))
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                        })
+                }
+
+                getOrganizationListing()
+            }
+        })
+    }
+
+    const createActions = (editRoute) => {
+        return (
+            <div className="flex space-x-2">
+                <EditLink editRoute={editRoute} />
+            </div>
+        )
+    }
 
     return (
         <AuthenticatedLayout
@@ -69,7 +91,10 @@ export default function Index({ auth, organizations }) {
                     <PrimaryButton
                         className={"h-8"}
                         title="Add Organization"
-                        onClick={() => setOpenDrawer(!openDrawer)}
+                        onClick={() => {
+                            setData(organizationDataObject(null))
+                            setOpenDrawer(!openDrawer)
+                        }}
                     >
                         Add Organization
                     </PrimaryButton>
