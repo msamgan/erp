@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 
@@ -16,16 +17,7 @@ class OrganizationController extends Controller
      */
     public function index(): Response|ResponseFactory
     {
-        $organizations = Organization::query()->orderBy('created_at', 'desc');
-
-        if (request()->get('search')) {
-            $organizations->where('name', 'like', '%' . request()->get('search') . '%');
-            $organizations->orWhere('location', 'like', '%' . request()->get('search') . '%');
-        }
-
-        return inertia('Organization/Index', [
-            'organizations' => $organizations->get(),
-        ]);
+        return inertia('Organization/Index');
     }
 
     /**
@@ -50,20 +42,20 @@ class OrganizationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Organization $organization)
+    public function show(Organization $organization): Organization
     {
-        //
+        return $organization;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Organization $organization): Response|ResponseFactory
+    /*public function edit(Organization $organization): Response|ResponseFactory
     {
         return inertia('Organization/FormHolder', [
             'organization' => $organization,
         ]);
-    }
+    }*/
 
     /**
      * Update the specified resource in storage.
@@ -78,7 +70,19 @@ class OrganizationController extends Controller
 
     public function organizationList(): Collection
     {
-        return Organization::all();
+        $organizations = Organization::query()->orderBy('created_at', 'desc');
+
+        if (request()->get('search')) {
+            $organizations->where('name', 'like', '%' . request()->get('search') . '%');
+            $organizations->orWhere('location', 'like', '%' . request()->get('search') . '%');
+        }
+
+        return $organizations->get();
+    }
+
+    public function lastCreated(): ?Model
+    {
+        return Organization::query()->orderBy('created_at', 'desc')->first();
     }
 
     /**
