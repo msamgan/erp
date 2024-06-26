@@ -146,7 +146,15 @@ export default function Form({
             </div>
 
             <div className="flex items-center gap-4">
-                <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <PrimaryButton
+                    onClick={(e) => {
+                        e.preventDefault()
+                        onSubmit(e)
+                    }}
+                    disabled={processing}
+                >
+                    Save
+                </PrimaryButton>
 
                 <Transition
                     show={recentlySuccessful}

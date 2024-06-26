@@ -1,20 +1,99 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import HeaderTitle from "@/Components/HeaderTitle.jsx"
-import { Head } from "@inertiajs/react"
+import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
 import PrimaryLink from "@/Components/PrimaryLink.jsx"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { createDateAttribute } from "@/helpers/methods.js"
+import alertify from "alertifyjs"
+import PrimaryButton from "@/Components/PrimaryButton.jsx"
+import Drawer from "@/Components/Drawer.jsx"
+import FormSection from "@/Components/FormSection.jsx"
+import Form from "@/Pages/Transaction/Form.jsx"
 
-export default function Index({ auth, transactions }) {
+export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Project", "Date"])
-    const [data, setData] = useState([])
+    const [listingData, setListingData] = useState([])
     const [totalIncome, setTotalIncome] = useState(0)
     const [totalExpense, setTotalExpense] = useState(0)
     const [queryParams, setQueryParams] = useState(
         Object.fromEntries(new URLSearchParams(window.location.search).entries())
     )
+
+    const [projects, setProjects] = useState([])
+    const [descriptions, setDescriptions] = useState([])
+
+    const [openDrawer, setOpenDrawer] = useState(false)
+    const [transactions, setTransactions] = useState({})
+
+    const projectList = useCallback(() => {
+        axios(route("project.list"))
+            .then((response) => {
+                setProjects(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [])
+
+    const descriptionList = useCallback(() => {
+        axios(route("transaction.descriptions"))
+            .then((response) => {
+                setDescriptions(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [])
+
+    const refreshProjectList = () => {
+        projectList()
+    }
+
+    const getTransactionsList = useCallback((queryParams) => {
+        axios(
+            route("transaction.list.paginated", {
+                ...queryParams
+            })
+        )
+            .then((response) => {
+                setTransactions(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [])
+
+    const dataObject = {
+        project: "",
+        description: "",
+        type: "incoming",
+        amount: "",
+        date: new Date().toISOString().split("T")[0]
+    }
+
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+        alertify.confirm(
+            "Are you sure?",
+            "Are you sure you want to add this transaction? This action cannot be undone.",
+            function () {
+                post(route("transaction.store"), {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setData(dataObject)
+                        getTransactionsList(queryParams)
+                    }
+                })
+            },
+            function () {
+                // alertify.error("Cancel")
+            }
+        )
+    }
 
     const createTypeAttribute = (type) => {
         return (
@@ -40,10 +119,18 @@ export default function Index({ auth, transactions }) {
     }
 
     useEffect(() => {
+        projectList()
+        descriptionList()
+        getTransactionsList(queryParams)
+    }, [])
+
+    useEffect(() => {
+        if (transactions.data === undefined) return
+
         let income = 0
         let expense = 0
 
-        setData(
+        setListingData(
             transactions.data.map((transaction) => {
                 if (transaction.type === "incoming") {
                     income += transaction.amount
@@ -65,7 +152,7 @@ export default function Index({ auth, transactions }) {
 
         setTotalIncome(income)
         setTotalExpense(expense)
-    }, [])
+    }, [transactions])
 
     const searchFormExtension = () => {
         return (
@@ -121,7 +208,16 @@ export default function Index({ auth, transactions }) {
             header={<HeaderTitle title="Transactions" />}
             subMenu={
                 <div className="flex space-x-2">
-                    <PrimaryLink className={"h-8"} title="Add Transaction" href={route("transaction.create")} />
+                    <PrimaryButton
+                        className={"h-8"}
+                        title="Add Organization"
+                        onClick={() => {
+                            setData(dataObject)
+                            setOpenDrawer(!openDrawer)
+                        }}
+                    >
+                        Add Organization
+                    </PrimaryButton>
                 </div>
             }
         >
@@ -130,15 +226,23 @@ export default function Index({ auth, transactions }) {
             <Main>
                 <Table
                     columns={columns}
-                    data={data}
+                    data={listingData}
                     queryParams={queryParams}
                     setQueryParams={setQueryParams}
                     searchFormExtension={searchFormExtension}
                     totalDataRows={transactions.total}
                     from={transactions.from}
                     to={transactions.to}
-                    nextPage={transactions.next_page_url}
-                    previousPage={transactions.prev_page_url}
+                    nextPage={
+                        transactions.next_page_url
+                            ? "/transaction?page=" + (transactions.current_page + 1)
+                            : null
+                    }
+                    previousPage={
+                        transactions.prev_page_url
+                            ? "/transaction?page=" + (transactions.current_page - 1)
+                            : null
+                    }
                 />
                 <div className="flex justify-between">
                     <div className="flex space-x-2">
@@ -150,6 +254,25 @@ export default function Index({ auth, transactions }) {
                         </span>
                     </div>
                 </div>
+
+                <Drawer open={openDrawer} side="right" setOpen={setOpenDrawer}>
+                    <FormSection
+                        headerTitle="Transaction Information"
+                        headerDescription="Create a new transaction."
+                    >
+                        <Form
+                            data={data}
+                            setData={setData}
+                            errors={errors}
+                            processing={processing}
+                            recentlySuccessful={recentlySuccessful}
+                            onSubmit={onSubmit}
+                            projects={projects}
+                            refreshProjectList={refreshProjectList}
+                            descriptions={descriptions}
+                        />
+                    </FormSection>
+                </Drawer>
             </Main>
         </AuthenticatedLayout>
     )
