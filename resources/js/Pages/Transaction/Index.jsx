@@ -52,9 +52,11 @@ export default function Index({ auth }) {
     }
 
     const getTransactionsList = useCallback((queryParams) => {
-        axios(route("transaction.list.paginated", {
-            ...queryParams
-        }))
+        axios(
+            route("transaction.list.paginated", {
+                ...queryParams
+            })
+        )
             .then((response) => {
                 setTransactions(response.data)
             })
@@ -231,8 +233,16 @@ export default function Index({ auth }) {
                     totalDataRows={transactions.total}
                     from={transactions.from}
                     to={transactions.to}
-                    nextPage={transactions.next_page_url ? '/transaction?page=' + (transactions.current_page + 1) : null}
-                    previousPage={transactions.prev_page_url ? '/transaction?page=' + (transactions.current_page - 1) : null}
+                    nextPage={
+                        transactions.next_page_url
+                            ? "/transaction?page=" + (transactions.current_page + 1)
+                            : null
+                    }
+                    previousPage={
+                        transactions.prev_page_url
+                            ? "/transaction?page=" + (transactions.current_page - 1)
+                            : null
+                    }
                 />
                 <div className="flex justify-between">
                     <div className="flex space-x-2">
