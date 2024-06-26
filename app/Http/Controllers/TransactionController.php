@@ -75,7 +75,7 @@ class TransactionController extends Controller
 
     public function transactionListPaginated(): LengthAwarePaginator
     {
-        $pageSize = request()->get('page-size') ?? PAGE_SIZE;
+        $pageSize = request()->get('page-size') ?? PAGE_SIZE_LARGE;
 
         $transactions = Transaction::query()
             ->with('project')
