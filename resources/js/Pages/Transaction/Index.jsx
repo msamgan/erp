@@ -12,7 +12,7 @@ import Drawer from "@/Components/Drawer.jsx"
 import FormSection from "@/Components/FormSection.jsx"
 import Form from "@/Pages/Transaction/Form.jsx"
 
-export default function Index({ auth, transactions }) {
+export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Project", "Date"])
     const [listingData, setListingData] = useState([])
     const [totalIncome, setTotalIncome] = useState(0)
@@ -25,6 +25,7 @@ export default function Index({ auth, transactions }) {
     const [descriptions, setDescriptions] = useState([])
 
     const [openDrawer, setOpenDrawer] = useState(false)
+    const [transactions, setTransactions] = useState({})
 
     const projectList = useCallback(() => {
         axios(route("project.list"))
@@ -50,6 +51,18 @@ export default function Index({ auth, transactions }) {
         projectList()
     }
 
+    const getTransactionsList = useCallback((queryParams) => {
+        axios(route("transaction.list.paginated", {
+            ...queryParams
+        }))
+            .then((response) => {
+                setTransactions(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [])
+
     const dataObject = {
         project: "",
         description: "",
@@ -70,6 +83,7 @@ export default function Index({ auth, transactions }) {
                     preserveScroll: true,
                     onSuccess: () => {
                         setData(dataObject)
+                        getTransactionsList(queryParams)
                     }
                 })
             },
@@ -103,6 +117,14 @@ export default function Index({ auth, transactions }) {
     }
 
     useEffect(() => {
+        projectList()
+        descriptionList()
+        getTransactionsList(queryParams)
+    }, [])
+
+    useEffect(() => {
+        if (transactions.data === undefined) return
+
         let income = 0
         let expense = 0
 
@@ -128,10 +150,7 @@ export default function Index({ auth, transactions }) {
 
         setTotalIncome(income)
         setTotalExpense(expense)
-
-        projectList()
-        descriptionList()
-    }, [])
+    }, [transactions])
 
     const searchFormExtension = () => {
         return (

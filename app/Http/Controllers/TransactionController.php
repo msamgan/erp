@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTransactionRequest;
 use App\Models\Project;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
@@ -18,30 +19,7 @@ class TransactionController extends Controller
      */
     public function index(): Response
     {
-        $pageSize = request()->get('page-size') ?? PAGE_SIZE;
-
-        $transactions = Transaction::query()
-            ->with('project')
-            ->orderBy('created_at', 'desc');
-
-        if (request()->get('search')) {
-            $transactions->where('description', 'like', '%' . request()->get('search') . '%');
-        }
-
-        if (request()->get('startDate') && request()->get('endDate')) {
-            $transactions->whereBetween('date', [
-                request()->get('startDate'),
-                Carbon::parse(request()->get('endDate'))->addDay(),
-            ]);
-        }
-
-        if (request()->get('type') && request()->get('type') !== 'all') {
-            $transactions->where('type', request()->get('type'));
-        }
-
-        return Inertia::render('Transaction/Index', [
-            'transactions' => $transactions->paginate($pageSize),
-        ]);
+        return Inertia::render('Transaction/Index');
     }
 
     /**
@@ -86,36 +64,6 @@ class TransactionController extends Controller
         return Inertia::render('Transaction/Create');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    /*public function show(Transaction $transaction)
-    {
-        //
-    }*/
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    /*public function edit(Transaction $transaction): Response
-    {
-        return Inertia::render('Transaction/Edit', [
-            'transaction' => $transaction->load('project')
-        ]);
-    }*/
-
-    /**
-     * Update the specified resource in storage.
-     */
-    /*public function update(UpdateTransactionRequest $request, Transaction $transaction): void
-    {
-        $request = $this->mergeProjectId($request);
-
-        $transaction->update(
-            $request->only('project_id', 'type', 'amount', 'description')
-        );
-    }*/
-
     public function descriptions(): Collection
     {
         return Transaction::query()
@@ -123,6 +71,32 @@ class TransactionController extends Controller
             ->distinct()
             ->get()
             ->pluck('description');
+    }
+
+    public function transactionListPaginated(): LengthAwarePaginator
+    {
+        $pageSize = request()->get('page-size') ?? PAGE_SIZE;
+
+        $transactions = Transaction::query()
+            ->with('project')
+            ->orderBy('created_at', 'desc');
+
+        if (request()->get('search')) {
+            $transactions->where('description', 'like', '%' . request()->get('search') . '%');
+        }
+
+        if (request()->get('startDate') && request()->get('endDate')) {
+            $transactions->whereBetween('date', [
+                request()->get('startDate'),
+                Carbon::parse(request()->get('endDate'))->addDay(),
+            ]);
+        }
+
+        if (request()->get('type') && request()->get('type') !== 'all') {
+            $transactions->where('type', request()->get('type'));
+        }
+
+        return $transactions->paginate($pageSize);
     }
 
     /**
