@@ -33,7 +33,7 @@ if (! function_exists('editorJsParser')) {
                 $videosId = explode('=', $block['data']['url'])[1];
                 $embedUrl = 'https://www.youtube.com/embed/' . $videosId;
 
-                $parsedContent .= "<iframe width=\"560\" height=\"315\" src=\"{$embedUrl}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>";
+                $parsedContent .= "<iframe width=\"800\" height=\"500\" src=\"{$embedUrl}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>";
             }
         }
 
