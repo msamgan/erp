@@ -29,7 +29,11 @@ if (! function_exists('editorJsParser')) {
             } elseif ($block['type'] === 'image') {
                 $parsedContent .= "<img src=\"{$block['data']['url']}\" alt=\"{$block['data']['caption']}\" title=\"{$block['data']['caption']}\">";
             } elseif ($block['type'] === 'youtubeEmbed') {
-                $parsedContent .= "<iframe width=\"560\" height=\"315\" src=\"{$block['data']['url']}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>";
+
+                $videosId = explode('=', $block['data']['url'])[1];
+                $embedUrl = 'https://www.youtube.com/embed/' . $videosId;
+
+                $parsedContent .= "<iframe width=\"560\" height=\"315\" src=\"{$embedUrl}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>";
             }
         }
 
