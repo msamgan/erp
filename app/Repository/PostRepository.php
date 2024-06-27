@@ -75,9 +75,11 @@ class PostRepository
         ]);
 
         if ($request->status === 'published') {
-            $request->merge([
-                'published_at' => now(),
-            ]);
+            if ($post) {
+                $request->merge(['published_at' => $post->published_at ?? now()]);
+            } else {
+                $request->merge(['published_at' => now()]);
+            }
         }
 
         return $request;
