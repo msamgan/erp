@@ -21,7 +21,7 @@ if (! function_exists('editorJsParser')) {
                 }
                 $parsedContent .= '</ul>';
             } elseif ($block['type'] === 'delimiter') {
-                $parsedContent .= '<hr>';
+                $parsedContent .= '<hr />';
             } elseif ($block['type'] === 'code') {
                 $parsedContent .= "<pre><code>{$block['data']['code']}</code></pre>";
             } elseif ($block['type'] === 'quote') {
@@ -114,6 +114,6 @@ if (! function_exists('htmlToEditorJsBlockParser')) {
 if (! function_exists('removeNbsp')) {
     function removeNbsp($string): array|string
     {
-        return str_replace('&nbsp;', '', $string);
+        return str_replace('&nbsp;', ' ', $string);
     }
 }
