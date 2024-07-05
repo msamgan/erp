@@ -30,6 +30,11 @@ task('optimize', function () {
     run('php artisan optimize');
 });
 
+task('clearCache', function () {
+    cd('{{current_path}}');
+    run('php artisan cache:clear');
+});
+
 after('deploy:update_code', 'build');
 after('deploy:symlink', 'optimize');
 
