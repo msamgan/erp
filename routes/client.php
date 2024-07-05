@@ -13,4 +13,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/client/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
 
     Route::get('api/client/list', [ClientController::class, 'clientList'])->name('client.list');
+    Route::get('api/client/last-created', [ClientController::class, 'lastCreated'])->name('client.last_created');
 });

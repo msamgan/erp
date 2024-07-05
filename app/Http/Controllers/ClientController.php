@@ -162,6 +162,15 @@ class ClientController extends Controller
         return $clients->get();
     }
 
+    public function lastCreated(): Client
+    {
+        return Client::query()
+            ->with('organization')
+            ->with('emails')
+            ->with('phones')
+            ->latest()->first();
+    }
+
     /**
      * Remove the specified resource from storage.
      */
