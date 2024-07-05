@@ -4,15 +4,26 @@ import { Head } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
 import PrimaryLink from "@/Components/PrimaryLink.jsx"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import EditLink from "@/Components/EditLink.jsx"
 
-export default function Index({ auth, clients }) {
+export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Name", "Emails", "Phones", "Organization", "Actions"])
-    const [data, setData] = useState([])
+    const [listingData, setListingData] = useState([])
+    const [openDrawer, setOpenDrawer] = useState(false)
     const [queryParams, setQueryParams] = useState(
         Object.fromEntries(new URLSearchParams(window.location.search).entries())
     )
+    const [clients, setClients] = useState([])
+
+    const getClients = useCallback(() => {
+        axios.get(route('client.list'))
+            .then(response => {
+                setClients(response.data)
+            }).catch(error => {
+                console.error(error)
+            })
+    }, [])
 
     const createActions = ({ editRoute }) => {
         return (
@@ -23,7 +34,9 @@ export default function Index({ auth, clients }) {
     }
 
     useEffect(() => {
-        setData(
+        if (!clients) return
+
+        setListingData(
             clients.map((client) => {
                 return {
                     Name: client.name,
@@ -36,6 +49,10 @@ export default function Index({ auth, clients }) {
                 }
             })
         )
+    }, [clients])
+
+    useEffect(() => {
+        getClients()
     }, [])
 
     return (
@@ -53,7 +70,7 @@ export default function Index({ auth, clients }) {
             <Main>
                 <Table
                     columns={columns}
-                    data={data}
+                    data={listingData}
                     queryParams={queryParams}
                     setQueryParams={setQueryParams}
                 />

@@ -19,25 +19,7 @@ class ClientController extends Controller
      */
     public function index(): Response|ResponseFactory
     {
-        $clients = Client::query()
-            ->with('organization')
-            ->with('emails')
-            ->with('phones')
-            ->orderBy('created_at', 'desc');
-
-        if (request()->get('search')) {
-            $clients->where('name', 'like', '%' . request()->get('search') . '%');
-            $clients->orWhereHas('organization', function ($query) {
-                $query->where('name', 'like', '%' . request()->get('search') . '%');
-            });
-            $clients->orWhereHas('emails', function ($query) {
-                $query->where('email', 'like', '%' . request()->get('search') . '%');
-            });
-        }
-
-        return inertia('Client/Index', [
-            'clients' => $clients->get(),
-        ]);
+        return inertia('Client/Index');
     }
 
     /**
@@ -107,9 +89,11 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Client $client)
+    public function show(Client $client): Client
     {
-        //
+        $client->load('organization', 'emails', 'phones');
+
+        return $client;
     }
 
     /**
@@ -159,10 +143,23 @@ class ClientController extends Controller
 
     public function clientList(): Collection|array
     {
-        return Client::query()
+        $clients = Client::query()
             ->with('organization')
-            ->orderBy('id', 'desc')
-            ->get();
+            ->with('emails')
+            ->with('phones')
+            ->orderBy('created_at', 'desc');
+
+        if (request()->get('search')) {
+            $clients->where('name', 'like', '%' . request()->get('search') . '%');
+            $clients->orWhereHas('organization', function ($query) {
+                $query->where('name', 'like', '%' . request()->get('search') . '%');
+            });
+            $clients->orWhereHas('emails', function ($query) {
+                $query->where('email', 'like', '%' . request()->get('search') . '%');
+            });
+        }
+
+        return $clients->get();
     }
 
     /**
