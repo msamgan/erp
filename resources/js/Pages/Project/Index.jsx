@@ -100,7 +100,7 @@ export default function Index({ auth }) {
                 />
                 {/*<DetailsLink detailsRoute={detailsRoute} />*/}
                 <button
-                    className={'h-8'}
+                    className={"h-8"}
                     onClick={() => {
                         axios
                             .get(detailsRoute)
@@ -259,9 +259,7 @@ export default function Index({ auth }) {
                 </Drawer>
 
                 <Drawer open={openDetailsDrawer} setOpen={setOpenDetailsDrawer}>
-                    {
-                        project && <Details project={project} />
-                    }
+                    {project && <Details project={project} />}
                 </Drawer>
             </Main>
         </AuthenticatedLayout>

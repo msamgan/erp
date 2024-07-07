@@ -20,6 +20,9 @@ import InlineImage from "editorjs-inline-image"
 import YoutubeEmbed from "editorjs-youtube-embed"
 
 import "./editor.css"
+import ZenLayout from "@/Layouts/ZenLayout.jsx"
+import SecondaryButton from "@/Components/SecondaryButton.jsx"
+import ZenFormSection from "@/Components/ZenFormSection.jsx"
 
 export default function FormHolder({ auth, postData = null }) {
     const dataObject = postDataObject(postData)
@@ -157,7 +160,7 @@ export default function FormHolder({ auth, postData = null }) {
     }, [])
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title={pageData.title} />}>
+        <ZenLayout user={auth.user} header={<HeaderTitle title={pageData.title} />}>
             <Head title={pageData.title} />
 
             {data.featured_image && (
@@ -171,7 +174,10 @@ export default function FormHolder({ auth, postData = null }) {
             )}
 
             <Main>
-                <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
+                <ZenFormSection
+                    backRoute={route("post")}
+                    backText="Back to Posts"
+                >
                     <div className="float-right"></div>
                     <Form
                         data={data}
@@ -182,8 +188,8 @@ export default function FormHolder({ auth, postData = null }) {
                         onSubmit={onSubmit}
                         tagList={tagList}
                     />
-                </FormSection>
+                </ZenFormSection>
             </Main>
-        </AuthenticatedLayout>
+        </ZenLayout>
     )
 }
