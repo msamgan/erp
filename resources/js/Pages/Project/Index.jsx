@@ -19,6 +19,7 @@ import FormSection from "@/Components/FormSection.jsx"
 import Form from "@/Pages/Project/Form.jsx"
 import axios from "axios"
 import DrawerButton from "@/Components/DrawerButton.jsx"
+import DrawerEditButton from "@/Components/DrawerEditButton.jsx"
 
 export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Name", "Client", "Status", "Dates", "Costing", "Type", "Actions"])
@@ -81,7 +82,21 @@ export default function Index({ auth }) {
     const createActions = ({ editRoute, detailsRoute }) => {
         return (
             <div className="flex space-x-2">
-                <EditLink editRoute={editRoute} />
+                <DrawerEditButton
+                    onClick={() => {
+                        axios
+                            .get(editRoute)
+                            .then((response) => {
+                                setProject(response.data)
+                                setData(projectDataObject(response.data))
+                                setPageData(pageDataObject(response.data))
+                                setOpenFormDrawer(true)
+                            })
+                            .catch((error) => {
+                                console.log(error)
+                            })
+                    }}
+                />
                 <DetailsLink detailsRoute={detailsRoute} />
             </div>
         )
@@ -135,7 +150,7 @@ export default function Index({ auth }) {
                     Costing: createCostingAttribute(project.costing),
                     Type: createTypeAttribute(project.type),
                     Actions: createActions({
-                        editRoute: route("project.edit", project.id),
+                        editRoute: route("project.show", project.id),
                         detailsRoute: route("project.show", project.id)
                     })
                 }
