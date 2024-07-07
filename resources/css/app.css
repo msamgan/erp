@@ -76,7 +76,3 @@ body {
 .has-tooltip:hover .tooltip {
     @apply z-50 visible;
 }
-
-.react-datepicker__input-container input {
-    width: 625px !important;
-}
