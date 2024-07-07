@@ -98,7 +98,6 @@ export default function Index({ auth }) {
                             })
                     }}
                 />
-                {/*<DetailsLink detailsRoute={detailsRoute} />*/}
                 <button
                     className={"h-8"}
                     onClick={() => {
