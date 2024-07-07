@@ -4,6 +4,10 @@ import InputError from "@/Components/InputError.jsx"
 import { Transition } from "@headlessui/react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import { Link } from "@inertiajs/react"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useEffect, useState } from "react"
+
 
 export default function Form({
     data,
@@ -16,6 +20,13 @@ export default function Form({
     refreshProjectList,
     descriptions
 }) {
+
+    const [startDate, setStartDate] = useState(new Date());
+
+    useEffect(() => {
+        setData("date", startDate)
+    }, [startDate])
+
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div className="flex w-1/2 gap-4">
@@ -135,13 +146,9 @@ export default function Form({
 
             <div>
                 <InputLabel htmlFor="date" value="Date" isRequired={true} />
-                <TextInput
-                    id="date"
-                    type={"date"}
-                    className="block w-1/2 mt-1"
-                    value={data.date}
-                    onChange={(e) => setData("date", e.target.value)}
-                />
+                <DatePicker
+                    className={'border-primary focus:border-teal-950 rounded-md shadow-sm text-lg block mt-1'}
+                    selected={startDate} onChange={(date) => setStartDate(date)} />
                 <InputError className="mt-2" message={errors.date} />
             </div>
 
@@ -149,6 +156,7 @@ export default function Form({
                 <PrimaryButton
                     onClick={(e) => {
                         e.preventDefault()
+                        setStartDate(new Date())
                         onSubmit(e)
                     }}
                     disabled={processing}

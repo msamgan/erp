@@ -11,6 +11,7 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import Drawer from "@/Components/Drawer.jsx"
 import FormSection from "@/Components/FormSection.jsx"
 import Form from "@/Pages/Transaction/Form.jsx"
+import DrawerButton from "@/Components/DrawerButton.jsx"
 
 export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Description", "Type", "Amount", "Project", "Date"])
@@ -208,16 +209,13 @@ export default function Index({ auth }) {
             header={<HeaderTitle title="Transactions" />}
             subMenu={
                 <div className="flex space-x-2">
-                    <PrimaryButton
-                        className={"h-8"}
-                        title="Add Organization"
+                    <DrawerButton
+                        title="Add Transaction"
                         onClick={() => {
                             setData(dataObject)
                             setOpenDrawer(!openDrawer)
                         }}
-                    >
-                        Add Organization
-                    </PrimaryButton>
+                    />
                 </div>
             }
         >
