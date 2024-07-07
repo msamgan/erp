@@ -4,7 +4,6 @@ import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
 import { useCallback, useEffect, useState } from "react"
-import EditLink from "@/Components/EditLink.jsx"
 import DetailsLink from "@/Components/DetailsLink.jsx"
 import {
     createCostingAttribute,
@@ -20,6 +19,7 @@ import Form from "@/Pages/Project/Form.jsx"
 import axios from "axios"
 import DrawerButton from "@/Components/DrawerButton.jsx"
 import DrawerEditButton from "@/Components/DrawerEditButton.jsx"
+import Details from "@/Pages/Project/Details.jsx"
 
 export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Name", "Client", "Status", "Dates", "Costing", "Type", "Actions"])
@@ -31,6 +31,7 @@ export default function Index({ auth }) {
     const [project, setProject] = useState(null)
     const [clients, setClients] = useState([])
     const [openFormDrawer, setOpenFormDrawer] = useState(false)
+    const [openDetailsDrawer, setOpenDetailsDrawer] = useState(false)
 
     const dataObject = projectDataObject(project)
 
@@ -97,7 +98,36 @@ export default function Index({ auth }) {
                             })
                     }}
                 />
-                <DetailsLink detailsRoute={detailsRoute} />
+                {/*<DetailsLink detailsRoute={detailsRoute} />*/}
+                <button
+                    className={'h-8'}
+                    onClick={() => {
+                        axios
+                            .get(detailsRoute)
+                            .then((response) => {
+                                setProject(response.data)
+                                setOpenDetailsDrawer(true)
+                            })
+                            .catch((error) => {
+                                console.log(error)
+                            })
+                    }}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="blue"
+                        className="w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
+                    </svg>
+                </button>
             </div>
         )
     }
@@ -226,6 +256,12 @@ export default function Index({ auth }) {
                             refreshClientList={clientList}
                         />
                     </FormSection>
+                </Drawer>
+
+                <Drawer open={openDetailsDrawer} setOpen={setOpenDetailsDrawer}>
+                    {
+                        project && <Details project={project} />
+                    }
                 </Drawer>
             </Main>
         </AuthenticatedLayout>
