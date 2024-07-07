@@ -1,10 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import HeaderTitle from "@/Components/HeaderTitle.jsx"
-import { Head } from "@inertiajs/react"
+import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
-import PrimaryLink from "@/Components/PrimaryLink.jsx"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import EditLink from "@/Components/EditLink.jsx"
 import DetailsLink from "@/Components/DetailsLink.jsx"
 import {
@@ -14,13 +13,70 @@ import {
 } from "@/Pages/Project/partials.jsx"
 import { projectStatuses } from "@/helpers/constants.js"
 import { createDateAttribute } from "@/helpers/methods.js"
+import { getClientList, pageDataObject, projectDataObject } from "@/Pages/Project/methods.js"
+import Drawer from "@/Components/Drawer.jsx"
+import FormSection from "@/Components/FormSection.jsx"
+import Form from "@/Pages/Project/Form.jsx"
+import axios from "axios"
+import DrawerButton from "@/Components/DrawerButton.jsx"
 
-export default function Index({ auth, projects }) {
+export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Name", "Client", "Status", "Dates", "Costing", "Type", "Actions"])
-    const [data, setData] = useState([])
+    const [listingData, setListingData] = useState([])
     const [queryParams, setQueryParams] = useState(
         Object.fromEntries(new URLSearchParams(window.location.search).entries())
     )
+    const [projects, setProjects] = useState([])
+    const [project, setProject] = useState(null)
+    const [clients, setClients] = useState([])
+    const [openFormDrawer, setOpenFormDrawer] = useState(false)
+
+    const dataObject = projectDataObject(project)
+
+    const [pageData, setPageData] = useState(pageDataObject(project))
+
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+
+        post(pageData.actionUrl, {
+            preserveScroll: true,
+            onSuccess: () => {
+                if (!project) {
+                    axios
+                        .get(route("project.last_created"))
+                        .then((response) => {
+                            setProject(response.data)
+                            setData(projectDataObject(response.data))
+                            setPageData(pageDataObject(response.data))
+                        })
+                        .catch((error) => {
+                            console.error(error)
+                        })
+                }
+
+                getProjects({ queryParams })
+            }
+        })
+    }
+
+    const clientList = useCallback(() => {
+        getClientList().then((response) => {
+            setClients(response)
+        })
+    }, [])
+
+    const getProjects = useCallback(({ queryParams }) => {
+        axios
+            .get(route("project.list", { ...queryParams }))
+            .then((response) => {
+                setProjects(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [])
 
     const createActions = ({ editRoute, detailsRoute }) => {
         return (
@@ -67,7 +123,9 @@ export default function Index({ auth, projects }) {
     }
 
     useEffect(() => {
-        setData(
+        if (!projects) return
+
+        setListingData(
             projects.map((project) => {
                 return {
                     Name: createNameAttribute(project.name, project.document_url, project.description),
@@ -83,6 +141,11 @@ export default function Index({ auth, projects }) {
                 }
             })
         )
+    }, [projects])
+
+    useEffect(() => {
+        clientList()
+        getProjects({ queryParams })
     }, [])
 
     const searchFormExtension = () => {
@@ -114,7 +177,13 @@ export default function Index({ auth, projects }) {
             header={<HeaderTitle title="Projects" />}
             subMenu={
                 <div className="flex space-x-2">
-                    <PrimaryLink className={"h-8"} title="Add Project" href={route("project.create")} />
+                    <DrawerButton
+                        title="Add Project"
+                        onClick={() => {
+                            setData(projectDataObject(null))
+                            setOpenFormDrawer(!openFormDrawer)
+                        }}
+                    />
                 </div>
             }
         >
@@ -123,11 +192,26 @@ export default function Index({ auth, projects }) {
             <Main>
                 <Table
                     columns={columns}
-                    data={data}
+                    data={listingData}
                     queryParams={queryParams}
                     setQueryParams={setQueryParams}
                     searchFormExtension={searchFormExtension}
                 />
+
+                <Drawer open={openFormDrawer} setOpen={setOpenFormDrawer}>
+                    <FormSection headerTitle={pageData.headerTitle} headerDescription={pageData.description}>
+                        <Form
+                            data={data}
+                            setData={setData}
+                            errors={errors}
+                            processing={processing}
+                            recentlySuccessful={recentlySuccessful}
+                            onSubmit={onSubmit}
+                            clients={clients}
+                            refreshClientList={clientList}
+                        />
+                    </FormSection>
+                </Drawer>
             </Main>
         </AuthenticatedLayout>
     )

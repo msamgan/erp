@@ -17,25 +17,7 @@ class ProjectController extends Controller
      */
     public function index(): Response
     {
-        $project = Project::query()->with('client')
-            ->orderBy('created_at', 'desc');
-
-        if (request()->get('status') && request()->get('status') !== 'all') {
-            $project->where('status', request()->get('status'));
-        } else {
-            $project->where('status', '!=', 'completed');
-        }
-
-        if (request()->get('search')) {
-            $project->where('name', 'like', '%' . request()->get('search') . '%');
-            $project->orWhere('description', 'like', '%' . request()->get('search') . '%');
-        }
-
-        $project = $project->get();
-
-        return Inertia::render('Project/Index', [
-            'projects' => $project,
-        ]);
+        return Inertia::render('Project/Index');
     }
 
     /**
@@ -101,7 +83,26 @@ class ProjectController extends Controller
 
     public function projectList(): Collection|array
     {
-        return Project::query()->with('client')->get();
+        $project = Project::query()->with('client')
+            ->orderBy('created_at', 'desc');
+
+        if (request()->get('status') && request()->get('status') !== 'all') {
+            $project->where('status', request()->get('status'));
+        } else {
+            $project->where('status', '!=', 'completed');
+        }
+
+        if (request()->get('search')) {
+            $project->where('name', 'like', '%' . request()->get('search') . '%');
+            $project->orWhere('description', 'like', '%' . request()->get('search') . '%');
+        }
+
+        return $project->get();
+    }
+
+    public function lastCreated(): Project
+    {
+        return Project::query()->with('client')->latest()->first();
     }
 
     /**
