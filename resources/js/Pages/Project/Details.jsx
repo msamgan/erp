@@ -75,7 +75,7 @@ export default function Details({ project }) {
         let pending = project.costing - (income - expense)
 
         setTotalPending(pending)
-    }, [])
+    }, [project])
 
     return (
         <div className="p-4 shadow sm:rounded-lg border-left-primary">
