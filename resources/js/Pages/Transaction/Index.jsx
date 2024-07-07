@@ -210,13 +210,13 @@ export default function Index({ auth }) {
                 <div className="flex space-x-2">
                     <PrimaryButton
                         className={"h-8"}
-                        title="Add Organization"
+                        title="Add Transaction"
                         onClick={() => {
                             setData(dataObject)
                             setOpenDrawer(!openDrawer)
                         }}
                     >
-                        Add Organization
+                        Add Transaction
                     </PrimaryButton>
                 </div>
             }

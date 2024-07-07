@@ -29,6 +29,7 @@ class TransactionController extends Controller
     {
         $request = $this->mergeProjectId($request);
         $request->merge(['description' => ucfirst($request->get('description'))]);
+        $request->merge(['date' => Carbon::parse($request->get('date'))]);
 
         Transaction::create(
             $request->only('project_id', 'type', 'amount', 'description', 'date')
