@@ -72,7 +72,7 @@ const Drawer = ({ open, setOpen, side = "right", children }) => {
                         >
                             <div
                                 className={clsx(
-                                    "flex flex-col h-full overflow-y-scroll bg-white p-20 shadow-xl"
+                                    "flex flex-col h-full overflow-y-scroll bg-white pl-20 pt-12 pb-12 pr-20 shadow-xl"
                                 )}
                             >
                                 {children}

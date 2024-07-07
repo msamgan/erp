@@ -17,25 +17,7 @@ class ProjectController extends Controller
      */
     public function index(): Response
     {
-        $project = Project::query()->with('client')
-            ->orderBy('created_at', 'desc');
-
-        if (request()->get('status') && request()->get('status') !== 'all') {
-            $project->where('status', request()->get('status'));
-        } else {
-            $project->where('status', '!=', 'completed');
-        }
-
-        if (request()->get('search')) {
-            $project->where('name', 'like', '%' . request()->get('search') . '%');
-            $project->orWhere('description', 'like', '%' . request()->get('search') . '%');
-        }
-
-        $project = $project->get();
-
-        return Inertia::render('Project/Index', [
-            'projects' => $project,
-        ]);
+        return Inertia::render('Project/Index');
     }
 
     /**
@@ -53,9 +35,7 @@ class ProjectController extends Controller
 
     private function getOrCreateClient($client)
     {
-        return Client::firstOrCreate([
-            'name' => ucfirst($client),
-        ]);
+        return Client::firstOrCreate(['name' => ucfirst($client)]);
     }
 
     /**
@@ -69,11 +49,11 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project): Response
+    public function show(Project $project): Project
     {
-        return Inertia::render('Project/Show', [
-            'project' => $project->load('client', 'transactions'),
-        ]);
+        $project->load('client', 'transactions');
+
+        return $project;
     }
 
     /**
@@ -81,9 +61,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project): Response
     {
-        return Inertia::render('Project/FormHolder', [
-            'project' => $project->load('client'),
-        ]);
+        return Inertia::render('Project/FormHolder', ['project' => $project->load('client')]);
     }
 
     /**
@@ -101,7 +79,25 @@ class ProjectController extends Controller
 
     public function projectList(): Collection|array
     {
-        return Project::query()->with('client')->get();
+        $project = Project::query()->with('client')->orderBy('created_at', 'desc');
+
+        if (request()->get('status') && request()->get('status') !== 'all') {
+            $project->where('status', request()->get('status'));
+        } else {
+            $project->where('status', '!=', 'completed');
+        }
+
+        if (request()->get('search')) {
+            $project->where('name', 'like', '%' . request()->get('search') . '%');
+            $project->orWhere('description', 'like', '%' . request()->get('search') . '%');
+        }
+
+        return $project->get();
+    }
+
+    public function lastCreated(): Project
+    {
+        return Project::query()->with('client')->latest()->first();
     }
 
     /**

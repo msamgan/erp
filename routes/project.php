@@ -13,4 +13,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('project/{project}', [ProjectController::class, 'destroy'])->name('project.destroy');
 
     Route::get('api/project/list', [ProjectController::class, 'projectList'])->name('project.list');
+    Route::get('api/project/last-created', [ProjectController::class, 'lastCreated'])->name('project.last_created');
 });
