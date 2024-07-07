@@ -157,6 +157,13 @@ export default function FormHolder({ auth, postData = null }) {
         getTagList()
 
         editor.current = initEditor()
+
+        document.addEventListener("keydown", (e) => {
+            if (e.ctrlKey && e.key === "s" || e.metaKey && e.key === "s") {
+                e.preventDefault()
+                document.getElementById("savePostBtn").click()
+            }
+        })
     }, [])
 
     return (
