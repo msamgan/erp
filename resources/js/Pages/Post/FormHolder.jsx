@@ -18,6 +18,7 @@ import Quote from "@editorjs/quote"
 import Delimiter from "@editorjs/delimiter"
 import InlineImage from "editorjs-inline-image"
 import YoutubeEmbed from "editorjs-youtube-embed"
+import RawTool from '@editorjs/raw';
 
 import "./editor.css"
 import ZenLayout from "@/Layouts/ZenLayout.jsx"
@@ -140,6 +141,7 @@ export default function FormHolder({ auth, postData = null }) {
                     }
                 },
                 youtubeEmbed: YoutubeEmbed,
+                raw: RawTool,
                 delimiter: Delimiter
             },
             onReady: async (api) => {

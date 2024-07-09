@@ -37,6 +37,7 @@
         "@editorjs/list": "^1.9.0",
         "@editorjs/paragraph": "^2.11.4",
         "@editorjs/quote": "^2.6.0",
+        "@editorjs/raw": "^2.5.0",
         "alertifyjs": "^1.14.0",
         "clsx": "^2.1.1",
         "editorjs-youtube-embed": "^1.0.3",
