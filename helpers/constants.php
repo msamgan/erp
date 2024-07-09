@@ -36,6 +36,25 @@ if (! function_exists('editorJsParser')) {
                 $parsedContent .= "<iframe width=\"800\" height=\"500\" src=\"{$embedUrl}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>";
             } elseif ($block['type'] === 'raw') {
                 $parsedContent .= $block['data']['html'];
+            } elseif ($block['type'] === 'table') {
+                $parsedContent .= '<table>';
+                $parsedContent .= '<thead>';
+                $parsedContent .= '<tr>';
+                foreach ($block['data']['content'][0] as $header) {
+                    $parsedContent .= "<th>{$header}</th>";
+                }
+                $parsedContent .= '</tr>';
+                $parsedContent .= '</thead>';
+                $parsedContent .= '<tbody>';
+                for ($i = 1; $i < count($block['data']['content']); $i++) {
+                    $parsedContent .= '<tr>';
+                    foreach ($block['data']['content'][$i] as $cell) {
+                        $parsedContent .= "<td>{$cell}</td>";
+                    }
+                    $parsedContent .= '</tr>';
+                }
+                $parsedContent .= '</tbody>';
+                $parsedContent .= '</table>';
             }
         }
 

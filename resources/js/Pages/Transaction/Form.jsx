@@ -4,10 +4,9 @@ import InputError from "@/Components/InputError.jsx"
 import { Transition } from "@headlessui/react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import { Link } from "@inertiajs/react"
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 import { useEffect, useState } from "react"
-
 
 export default function Form({
     data,
@@ -20,8 +19,7 @@ export default function Form({
     refreshProjectList,
     descriptions
 }) {
-
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date())
 
     useEffect(() => {
         setData("date", startDate)
@@ -147,8 +145,10 @@ export default function Form({
             <div>
                 <InputLabel htmlFor="date" value="Date" isRequired={true} />
                 <DatePicker
-                    className={'border-primary focus:border-teal-950 rounded-md shadow-sm text-lg block mt-1'}
-                    selected={startDate} onChange={(date) => setStartDate(date)} />
+                    className={"border-primary focus:border-teal-950 rounded-md shadow-sm text-lg block mt-1"}
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                />
                 <InputError className="mt-2" message={errors.date} />
             </div>
 

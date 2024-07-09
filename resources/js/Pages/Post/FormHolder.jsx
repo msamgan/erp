@@ -18,7 +18,8 @@ import Quote from "@editorjs/quote"
 import Delimiter from "@editorjs/delimiter"
 import InlineImage from "editorjs-inline-image"
 import YoutubeEmbed from "editorjs-youtube-embed"
-import RawTool from '@editorjs/raw';
+import RawTool from "@editorjs/raw"
+import Table from "@editorjs/table"
 
 import "./editor.css"
 import ZenLayout from "@/Layouts/ZenLayout.jsx"
@@ -142,6 +143,7 @@ export default function FormHolder({ auth, postData = null }) {
                 },
                 youtubeEmbed: YoutubeEmbed,
                 raw: RawTool,
+                table: Table,
                 delimiter: Delimiter
             },
             onReady: async (api) => {
@@ -161,7 +163,7 @@ export default function FormHolder({ auth, postData = null }) {
         editor.current = initEditor()
 
         document.addEventListener("keydown", (e) => {
-            if (e.ctrlKey && e.key === "s" || e.metaKey && e.key === "s") {
+            if ((e.ctrlKey && e.key === "s") || (e.metaKey && e.key === "s")) {
                 e.preventDefault()
                 document.getElementById("savePostBtn").click()
             }
@@ -183,10 +185,7 @@ export default function FormHolder({ auth, postData = null }) {
             )}
 
             <Main>
-                <ZenFormSection
-                    backRoute={route("post")}
-                    backText="Back to Posts"
-                >
+                <ZenFormSection backRoute={route("post")} backText="Back to Posts">
                     <div className="float-right"></div>
                     <Form
                         data={data}

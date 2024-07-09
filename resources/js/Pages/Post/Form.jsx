@@ -138,9 +138,9 @@ export default function Form({ data, setData, errors, processing, recentlySucces
             </div>
 
             <div className="flex items-center gap-4">
-                <PrimaryButton
-                    id="savePostBtn"
-                    disabled={processing}>Save</PrimaryButton>
+                <PrimaryButton id="savePostBtn" disabled={processing}>
+                    Save
+                </PrimaryButton>
 
                 <Transition
                     show={recentlySuccessful}
