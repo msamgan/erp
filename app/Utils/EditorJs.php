@@ -83,8 +83,6 @@ class EditorJs
 
     private function parseGist(array $data): string
     {
-        // return "<iframe id=\"gist-frame\" srcdoc=\"<script src=\"{$data['url']}\"></script>\" frameborder=\"0\" style=\"width: 100%; height: {$data['height']}px;\"></iframe>";
-        
-        return '<script src="' . $data['url'] . '"></script>';
+        return '<script src="' . $data['url'] . '"></script><link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-16b9b5e1f8b5.css">';
     }
 }
