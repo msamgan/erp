@@ -3,6 +3,9 @@
     "rules": {
         "concat_space": {
             "spacing": "one"
+        },
+        "ordered_imports": {
+            "sort_algorithm": "alpha"
         }
     }
 }
