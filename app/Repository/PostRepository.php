@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\Post;
+use App\Utils\EditorJs;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -68,9 +69,11 @@ class PostRepository
 
     public function processRequest($request, $post = null)
     {
+        $parsedHtmlContent = (new EditorJs())->parse($request->content);
+
         $request->merge([
             'content_raw' => json_encode($request->content),
-            'content' => removeNbsp(editorJsParser($request->content)),
+            'content' => removeNbsp($parsedHtmlContent),
             'slug' => $post ? Str::slug($request->slug) : Str::slug($request->title),
         ]);
 
