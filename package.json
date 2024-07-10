@@ -41,6 +41,7 @@
         "@editorjs/table": "^2.3.0",
         "alertifyjs": "^1.14.0",
         "clsx": "^2.1.1",
+        "editorjs-github-gist-plugin": "^1.1.0",
         "editorjs-youtube-embed": "^1.0.3",
         "filepond": "^4.31.1",
         "filepond-plugin-image-exif-orientation": "^1.0.11",
