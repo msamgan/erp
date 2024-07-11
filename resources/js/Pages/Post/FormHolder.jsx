@@ -1,4 +1,3 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import HeaderTitle from "@/Components/HeaderTitle.jsx"
 import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
@@ -22,7 +21,6 @@ import Table from "@editorjs/table"
 
 import "./editor.css"
 import ZenLayout from "@/Layouts/ZenLayout.jsx"
-import SecondaryButton from "@/Components/SecondaryButton.jsx"
 import ZenFormSection from "@/Components/ZenFormSection.jsx"
 
 export default function FormHolder({ auth, postData = null }) {
