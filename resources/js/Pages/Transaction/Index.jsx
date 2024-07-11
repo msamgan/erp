@@ -3,11 +3,9 @@ import HeaderTitle from "@/Components/HeaderTitle.jsx"
 import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
-import PrimaryLink from "@/Components/PrimaryLink.jsx"
 import { useEffect, useState, useCallback } from "react"
 import { createDateAttribute } from "@/helpers/methods.js"
 import alertify from "alertifyjs"
-import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import Drawer from "@/Components/Drawer.jsx"
 import FormSection from "@/Components/FormSection.jsx"
 import Form from "@/Pages/Transaction/Form.jsx"
@@ -47,10 +45,6 @@ export default function Index({ auth }) {
                 console.error(error)
             })
     }, [])
-
-    const refreshProjectList = () => {
-        projectList()
-    }
 
     const getTransactionsList = useCallback((queryParams) => {
         axios(
@@ -266,7 +260,7 @@ export default function Index({ auth }) {
                             recentlySuccessful={recentlySuccessful}
                             onSubmit={onSubmit}
                             projects={projects}
-                            refreshProjectList={refreshProjectList}
+                            refreshProjectList={projectList}
                             descriptions={descriptions}
                         />
                     </FormSection>

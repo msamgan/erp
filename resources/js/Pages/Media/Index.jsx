@@ -63,21 +63,12 @@ export default function Index({ auth, media, photos = [] }) {
     }
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<HeaderTitle title="Media" />}
-            subMenu={
-                <div className="flex space-x-2">
-                    <PrimaryLink className={"h-8"} title="Add Media" href={route("client.create")} />
-                </div>
-            }
-        >
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Media" />} subMenu={""}>
             <Head title="Media" />
 
             <Main>
                 <TabMenu />
                 {route().current("media") && <Media />}
-
                 {route().current("media.unsplash") && <Unsplash queryParams={queryParams} photos={photos} />}
             </Main>
         </AuthenticatedLayout>

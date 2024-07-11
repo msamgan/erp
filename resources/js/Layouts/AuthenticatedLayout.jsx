@@ -3,7 +3,6 @@ import { Link } from "@inertiajs/react"
 import HeaderNavigation from "@/Components/HeaderNavigation.jsx"
 import Footer from "@/Components/Footer.jsx"
 import ProfileNavigation from "@/Components/ProfileNavigation.jsx"
-import AddItemNavigation from "@/Components/AddItemNavigation.jsx"
 
 export default function AuthenticatedLayout({ user, header, children, subMenu }) {
     return (
@@ -25,7 +24,6 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                             </div>
 
                             <div className="hidden sm:flex sm:items-center sm:ms-6">
-                                <AddItemNavigation />
                                 <ProfileNavigation user={user} />
                             </div>
                         </div>

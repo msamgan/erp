@@ -34,10 +34,6 @@ export default function Index({ auth }) {
             })
     }, [])
 
-    const refreshProjectList = () => {
-        projectList()
-    }
-
     const getTasks = () => {
         axios
             .get(route("task.list"))
@@ -277,7 +273,7 @@ export default function Index({ auth }) {
                                 recentlySuccessful={recentlySuccessful}
                                 onSubmit={onSubmit}
                                 projects={projects}
-                                refreshProjectList={refreshProjectList}
+                                refreshProjectList={projectList}
                             />
                         </FormSection>
                     </Drawer>

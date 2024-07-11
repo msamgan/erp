@@ -4,7 +4,6 @@ import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Table from "@/Components/Table.jsx"
 import { useCallback, useEffect, useState } from "react"
-import DetailsLink from "@/Components/DetailsLink.jsx"
 import {
     createCostingAttribute,
     createStatusAttribute,
