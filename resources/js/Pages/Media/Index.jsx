@@ -63,11 +63,7 @@ export default function Index({ auth, media, photos = [] }) {
     }
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<HeaderTitle title="Media" />}
-            subMenu={''}
-        >
+        <AuthenticatedLayout user={auth.user} header={<HeaderTitle title="Media" />} subMenu={""}>
             <Head title="Media" />
 
             <Main>

@@ -18,13 +18,11 @@ export default function Form({
     projects,
     refreshProjectList
 }) {
-
     const [startDate, setStartDate] = useState(new Date())
 
     useEffect(() => {
         setData("due_date", startDate)
     }, [startDate])
-
 
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
