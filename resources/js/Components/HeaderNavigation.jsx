@@ -30,12 +30,12 @@ export default function HeaderNavigation() {
                 </Dropdown.Trigger>
 
                 <Dropdown.Content width="64">
-                    <Dropdown.Link className={"text-xl"} href={route("client")}>
-                        Clients
-                    </Dropdown.Link>
-                    <hr />
                     <Dropdown.Link className={"text-xl"} href={route("organization")}>
                         Organizations
+                    </Dropdown.Link>
+                    <hr />
+                    <Dropdown.Link className={"text-xl"} href={route("client")}>
+                        Clients
                     </Dropdown.Link>
                     <hr />
                     <Dropdown.Link className={"text-xl"} href={route("project")}>
