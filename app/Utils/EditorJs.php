@@ -8,7 +8,6 @@ class EditorJs
      * third party plugins:
      * - youtubeEmbed (https://github.com/yuanwei92/editorjs-youtube-embed)
      * - inline image (https://www.npmjs.com/package/editorjs-inline-image)
-     * - gist (https://www.npmjs.com/package/editorjs-github-gist-plugin)
      * */
 
     public function parse($content): string
@@ -26,7 +25,6 @@ class EditorJs
                 'youtubeEmbed' => $this->parseYouTubeEmbed($block),
                 'raw' => $block['data']['html'],
                 'table' => $this->parseTable($block['data']['content']),
-                'gist' => $this->parseGist($block['data']),
                 default => '',
             };
         }
@@ -79,10 +77,5 @@ class EditorJs
         $parsedContent .= '</table>';
 
         return $parsedContent;
-    }
-
-    private function parseGist(array $data): string
-    {
-        return '<script src="' . $data['url'] . '"></script><link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-16b9b5e1f8b5.css">';
     }
 }

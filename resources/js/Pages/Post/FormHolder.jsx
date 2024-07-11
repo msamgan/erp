@@ -3,7 +3,6 @@ import HeaderTitle from "@/Components/HeaderTitle.jsx"
 import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
 import Form from "@/Pages/Post/Form.jsx"
-import FormSection from "@/Components/FormSection.jsx"
 import { pageDataObject, postDataObject } from "@/Pages/Post/methods.js"
 import { useCallback, useEffect, useRef, useState } from "react"
 import axios from "axios"
@@ -20,7 +19,6 @@ import InlineImage from "editorjs-inline-image"
 import YoutubeEmbed from "editorjs-youtube-embed"
 import RawTool from "@editorjs/raw"
 import Table from "@editorjs/table"
-import Gist from 'editorjs-github-gist-plugin';
 
 import "./editor.css"
 import ZenLayout from "@/Layouts/ZenLayout.jsx"
@@ -145,7 +143,6 @@ export default function FormHolder({ auth, postData = null }) {
                 youtubeEmbed: YoutubeEmbed,
                 raw: RawTool,
                 table: Table,
-                gist: Gist,
                 delimiter: Delimiter
             },
             onReady: async (api) => {
