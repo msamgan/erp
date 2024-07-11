@@ -28,18 +28,21 @@ class TaskController extends Controller
             ->whereDate('due_date', '<=', now())
             ->where('is_completed', false)
             ->with('project')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $tomorrowTasks = Task::query()
             ->whereDate('due_date', now()->addDay())
             ->with('project')
             ->where('is_completed', false)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $restTasks = Task::query()
             ->where('due_date', '>=', (now()->addDay(2))->toDateString())
             ->with('project')
             ->where('is_completed', false)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json([
@@ -96,9 +99,11 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Task $task): Task
     {
-        //
+        $task->load('project');
+
+        return $task;
     }
 
     /**
@@ -141,5 +146,12 @@ class TaskController extends Controller
             'due_date',
             'project_id'
         ));
+    }
+
+    public function lastCreated()
+    {
+        return Task::query()
+            ->orderBy('created_at', 'desc')
+            ->first();
     }
 }
