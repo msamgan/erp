@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Project;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -58,6 +59,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request): void
     {
         $request = $this->mergeProjectId($request);
+        $request->merge(['due_date' => Carbon::parse($request->get('due_date'))]);
 
         Task::create($request->only(
             'name',
@@ -139,6 +141,7 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task): void
     {
         $request = $this->mergeProjectId($request);
+        $request->merge(['due_date' => Carbon::parse($request->get('due_date'))]);
 
         $task->update($request->only(
             'name',
