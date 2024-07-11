@@ -1,22 +1,42 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import HeaderTitle from "@/Components/HeaderTitle.jsx"
-import { Head } from "@inertiajs/react"
+import { Head, useForm } from "@inertiajs/react"
 import Main from "@/Components/Main.jsx"
-import PrimaryLink from "@/Components/PrimaryLink.jsx"
-import { useEffect, useState } from "react"
-import EditLink from "@/Components/EditLink.jsx"
+import { useCallback, useEffect, useState } from "react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import CheckedTable from "@/Components/CheckedTable.jsx"
 import axios from "axios"
 import { createDateAttribute } from "@/helpers/methods.js"
+import { pageDataObject, taskDataObject } from "@/Pages/Task/methods.js"
+import Drawer from "@/Components/Drawer.jsx"
+import FormSection from "@/Components/FormSection.jsx"
+import Form from "@/Pages/Task/Form.jsx"
+import DrawerButton from "@/Components/DrawerButton.jsx"
+import DrawerEditButton from "@/Components/DrawerEditButton.jsx"
 
 export default function Index({ auth }) {
     const [columns, setColumns] = useState(["Name", "Project", "Due Date", "Actions"])
     const [todayTaskData, setTodayTaskData] = useState([])
     const [tomorrowTaskData, setTomorrowTaskData] = useState([])
     const [restTaskData, setRestTaskData] = useState([])
-
     const [checked, setChecked] = useState([])
+    const [openDrawer, setOpenDrawer] = useState(false)
+    const [projects, setProjects] = useState([])
+    const [task, setTask] = useState(null)
+
+    const projectList = useCallback(() => {
+        axios(route("project.list"))
+            .then((response) => {
+                setProjects(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [])
+
+    const refreshProjectList = () => {
+        projectList()
+    }
 
     const getTasks = () => {
         axios
@@ -35,7 +55,21 @@ export default function Index({ auth }) {
                             "Due Date": createDateAttribute(task.due_date),
                             Actions: (
                                 <div className="flex space-x-2">
-                                    <EditLink editRoute={route("task.edit", task.id)} />
+                                    <DrawerEditButton
+                                        onClick={() => {
+                                            axios
+                                                .get(route("task.show", task.id))
+                                                .then((response) => {
+                                                    setTask(response.data)
+                                                    setData(taskDataObject(response.data))
+                                                    setPageData(pageDataObject(response.data))
+                                                    setOpenDrawer(true)
+                                                })
+                                                .catch((error) => {
+                                                    console.log(error)
+                                                })
+                                        }}
+                                    />
                                 </div>
                             )
                         }
@@ -51,7 +85,21 @@ export default function Index({ auth }) {
                             "Due Date": createDateAttribute(task.due_date),
                             Actions: (
                                 <div className="flex space-x-2">
-                                    <EditLink editRoute={route("task.edit", task.id)} />
+                                    <DrawerEditButton
+                                        onClick={() => {
+                                            axios
+                                                .get(route("task.show", task.id))
+                                                .then((response) => {
+                                                    setTask(response.data)
+                                                    setData(taskDataObject(response.data))
+                                                    setPageData(pageDataObject(response.data))
+                                                    setOpenDrawer(true)
+                                                })
+                                                .catch((error) => {
+                                                    console.log(error)
+                                                })
+                                        }}
+                                    />
                                 </div>
                             )
                         }
@@ -67,7 +115,21 @@ export default function Index({ auth }) {
                             "Due Date": createDateAttribute(task.due_date),
                             Actions: (
                                 <div className="flex space-x-2">
-                                    <EditLink editRoute={route("task.edit", task.id)} />
+                                    <DrawerEditButton
+                                        onClick={() => {
+                                            axios
+                                                .get(route("task.show", task.id))
+                                                .then((response) => {
+                                                    setTask(response.data)
+                                                    setData(taskDataObject(response.data))
+                                                    setPageData(pageDataObject(response.data))
+                                                    setOpenDrawer(true)
+                                                })
+                                                .catch((error) => {
+                                                    console.log(error)
+                                                })
+                                        }}
+                                    />
                                 </div>
                             )
                         }
@@ -96,7 +158,37 @@ export default function Index({ auth }) {
         )
     }
 
+    const dataObject = taskDataObject(task)
+
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm(dataObject)
+
+    const [pageData, setPageData] = useState(pageDataObject(task))
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+        post(pageData.actionUrl, {
+            preserveScroll: true,
+            onSuccess: () => {
+                if (!task) {
+                    axios
+                        .get(route("task.last_created"))
+                        .then((response) => {
+                            setTask(response.data)
+                            setData(taskDataObject(response.data))
+                            setPageData(pageDataObject(response.data))
+                        })
+                        .catch((error) => {
+                            console.error(error)
+                        })
+                }
+
+                getTasks()
+            }
+        })
+    }
+
     useEffect(() => {
+        projectList()
         getTasks()
     }, [])
 
@@ -106,7 +198,14 @@ export default function Index({ auth }) {
             header={<HeaderTitle title="Tasks" />}
             subMenu={
                 <div className="flex space-x-2">
-                    <PrimaryLink className={"h-8"} title="Add Task" href={route("task.create")} />
+                    {/*<PrimaryLink className={"h-8"} title="Add Task" href={route("task.create")} />*/}
+                    <DrawerButton
+                        title="Add Task"
+                        onClick={() => {
+                            setData(taskDataObject(null))
+                            setOpenDrawer(true)
+                        }}
+                    />
                 </div>
             }
         >
@@ -165,6 +264,23 @@ export default function Index({ auth }) {
                             setChecked={setChecked}
                         />
                     </div>
+                    <Drawer open={openDrawer} side="right" setOpen={setOpenDrawer}>
+                        <FormSection
+                            headerTitle={pageData.headerTitle}
+                            headerDescription={pageData.description}
+                        >
+                            <Form
+                                data={data}
+                                setData={setData}
+                                errors={errors}
+                                processing={processing}
+                                recentlySuccessful={recentlySuccessful}
+                                onSubmit={onSubmit}
+                                projects={projects}
+                                refreshProjectList={refreshProjectList}
+                            />
+                        </FormSection>
+                    </Drawer>
                 </div>
             </Main>
         </AuthenticatedLayout>

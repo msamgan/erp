@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Project;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -28,18 +29,21 @@ class TaskController extends Controller
             ->whereDate('due_date', '<=', now())
             ->where('is_completed', false)
             ->with('project')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $tomorrowTasks = Task::query()
             ->whereDate('due_date', now()->addDay())
             ->with('project')
             ->where('is_completed', false)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $restTasks = Task::query()
             ->where('due_date', '>=', (now()->addDay(2))->toDateString())
             ->with('project')
             ->where('is_completed', false)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json([
@@ -55,6 +59,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request): void
     {
         $request = $this->mergeProjectId($request);
+        $request->merge(['due_date' => Carbon::parse($request->get('due_date'))]);
 
         Task::create($request->only(
             'name',
@@ -96,9 +101,11 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Task $task): Task
     {
-        //
+        $task->load('project');
+
+        return $task;
     }
 
     /**
@@ -134,6 +141,7 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task): void
     {
         $request = $this->mergeProjectId($request);
+        $request->merge(['due_date' => Carbon::parse($request->get('due_date'))]);
 
         $task->update($request->only(
             'name',
@@ -141,5 +149,12 @@ class TaskController extends Controller
             'due_date',
             'project_id'
         ));
+    }
+
+    public function lastCreated()
+    {
+        return Task::query()
+            ->orderBy('created_at', 'desc')
+            ->first();
     }
 }

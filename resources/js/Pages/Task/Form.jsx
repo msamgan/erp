@@ -4,6 +4,9 @@ import InputError from "@/Components/InputError.jsx"
 import { Transition } from "@headlessui/react"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import { Link } from "@inertiajs/react"
+import { useEffect, useState } from "react"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 export default function Form({
     data,
@@ -15,6 +18,14 @@ export default function Form({
     projects,
     refreshProjectList
 }) {
+
+    const [startDate, setStartDate] = useState(new Date())
+
+    useEffect(() => {
+        setData("due_date", startDate)
+    }, [startDate])
+
+
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-6">
             <div>
@@ -96,18 +107,31 @@ export default function Form({
 
             <div>
                 <InputLabel htmlFor="date" value="Due Date" isRequired={false} />
-                <TextInput
+                {/*<TextInput
                     id="date"
                     type={"date"}
                     className="block w-1/2 mt-1"
                     value={data.due_date}
                     onChange={(e) => setData("due_date", e.target.value)}
+                />*/}
+                <DatePicker
+                    className={"border-primary focus:border-teal-950 rounded-md shadow-sm text-lg block mt-1"}
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
                 />
                 <InputError className="mt-2" message={errors.due_date} />
             </div>
 
             <div className="flex items-center gap-4">
-                <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <PrimaryButton
+                    onClick={(e) => {
+                        e.preventDefault()
+                        onSubmit(e)
+                    }}
+                    disabled={processing}
+                >
+                    Save
+                </PrimaryButton>
 
                 <Transition
                     show={recentlySuccessful}
