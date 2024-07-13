@@ -50,7 +50,7 @@ export default function Table({
                     <h2 className={"text-lg font-semibold px-4 py-2 border-b border-gray-200"}>{title}</h2>
                 )}
                 <table className="min-w-full text-lg divide-y-2 divide-gray-200">
-                    <thead className="text-left primary-bg white-lg">
+                    <thead className="text-left bg-primary white-lg">
                         <tr>
                             {columns.map((column, index) => (
                                 <th key={index} className="px-4 py-2 font-medium whitespace-nowrap">

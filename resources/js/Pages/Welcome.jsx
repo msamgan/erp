@@ -18,8 +18,8 @@ export default function Welcome({}) {
                     </p>
                     <div className="flex flex-wrap justify-center">
                         <Link
-                            className="px-8 py-3 m-2 text-lg font-semibold rounded bg-emerald-600 text-gray-50"
-                            href="/login"
+                            className="px-8 py-3 m-2 text-lg font-semibold rounded bg-primary text-white"
+                            href={route("login")}
                         >
                             Login
                         </Link>

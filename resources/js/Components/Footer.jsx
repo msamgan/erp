@@ -30,7 +30,7 @@ export default function Footer() {
     }
 
     return (
-        <footer className="py-4 text-center text-white primary-bg">
+        <footer className="py-4 text-center text-white bg-primary">
             <div className="container px-4 mx-auto sm:px-6 lg:px-8">
                 <p>&copy; {new Date().getFullYear()} All rights reserved.</p>
             </div>
