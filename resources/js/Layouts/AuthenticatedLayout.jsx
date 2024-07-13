@@ -8,7 +8,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
     return (
         <>
             <div className="min-h-screen">
-                <nav className="border-gray-100 primary-bg">
+                <nav className="border-gray-100 bg-primary">
                     <div className="container px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="flex justify-between h-16">
                             <div className="flex">
@@ -31,7 +31,7 @@ export default function AuthenticatedLayout({ user, header, children, subMenu })
                 </nav>
 
                 {header && (
-                    <header className="shadow secondary-bg">
+                    <header className="shadow bg-secondary">
                         <div className="container flex justify-between px-4 py-6 mx-auto sm:px-6 lg:px-8 h-18">
                             {header}
                             {subMenu && <ul className="items-stretch hidden space-x-3 md:flex">{subMenu}</ul>}

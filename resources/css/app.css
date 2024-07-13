@@ -9,18 +9,6 @@ body {
     font-style: normal;
 }
 
-.primary-bg {
-    background-color: #006769;
-}
-
-.secondary-bg {
-    background-color: #40a578;
-}
-
-.tertiary-bg {
-    background-color: #ede8e8;
-}
-
 .white-xl {
     @apply text-xl text-white;
 }
@@ -37,12 +25,8 @@ body {
     @apply text-lg text-black;
 }
 
-.border-primary {
-    border: 1px solid #006769 !important;
-}
-
 .border-left-primary {
-    border-left: 4px solid #006769;
+    @apply border-l-4 border-primary;
 }
 
 .lead-badges-background {

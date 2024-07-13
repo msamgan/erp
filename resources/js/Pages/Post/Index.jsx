@@ -62,6 +62,7 @@ export default function Index({ auth, posts }) {
             <div className="flex gap-6 space-x-3">
                 <div className="mt-2">
                     <img
+                        alt={'image'}
                         src={
                             featured_image
                                 ? featured_image
