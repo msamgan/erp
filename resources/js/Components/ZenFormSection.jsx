@@ -2,7 +2,7 @@ import { Link, router } from "@inertiajs/react"
 
 export default function ZenFormSection({ children, backRoute, backText }) {
     return (
-        <div className="p-4 shadow sm:rounded-lg">
+        <div className="p-4">
             <section>
                 <header>
                     <div className={"mt-2 flex items-center justify-between"}>
