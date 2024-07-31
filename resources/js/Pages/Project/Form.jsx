@@ -122,7 +122,6 @@ export default function Form({
                     id="status"
                     className="block w-1/2 mt-1 text-lg rounded-md shadow-sm border-primary focus:border-teal-950"
                     value={data.type}
-                    defaultValue={data.type}
                     onChange={(e) => setData("type", e.target.value)}
                 >
                     <option value="singular">Singular</option>

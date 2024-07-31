@@ -33,7 +33,7 @@ class ProjectController extends Controller
         Project::create($clientData);
     }
 
-    private function getOrCreateClient($client)
+    private function getOrCreateClient($client): Client
     {
         return Client::firstOrCreate(['name' => ucfirst($client)]);
     }
@@ -85,6 +85,7 @@ class ProjectController extends Controller
             $project->where('status', request()->get('status'));
         } else {
             $project->where('status', '!=', 'completed');
+            $project->where('status', '!=', 'cancelled');
         }
 
         if (request()->get('search')) {

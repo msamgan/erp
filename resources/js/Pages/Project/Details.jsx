@@ -47,6 +47,8 @@ export default function Details({ project }) {
     }
 
     useEffect(() => {
+        if (!project.transactions) return
+
         setData(
             project.transactions.map((transaction) => {
                 return {
@@ -106,7 +108,7 @@ export default function Details({ project }) {
                 </div>
             </section>
 
-            {project.transactions.length === 0 ? (
+            {project.transactions?.length === 0 ? (
                 ""
             ) : (
                 <section className="mt-8">
