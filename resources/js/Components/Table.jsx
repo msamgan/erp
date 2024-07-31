@@ -10,7 +10,7 @@ export default function Table({
     setQueryParams,
     searchFormExtension = null,
     showSearchForm = true,
-    tdClassName = "",
+    tdClassName = [],
     totalDataRows = 0,
     from = 0,
     to = 0,
@@ -68,7 +68,7 @@ export default function Table({
                                         key={index}
                                         className={
                                             "whitespace-nowrap px-4 py-2 text-gray-900 font-light " +
-                                            tdClassName
+                                            tdClassName.filter((item) => item.column === columns[index])[0]?.className
                                         }
                                     >
                                         {cell}

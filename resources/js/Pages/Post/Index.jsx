@@ -177,6 +177,12 @@ export default function Index({ auth, posts }) {
                     to={posts.to}
                     nextPage={posts.next_page_url}
                     previousPage={posts.prev_page_url}
+                    tdClassName={[
+                        {
+                            column: "Title",
+                            className: "whitespace-pre-wrap"
+                        }
+                    ]}
                 />
             </Main>
         </AuthenticatedLayout>
